@@ -7,9 +7,21 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { House } from "@/types/house";
 
-function buildMapSrc(lat: number, lng: number, zoom = 15) {
-  const delta = 0.02;
-  return `https://www.openstreetmap.org/export/embed.html?bbox=${lng - delta}%2C${lat - delta}%2C${lng + delta}%2C${lat + delta}&layer=mapnik&marker=${lat}%2C${lng}`;
+function buildYandexMapSrc(houses: House[], selected: House | null): string {
+  if (selected) {
+    const { lat, lng } = selected;
+    return `https://yandex.ru/map-widget/v1/?ll=${lng}%2C${lat}&z=17&pt=${lng}%2C${lat}%2Cpm2rdm`;
+  }
+
+  if (houses.length === 0) {
+    return `https://yandex.ru/map-widget/v1/?ll=${mapData.center.lng}%2C${mapData.center.lat}&z=12`;
+  }
+
+  const avgLat = houses.reduce((sum, h) => sum + h.lat, 0) / houses.length;
+  const avgLng = houses.reduce((sum, h) => sum + h.lng, 0) / houses.length;
+  const points = houses.map((h) => `${h.lng},${h.lat},pm2orgl`).join("~");
+
+  return `https://yandex.ru/map-widget/v1/?ll=${avgLng}%2C${avgLat}&z=14&pt=${points}`;
 }
 
 export function MapSection() {
@@ -24,11 +36,12 @@ export function MapSection() {
       ? markers.filter((h) => h.city === activeCity)
       : markers;
 
-  const center = selected ?? { lat: mapData.center.lat, lng: mapData.center.lng };
   const mapSrc = useMemo(
-    () => buildMapSrc(center.lat, center.lng, selected ? 16 : 12),
-    [center.lat, center.lng, selected]
+    () => buildYandexMapSrc(filtered, selected),
+    [filtered, selected]
   );
+
+  const mapKey = selected ? `house-${selected.id}` : `city-${activeCity ?? "all"}`;
 
   return (
     <section className="section-padding bg-white">
@@ -64,11 +77,12 @@ export function MapSection() {
         <div className="grid gap-5 lg:grid-cols-3 lg:gap-7">
           <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-border lg:col-span-2 lg:aspect-auto lg:min-h-[400px]">
             <iframe
-              key={mapSrc}
+              key={mapKey}
               src={mapSrc}
               title="Карта объектов"
-              className="absolute inset-0 h-full w-full"
+              className="absolute inset-0 h-full w-full border-0"
               loading="lazy"
+              allowFullScreen
             />
           </div>
 
@@ -90,7 +104,7 @@ export function MapSection() {
                     <p className="truncate text-sm font-semibold text-dark">
                       {house.title}
                     </p>
-                    <p className="text-xs text-gray">{house.city}</p>
+                    <p className="text-xs text-gray">{house.district}</p>
                   </div>
                 </button>
                 <Button asChild size="sm" variant="outline" className="mt-2 w-full rounded-lg text-xs">

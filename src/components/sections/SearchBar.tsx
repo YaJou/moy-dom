@@ -80,12 +80,12 @@ export function SearchBar({
 
   const wrapper =
     variant === "hero"
-      ? "container-main relative z-10 -mt-10 sm:-mt-12 md:-mt-14 lg:-mt-16"
+      ? "container-main relative z-10 mt-4 sm:-mt-12 md:-mt-14 lg:-mt-16"
       : "container-main";
 
   return (
     <div className={wrapper}>
-      <form onSubmit={handleSearch} className="rounded-card bg-white p-4 shadow-card sm:p-5 md:p-6 lg:p-8">
+      <form onSubmit={handleSearch} className="min-w-0 rounded-card bg-white p-4 shadow-card sm:p-5 md:p-6 lg:p-8">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:gap-4">
           <FilterSelect label="Город" options={searchFilters.cities} value={filters.city} onChange={update("city")} />
           <FilterSelect label="Цена, ₽" options={searchFilters.priceRanges} value={filters.price} onChange={update("price")} />

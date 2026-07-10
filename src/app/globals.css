@@ -9,16 +9,25 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
   }
 
   body {
     @apply bg-white text-dark antialiased;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 }
 
 @layer components {
   .container-main {
-    @apply mx-auto w-full max-w-container px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-container min-w-0 px-4 sm:px-6 lg:px-8;
   }
 
   .section-padding {

@@ -7,7 +7,7 @@ export function NewHouses() {
   const houses = getFeaturedHouses();
 
   return (
-    <section className="section-padding bg-white pt-16 sm:pt-20 md:pt-24">
+    <section className="section-padding bg-white pt-8 sm:pt-20 md:pt-24">
       <div className="container-main">
         <div className="mb-8 flex items-center justify-between gap-4 sm:mb-10 lg:mb-12">
           <h2 className="section-title">Новые дома</h2>

@@ -14,8 +14,8 @@ export function Hero() {
   const priceFrom = `От ${formatPrice(getMinHousePrice())}`;
 
   return (
-    <section className="relative">
-      <div className="relative h-[480px] sm:h-[560px] md:h-[640px] lg:h-[700px]">
+    <section className="relative overflow-hidden">
+      <div className="relative h-[500px] sm:h-[560px] md:h-[640px] lg:h-[700px]">
         <Image
           src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
           alt={heroData.imageAlt}
@@ -26,7 +26,7 @@ export function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent" />
 
-        <div className="container-main relative flex h-full items-center">
+        <div className="container-main relative flex h-full items-start pt-8 sm:items-center sm:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -58,7 +58,7 @@ export function Hero() {
                 <Link href="/#consultation">{heroData.secondaryButton}</Link>
               </Button>
             </div>
-            <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 sm:mt-8">
+            <ul className="mt-6 hidden flex-wrap gap-x-4 gap-y-2 sm:flex sm:mt-8">
               {heroBenefits.map((item) => (
                 <li
                   key={item}

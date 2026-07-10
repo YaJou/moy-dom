@@ -5,7 +5,7 @@ import Link from "next/link";
 export function HouseQuestionsCTA() {
   return (
     <section className="mt-10 rounded-card border border-border bg-background p-5 sm:p-6">
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+              <div className="flex min-w-0 flex-col gap-5 sm:flex-row sm:items-center">
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full">
           <Image
             src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&q=80"
@@ -15,7 +15,7 @@ export function HouseQuestionsCTA() {
             sizes="80px"
           />
         </div>
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           <h2 className="text-lg font-bold text-dark sm:text-xl">
             Остались вопросы?
           </h2>
@@ -49,7 +49,7 @@ export function HouseQuestionsCTA() {
         </div>
         <Link
           href="/#consultation"
-          className="shrink-0 text-sm font-medium text-primary hover:underline"
+          className="shrink-0 self-start text-sm font-medium text-primary hover:underline sm:self-center"
         >
           Или оставьте заявку →
         </Link>

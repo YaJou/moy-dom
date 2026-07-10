@@ -94,10 +94,10 @@ export default function RootLayout({
         <WebSiteSchema />
         <BreadcrumbSchema />
       </head>
-      <body className="min-h-screen pb-20 font-sans lg:pb-0">
+      <body className="min-h-screen overflow-x-hidden pb-20 font-sans lg:pb-0">
         <AppProviders>
           <Header />
-          <main>{children}</main>
+          <main className="overflow-x-hidden">{children}</main>
           <Footer />
         </AppProviders>
       </body>

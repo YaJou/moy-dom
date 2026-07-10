@@ -18,13 +18,13 @@ export function HouseVsApartment() {
               key={row.house}
               className={`grid grid-cols-2 ${i < houseVsApartmentData.rows.length - 1 ? "border-b border-border" : ""}`}
             >
-              <div className="flex items-center gap-2 border-r border-border px-4 py-3.5 text-sm text-gray sm:px-5 sm:py-4">
+              <div className="flex min-w-0 items-center gap-2 border-r border-border px-3 py-3.5 text-sm text-gray sm:px-5 sm:py-4">
                 <X className="h-4 w-4 shrink-0 text-red-400" />
-                {row.apartment}
+                <span className="min-w-0 break-words">{row.apartment}</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-3.5 text-sm font-medium text-dark sm:px-5 sm:py-4">
+              <div className="flex min-w-0 items-center gap-2 px-3 py-3.5 text-sm font-medium text-dark sm:px-5 sm:py-4">
                 <Check className="h-4 w-4 shrink-0 text-primary" />
-                {row.house}
+                <span className="min-w-0 break-words">{row.house}</span>
               </div>
             </div>
           ))}

@@ -52,7 +52,7 @@ export function HouseHighlightsBar({ house }: HousePageContentProps) {
       {house.highlights.map((item) => (
         <span
           key={item}
-          className="inline-flex items-center gap-1.5 rounded-full bg-primary-light px-4 py-2 text-sm font-medium text-primary"
+          className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-primary-light px-3 py-1.5 text-xs font-medium text-primary sm:px-4 sm:py-2 sm:text-sm"
         >
           <CheckCircle2 className="h-3.5 w-3.5" />
           {item}

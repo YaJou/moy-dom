@@ -140,9 +140,9 @@ export default async function HousePage({ params }: HousePageProps) {
 
 
 
-      <article className="bg-white pb-12 pt-2 sm:pb-16">
+      <article className="overflow-x-hidden bg-white pb-12 pt-2 sm:pb-16">
 
-        <div className="container-main">
+        <div className="container-main min-w-0">
 
           <header className="mb-4 lg:mb-6">
 
@@ -152,7 +152,7 @@ export default async function HousePage({ params }: HousePageProps) {
 
             </h1>
 
-            <p className="mt-2 text-sm text-gray sm:text-base">
+            <p className="mt-2 break-words text-sm text-gray sm:text-base">
 
               {house.district} · {house.address}
 
@@ -168,9 +168,9 @@ export default async function HousePage({ params }: HousePageProps) {
 
 
 
-          <div className="grid gap-8 lg:grid-cols-3 lg:gap-10">
+          <div className="grid min-w-0 gap-8 lg:grid-cols-3 lg:gap-10">
 
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
 
               <HouseGallery house={house} />
 
@@ -286,7 +286,7 @@ export default async function HousePage({ params }: HousePageProps) {
 
 
 
-            <aside className="space-y-6">
+            <aside className="min-w-0 space-y-6">
 
               <div className="lg:sticky lg:top-20">
 

@@ -82,7 +82,7 @@ export function HouseGallery({ house }: HouseGalleryProps) {
         </button>
 
         {images.length > 1 && (
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {images.map((img, index) => (
               <button
                 key={`${img}-${index}`}

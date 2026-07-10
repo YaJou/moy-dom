@@ -33,13 +33,13 @@ export function MortgageCalculator() {
           </div>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-          <div className="rounded-card bg-white p-5 shadow-card sm:p-6 lg:p-8">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-2 lg:gap-8">
+          <div className="min-w-0 rounded-card bg-white p-5 shadow-card sm:p-6 lg:p-8">
             <div className="space-y-5">
-              <div>
-                <label className="mb-2 flex justify-between text-sm font-medium text-dark">
+              <div className="min-w-0 overflow-hidden">
+                <label className="mb-2 flex flex-wrap justify-between gap-x-2 gap-y-1 text-sm font-medium text-dark">
                   <span>Стоимость дома</span>
-                  <span className="text-primary">{formatPrice(price)}</span>
+                  <span className="shrink-0 text-primary">{formatPrice(price)}</span>
                 </label>
                 <input
                   type="range"
@@ -48,10 +48,10 @@ export function MortgageCalculator() {
                   step={100000}
                   value={price}
                   onChange={(e) => setPrice(Number(e.target.value))}
-                  className="w-full accent-primary"
+                  className="w-full max-w-full accent-primary"
                 />
               </div>
-              <div>
+              <div className="min-w-0 overflow-hidden">
                 <label className="mb-2 flex justify-between text-sm font-medium text-dark">
                   <span>Первоначальный взнос</span>
                   <span className="text-primary">{downPayment}%</span>
@@ -63,10 +63,10 @@ export function MortgageCalculator() {
                   step={5}
                   value={downPayment}
                   onChange={(e) => setDownPayment(Number(e.target.value))}
-                  className="w-full accent-primary"
+                  className="w-full max-w-full accent-primary"
                 />
               </div>
-              <div>
+              <div className="min-w-0 overflow-hidden">
                 <label className="mb-2 flex justify-between text-sm font-medium text-dark">
                   <span>Срок кредита</span>
                   <span className="text-primary">{years} лет</span>
@@ -78,10 +78,10 @@ export function MortgageCalculator() {
                   step={1}
                   value={years}
                   onChange={(e) => setYears(Number(e.target.value))}
-                  className="w-full accent-primary"
+                  className="w-full max-w-full accent-primary"
                 />
               </div>
-              <div>
+              <div className="min-w-0 overflow-hidden">
                 <label className="mb-2 flex justify-between text-sm font-medium text-dark">
                   <span>Ставка</span>
                   <span className="text-primary">{rate}%</span>
@@ -93,15 +93,15 @@ export function MortgageCalculator() {
                   step={0.5}
                   value={rate}
                   onChange={(e) => setRate(Number(e.target.value))}
-                  className="w-full accent-primary"
+                  className="w-full max-w-full accent-primary"
                 />
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col justify-center rounded-card bg-primary p-6 text-white sm:p-8">
+          <div className="flex min-w-0 flex-col justify-center rounded-card bg-primary p-6 text-white sm:p-8">
             <p className="text-sm text-white/80">Ежемесячный платёж</p>
-            <p className="mt-1 text-4xl font-bold sm:text-5xl">
+            <p className="mt-1 text-2xl font-bold sm:text-4xl lg:text-5xl">
               {formatPrice(Math.round(result.monthly))}
             </p>
             <div className="mt-6 space-y-3 border-t border-white/20 pt-6 text-sm">
@@ -123,7 +123,7 @@ export function MortgageCalculator() {
             </p>
             <Button
               asChild
-              className="mt-5 w-full rounded-xl bg-white text-primary hover:bg-white/90"
+              className="mt-5 h-auto min-h-12 w-full whitespace-normal rounded-xl bg-white py-3 text-center text-primary hover:bg-white/90"
             >
               <Link href={`#consultation`}>
                 Получить подборку домов под этот платёж
