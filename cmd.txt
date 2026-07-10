@@ -1,3 +1,10 @@
 cd "c:\Users\Djo\Desktop\Дома chatgpt"
 npm install
 npm run dev
+
+
+
+cd "C:\Users\Djo\Desktop\Дома chatgpt"
+git add .
+git commit -m "Fix homepage map centering on object select"
+git push

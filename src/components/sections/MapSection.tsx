@@ -1,28 +1,24 @@
 "use client";
 
-import { housesData, mapData } from "@/data/site";
+import { housesData } from "@/data/site";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, MapPin } from "lucide-react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { House } from "@/types/house";
 
-function buildYandexMapSrc(houses: House[], selected: House | null): string {
-  if (selected) {
-    const { lat, lng } = selected;
-    return `https://yandex.ru/map-widget/v1/?ll=${lng}%2C${lat}&z=17&pt=${lng}%2C${lat}%2Cpm2rdm`;
+const HousesMap = dynamic(
+  () => import("@/components/sections/HousesMap").then((m) => m.HousesMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full min-h-[320px] items-center justify-center rounded-card bg-background sm:min-h-[400px]">
+        <p className="text-sm text-gray">Загрузка карты…</p>
+      </div>
+    ),
   }
-
-  if (houses.length === 0) {
-    return `https://yandex.ru/map-widget/v1/?ll=${mapData.center.lng}%2C${mapData.center.lat}&z=12`;
-  }
-
-  const avgLat = houses.reduce((sum, h) => sum + h.lat, 0) / houses.length;
-  const avgLng = houses.reduce((sum, h) => sum + h.lng, 0) / houses.length;
-  const points = houses.map((h) => `${h.lng},${h.lat},pm2orgl`).join("~");
-
-  return `https://yandex.ru/map-widget/v1/?ll=${avgLng}%2C${avgLat}&z=14&pt=${points}`;
-}
+);
 
 export function MapSection() {
   const [activeCity, setActiveCity] = useState<string | null>(null);
@@ -36,13 +32,6 @@ export function MapSection() {
       ? markers.filter((h) => h.city === activeCity)
       : markers;
 
-  const mapSrc = useMemo(
-    () => buildYandexMapSrc(filtered, selected),
-    [filtered, selected]
-  );
-
-  const mapKey = selected ? `house-${selected.id}` : `city-${activeCity ?? "all"}`;
-
   return (
     <section className="section-padding bg-white">
       <div className="container-main">
@@ -50,7 +39,7 @@ export function MapSection() {
           <div>
             <h2 className="section-title">Карта объектов</h2>
             <p className="mt-2 text-sm text-gray">
-              {filtered.length} домов на карте — кликните на объект, чтобы центрировать карту
+              {filtered.length} домов на карте — нажмите на метку, чтобы открыть карточку
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -76,14 +65,17 @@ export function MapSection() {
 
         <div className="grid gap-5 lg:grid-cols-3 lg:gap-7">
           <div className="relative aspect-[4/3] overflow-hidden rounded-card border border-border lg:col-span-2 lg:aspect-auto lg:min-h-[400px]">
-            <iframe
-              key={mapKey}
-              src={mapSrc}
-              title="Карта объектов"
-              className="absolute inset-0 h-full w-full border-0"
-              loading="lazy"
-              allowFullScreen
-            />
+            {filtered.length > 0 ? (
+              <HousesMap
+                houses={filtered}
+                selectedId={selected?.id ?? null}
+                onSelect={setSelected}
+              />
+            ) : (
+              <div className="flex h-full min-h-[320px] items-center justify-center bg-background">
+                <p className="text-sm text-gray">Нет объектов в этом городе</p>
+              </div>
+            )}
           </div>
 
           <div className="max-h-[400px] space-y-2 overflow-y-auto rounded-card border border-border bg-background p-3">
