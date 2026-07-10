@@ -1,13 +1,13 @@
 "use client";
 
-import { useFavorites } from "@/context/FavoritesContext";
+import { CompareButton } from "@/components/house/CompareButton";
 import { houseAmenityBadges } from "@/data/homepage";
 import { Button } from "@/components/ui/button";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { getHouseCover } from "@/lib/house-images";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House, HouseBadge } from "@/types/house";
-import { Heart, MapPin, Maximize2, TreePine, DoorOpen } from "lucide-react";
+import { MapPin, Maximize2, TreePine, DoorOpen } from "lucide-react";
 import Link from "next/link";
 
 type HouseCardProps = Pick<
@@ -52,8 +52,6 @@ export function HouseCard(props: HouseCardProps) {
     promoLabel,
   } = props;
   const house = props as House;
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const favorite = isFavorite(id);
   const cover = getHouseCover(house);
 
   return (
@@ -81,17 +79,11 @@ export function HouseCard(props: HouseCardProps) {
             </span>
           )}
         </div>
-        <button
-          type="button"
-          onClick={() => toggleFavorite(id)}
-          className={cn(
-            "absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-sm transition-colors sm:right-4 sm:top-4",
-            favorite ? "text-primary" : "text-gray hover:text-primary"
-          )}
-          aria-label={favorite ? "Убрать из избранного" : "Добавить в избранное"}
-        >
-          <Heart className={cn("h-4 w-4", favorite && "fill-primary")} />
-        </button>
+        <CompareButton
+          houseId={id}
+          variant="icon"
+          className="absolute right-3 top-3 sm:right-4 sm:top-4"
+        />
       </div>
 
       <div className="p-4 sm:p-5">
