@@ -2,33 +2,40 @@
 
 import { useCompare, getCompareHouses } from "@/context/CompareContext";
 import { realHouses } from "@/data/houses";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, cn } from "@/lib/utils";
+import { getBestHouseIndices, type CompareRowKey } from "@/lib/compare-highlight";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { getHouseCover } from "@/lib/house-images";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { CompareButton } from "@/components/house/CompareButton";
 import { siteConfig } from "@/data/site";
+import type { House } from "@/types/house";
 import { GitCompareArrows } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 
-const ROWS: { label: string; get: (h: (typeof realHouses)[0]) => string }[] = [
-  { label: "Цена", get: (h) => formatPrice(h.price) },
+const ROWS: {
+  label: string;
+  key?: CompareRowKey;
+  get: (h: House) => string;
+}[] = [
+  { label: "Цена", key: "price", get: (h) => formatPrice(h.price) },
   { label: "Город", get: (h) => h.city },
   { label: "Район", get: (h) => h.district },
-  { label: "Площадь", get: (h) => `${h.area} м²` },
-  { label: "Участок", get: (h) => `${h.land} сот.` },
-  { label: "Комнат", get: (h) => String(h.rooms) },
+  { label: "Площадь", key: "area", get: (h) => `${h.area} м²` },
+  { label: "Участок", key: "land", get: (h) => `${h.land} сот.` },
+  { label: "Комнат", key: "rooms", get: (h) => String(h.rooms) },
   { label: "Этажей", get: (h) => String(h.specs.floors) },
-  { label: "Год постройки", get: (h) => String(h.specs.buildYear) },
+  { label: "Год постройки", key: "buildYear", get: (h) => String(h.specs.buildYear) },
   { label: "Материал", get: (h) => h.specs.wallMaterial },
-  { label: "Газ", get: (h) => h.specs.gas },
-  { label: "Вода", get: (h) => h.specs.water },
-  { label: "Канализация", get: (h) => h.specs.sewage },
-  { label: "Отделка", get: (h) => h.specs.repair },
+  { label: "Газ", key: "gas", get: (h) => h.specs.gas },
+  { label: "Вода", key: "water", get: (h) => h.specs.water },
+  { label: "Канализация", key: "sewage", get: (h) => h.specs.sewage },
+  { label: "Отделка", key: "repair", get: (h) => h.specs.repair },
   {
     label: "Ипотека",
+    key: "mortgage",
     get: (h) =>
       h.specs.familyMortgage
         ? "Семейная"
@@ -36,7 +43,7 @@ const ROWS: { label: string; get: (h: (typeof realHouses)[0]) => string }[] = [
           ? "Возможна"
           : "Нет",
   },
-  { label: "До центра", get: (h) => h.specs.distanceToCenter },
+  { label: "До центра", key: "distance", get: (h) => h.specs.distanceToCenter },
 ];
 
 export function ComparePageClient() {
@@ -73,7 +80,8 @@ export function ComparePageClient() {
                 Сравнение домов
               </h1>
               <p className="mt-2 text-sm text-gray sm:text-base">
-                Сравните до 3 домов по ключевым параметрам
+                Сравните до 3 домов по ключевым параметрам. Лучшие значения
+                подсвечены.
               </p>
             </div>
             {houses.length > 0 && (
@@ -146,18 +154,31 @@ export function ComparePageClient() {
                   </tr>
                 </thead>
                 <tbody>
-                  {ROWS.map((row) => (
-                    <tr key={row.label} className="border-b border-border">
-                      <td className="sticky left-0 z-10 bg-white p-3 font-medium text-gray">
-                        {row.label}
-                      </td>
-                      {houses.map((house) => (
-                        <td key={house.id} className="p-3 text-dark">
-                          {row.get(house)}
+                  {ROWS.map((row) => {
+                    const bestIndices = row.key
+                      ? getBestHouseIndices(houses, row.key)
+                      : new Set<number>();
+
+                    return (
+                      <tr key={row.label} className="border-b border-border">
+                        <td className="sticky left-0 z-10 bg-white p-3 font-medium text-gray">
+                          {row.label}
                         </td>
-                      ))}
-                    </tr>
-                  ))}
+                        {houses.map((house, index) => (
+                          <td
+                            key={house.id}
+                            className={cn(
+                              "p-3 text-dark transition-colors",
+                              bestIndices.has(index) &&
+                                "bg-primary-light/70 font-semibold text-primary"
+                            )}
+                          >
+                            {row.get(house)}
+                          </td>
+                        ))}
+                      </tr>
+                    );
+                  })}
                   <tr>
                     <td className="sticky left-0 z-10 bg-white p-3 font-medium text-gray">
                       Действия

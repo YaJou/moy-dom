@@ -1,10 +1,6 @@
 "use client";
 
 import { NavMenu } from "@/components/layout/NavMenu";
-import {
-  HeaderCompareLink,
-  HeaderCompareLinkDesktop,
-} from "@/components/layout/HeaderCompareLink";
 import { Button } from "@/components/ui/button";
 import type { NavItem } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -86,20 +82,16 @@ export function HeaderClient({
         <Button size="sm" className="h-9 rounded-full px-3 text-[12px] xl:px-4 xl:text-[13px]">
           Обратный звонок
         </Button>
-        <HeaderCompareLinkDesktop />
       </div>
 
-      <div className="flex shrink-0 items-center gap-2 lg:hidden">
-        <HeaderCompareLink />
-        <button
-          type="button"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
-        >
-          {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-        </button>
-      </div>
+      <button
+        type="button"
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-background lg:hidden"
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+      >
+        {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+      </button>
 
       {isOpen && (
         <div className="absolute left-0 right-0 top-full border-b border-border bg-white p-3 shadow-card lg:hidden">
