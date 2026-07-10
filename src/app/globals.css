@@ -66,6 +66,8 @@
   position: relative;
   width: 32px;
   height: 40px;
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .house-map-pin span {

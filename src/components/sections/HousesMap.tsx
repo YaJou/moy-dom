@@ -38,6 +38,28 @@ function createHouseIcon(L: typeof import("leaflet"), active: boolean) {
   });
 }
 
+function updateMarkerIcons(
+  L: typeof import("leaflet"),
+  markers: Map<number, L.Marker>,
+  activeId: number | null
+) {
+  markers.forEach((marker, id) => {
+    marker.setIcon(createHouseIcon(L, id === activeId));
+  });
+}
+
+function openHousePopup(
+  map: L.Map,
+  marker: L.Marker,
+  house: House,
+  animate = true
+) {
+  if (animate) {
+    map.setView([house.lat, house.lng], 17, { animate: true });
+  }
+  marker.openPopup();
+}
+
 async function loadLeaflet(): Promise<typeof import("leaflet")> {
   if (typeof window === "undefined") {
     throw new Error("Leaflet runs only in browser");
@@ -76,6 +98,10 @@ export function HousesMap({ houses, selectedId, onSelect }: HousesMapProps) {
   const mapRef = useRef<L.Map | null>(null);
   const markersRef = useRef<Map<number, L.Marker>>(new Map());
   const leafletRef = useRef<typeof import("leaflet") | null>(null);
+  const skipSelectionEffectRef = useRef(false);
+  const onSelectRef = useRef(onSelect);
+
+  onSelectRef.current = onSelect;
 
   useEffect(() => {
     let cancelled = false;
@@ -109,16 +135,24 @@ export function HousesMap({ houses, selectedId, onSelect }: HousesMapProps) {
 
       houses.forEach((house) => {
         const marker = L.marker([house.lat, house.lng], {
-          icon: createHouseIcon(L, selectedId === house.id),
+          icon: createHouseIcon(L, false),
         });
 
         marker.bindPopup(buildPopupHtml(house), {
           className: "house-map-popup",
           minWidth: 260,
           maxWidth: 280,
+          autoClose: true,
+          closeOnClick: true,
         });
 
-        marker.on("click", () => onSelect(house));
+        marker.on("click", () => {
+          skipSelectionEffectRef.current = true;
+          onSelectRef.current(house);
+          updateMarkerIcons(L, markersRef.current, house.id);
+          openHousePopup(map, marker, house);
+        });
+
         marker.addTo(map);
         markersRef.current.set(house.id, marker);
       });
@@ -140,17 +174,18 @@ export function HousesMap({ houses, selectedId, onSelect }: HousesMapProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [houses]);
 
+  // Выбор из списка справа — приблизить и открыть карточку
   useEffect(() => {
+    if (skipSelectionEffectRef.current) {
+      skipSelectionEffectRef.current = false;
+      return;
+    }
+
     const L = leafletRef.current;
     const map = mapRef.current;
     if (!L || !map) return;
 
-    houses.forEach((house) => {
-      const marker = markersRef.current.get(house.id);
-      if (marker) {
-        marker.setIcon(createHouseIcon(L, selectedId === house.id));
-      }
-    });
+    updateMarkerIcons(L, markersRef.current, selectedId);
 
     if (selectedId == null) return;
 
@@ -158,8 +193,7 @@ export function HousesMap({ houses, selectedId, onSelect }: HousesMapProps) {
     const marker = markersRef.current.get(selectedId);
     if (!house || !marker) return;
 
-    map.flyTo([house.lat, house.lng], 17, { duration: 0.6 });
-    marker.openPopup();
+    openHousePopup(map, marker, house);
   }, [selectedId, houses]);
 
   return (
