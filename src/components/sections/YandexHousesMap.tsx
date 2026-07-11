@@ -6,10 +6,14 @@ import { useMemo } from "react";
 
 interface YandexHousesMapProps {
   houses: House[];
+  focusHouse?: House | null;
 }
 
-export function YandexHousesMap({ houses }: YandexHousesMapProps) {
-  const src = useMemo(() => buildYandexMapEmbedUrl(houses), [houses]);
+export function YandexHousesMap({ houses, focusHouse }: YandexHousesMapProps) {
+  const src = useMemo(
+    () => buildYandexMapEmbedUrl(houses, focusHouse),
+    [houses, focusHouse]
+  );
 
   if (!src) return null;
 
