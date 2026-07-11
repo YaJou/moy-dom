@@ -11,9 +11,7 @@ import { AboutCompany } from "@/components/sections/AboutCompany";
 import { Cities } from "@/components/sections/Cities";
 import { StatsSection } from "@/components/sections/StatsSection";
 
-const MapSection = dynamic(() =>
-  import("@/components/sections/MapSection").then((mod) => mod.MapSection)
-);
+import { MapSection } from "@/components/sections/MapSection";
 const Gallery = dynamic(() =>
   import("@/components/sections/Gallery").then((mod) => mod.Gallery)
 );
