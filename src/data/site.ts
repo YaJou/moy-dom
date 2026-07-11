@@ -1,18 +1,18 @@
 export { realHouses as housesData } from "@/data/houses";
 
 export const siteConfig = {
-  name: "МОЙ ДОМ",
+  name: "Кров-Сервис",
   tagline: "Готовые частные дома",
   description:
-    "Готовые частные дома в Саратове, Энгельсе и Балаково. С участком, газом и предчистовой отделкой. Заселяйтесь сразу после покупки.",
+    "Готовые частные дома в Саратове, Энгельсе и Балаково. С участком, коммуникациями и сопровождением сделки. Ипотека и рассрочка.",
   url: "https://moy-dom.ru",
-  phone: "+7 (8452) 55-55-55",
-  phoneHours: "Ежедневно с 9:00 до 20:00",
-  whatsapp: "https://wa.me/78452555555",
+  phone: "+7 (919) 822-35-34",
+  phoneHours: "Ежедневно с 8:00 до 17:00",
+  whatsapp: "https://wa.me/79198223534",
   telegram: "https://t.me/moydom",
   email: "info@moy-dom.ru",
-  address: "г. Саратов, ул. Московская, д. 15",
-  workingHours: "Пн–Вс: 9:00 – 20:00",
+  address: "г. Энгельс, Пристанская, 70",
+  workingHours: "Пн–Вс: 8:00 – 17:00",
 };
 
 export interface NavChild {
@@ -145,7 +145,7 @@ export const featuresData = [
     icon: "building",
     title: "Строим более 15 лет",
     description:
-      "Собственная строительная компания в Саратовской области. Построили более 320 домов — знаем регион и требования к качеству.",
+      "Собственная строительная компания в Саратовской области. Построили более 200 объектов — знаем регион и требования к качеству.",
   },
   {
     id: 6,
@@ -169,7 +169,7 @@ export const citiesData = [
   {
     id: 2,
     name: "Энгельс",
-    housesCount: 12,
+    housesCount: 14,
     projectsCount: 16,
     priceFrom: 6_500_000,
     image: "/images/cities/engels.jpg",
@@ -398,7 +398,7 @@ export const footerLinks = {
 export const socialLinks = [
   { name: "VK", href: "https://vk.com/dom_krovservice64", icon: "vk" },
   { name: "Telegram", href: "https://t.me/moydom", icon: "telegram" },
-  { name: "WhatsApp", href: "https://wa.me/78452555555", icon: "whatsapp" },
+  { name: "WhatsApp", href: "https://wa.me/79198223534", icon: "whatsapp" },
 ];
 
 export const quickFilters = [

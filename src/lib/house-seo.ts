@@ -1,6 +1,7 @@
 import type { House } from "@/types/house";
 import { siteConfig } from "@/data/site";
 import { getHouseCover } from "@/lib/house-images";
+import { getCityCatalogHref } from "@/lib/catalog-urls";
 import { formatPrice } from "@/lib/utils";
 import type { Metadata } from "next";
 import type { HouseDetailContent } from "@/data/house-detail";
@@ -60,7 +61,7 @@ export function buildHouseSchemas(
         "@type": "ListItem",
         position: 3,
         name: house.city,
-        item: `${siteConfig.url}/catalog/balakovo`,
+        item: `${siteConfig.url}${getCityCatalogHref(house.city)}`,
       },
       { "@type": "ListItem", position: 4, name: house.title, item: url },
     ],
@@ -122,11 +123,11 @@ export function buildHouseSchemas(
     address: {
       "@type": "PostalAddress",
       streetAddress: siteConfig.address,
-      addressLocality: "Саратов",
+      addressLocality: "Энгельс",
       addressRegion: "Саратовская область",
       addressCountry: "RU",
     },
-    openingHours: "Mo-Su 09:00-20:00",
+    openingHours: "Mo-Su 08:00-17:00",
   };
 
   const faq = {

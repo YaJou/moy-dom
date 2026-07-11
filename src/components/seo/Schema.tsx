@@ -11,8 +11,9 @@ export function OrganizationSchema() {
     email: siteConfig.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "ул. Московская, д. 15",
-      addressLocality: "Саратов",
+      streetAddress: "Пристанская, 70",
+      addressLocality: "Энгельс",
+      addressRegion: "Саратовская область",
       addressCountry: "RU",
     },
     areaServed: [
@@ -21,7 +22,7 @@ export function OrganizationSchema() {
       { "@type": "City", name: "Балаково" },
     ],
     priceRange: "₽₽₽",
-    openingHours: "Mo-Su 09:00-20:00",
+    openingHours: "Mo-Su 08:00-17:00",
   };
 
   return (

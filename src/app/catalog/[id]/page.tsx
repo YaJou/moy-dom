@@ -25,6 +25,7 @@ import { HouseSeoContent } from "@/components/house/HouseSeoContent";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { getHouseDetail } from "@/data/house-detail";
 import { getHouseById, realHouses } from "@/data/houses";
+import { getCityCatalogHref } from "@/lib/catalog-urls";
 import { siteConfig } from "@/data/site";
 import {
   buildHouseMetadata,
@@ -66,7 +67,7 @@ export default async function HousePage({ params }: HousePageProps) {
         items={[
           { label: "Главная", href: "/" },
           { label: "Каталог", href: "/catalog" },
-          { label: house.city, href: "/catalog/balakovo" },
+          { label: house.city, href: getCityCatalogHref(house.city) },
           { label: house.title },
         ]}
       />
