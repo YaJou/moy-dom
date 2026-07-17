@@ -5,19 +5,25 @@ import { siteConfig } from "@/data/site";
 import { CheckCircle2, Send } from "lucide-react";
 import { useState } from "react";
 
-export function ConsultationForm() {
+interface ConsultationFormProps {
+  defaultCity?: string;
+}
+
+export function ConsultationForm({
+  defaultCity = "Саратов",
+}: ConsultationFormProps = {}) {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
-    city: "Саратов",
+    city: defaultCity,
     message: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    setForm({ name: "", phone: "", city: "Саратов", message: "" });
+    setForm({ name: "", phone: "", city: defaultCity, message: "" });
   };
 
   return (

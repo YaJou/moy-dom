@@ -1,4 +1,5 @@
 import { partnersData } from "@/data/site";
+import { getCityCatalogHref } from "@/lib/catalog-urls";
 import type { House } from "@/types/house";
 import {
   CheckCircle2,
@@ -89,7 +90,7 @@ export function HouseQuickLinks({ house }: HousePageContentProps) {
   const floorLabel =
     house.specs.floors === 1 ? "Одноэтажные" : "Двухэтажные";
   const links = [
-    { label: `Все дома в ${house.city}`, href: "/catalog/balakovo" },
+    { label: `Все дома в ${house.city}`, href: getCityCatalogHref(house.city) },
     { label: floorLabel, href: "/catalog/one-story" },
     { label: `Дома до ${house.area} м²`, href: `/catalog?area=100+–+150+м²` },
     { label: "Калькулятор ипотеки", href: "/#mortgage" },

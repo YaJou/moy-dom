@@ -9,8 +9,16 @@ import { ExternalLink, MapPin } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-export function MapSection() {
-  const [activeCity, setActiveCity] = useState<string | null>(null);
+interface MapSectionProps {
+  initialCity?: string | null;
+  showCityFilters?: boolean;
+}
+
+export function MapSection({
+  initialCity = null,
+  showCityFilters = true,
+}: MapSectionProps = {}) {
+  const [activeCity, setActiveCity] = useState<string | null>(initialCity);
   const [selected, setSelected] = useState<House | null>(null);
 
   const markers = housesData.filter((h) => h.lat && h.lng);
@@ -31,25 +39,27 @@ export function MapSection() {
               {filtered.length} домов — выберите город или объект в списке
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {cities.map((city) => (
-              <button
-                key={city}
-                type="button"
-                onClick={() => {
-                  setActiveCity(city === "Все" ? null : city);
-                  setSelected(null);
-                }}
-                className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                  (city === "Все" && !activeCity) || activeCity === city
-                    ? "bg-primary text-white"
-                    : "border border-border bg-background text-dark hover:border-primary"
-                }`}
-              >
-                {city}
-              </button>
-            ))}
-          </div>
+          {showCityFilters && (
+            <div className="flex flex-wrap gap-2">
+              {cities.map((city) => (
+                <button
+                  key={city}
+                  type="button"
+                  onClick={() => {
+                    setActiveCity(city === "Все" ? null : city);
+                    setSelected(null);
+                  }}
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                    (city === "Все" && !activeCity) || activeCity === city
+                      ? "bg-primary text-white"
+                      : "border border-border bg-background text-dark hover:border-primary"
+                  }`}
+                >
+                  {city}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="grid gap-5 lg:grid-cols-3 lg:gap-7">

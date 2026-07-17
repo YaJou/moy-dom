@@ -2,7 +2,7 @@ import { CityLandingPage } from "@/components/pages/CityLandingPage";
 import { getCityLanding } from "@/data/city-landings";
 import type { Metadata } from "next";
 
-const landing = getCityLanding("balakovo");
+const landing = getCityLanding("engels");
 
 export const metadata: Metadata = {
   title: landing.seoTitle,
@@ -17,6 +17,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BalakovoLandingPage() {
-  return <CityLandingPage slug="balakovo" />;
+export default function EngelsLandingPage() {
+  return <CityLandingPage slug="engels" />;
 }

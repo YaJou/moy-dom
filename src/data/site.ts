@@ -1,3 +1,5 @@
+import { blogArticles } from "@/data/blog";
+
 export { realHouses as housesData } from "@/data/houses";
 
 export const siteConfig = {
@@ -164,7 +166,7 @@ export const citiesData = [
     projectsCount: 24,
     priceFrom: 6_500_000,
     image: "/images/cities/saratov.jpg",
-    href: "/catalog?city=Саратов",
+    href: "/catalog/saratov",
   },
   {
     id: 2,
@@ -173,7 +175,7 @@ export const citiesData = [
     projectsCount: 16,
     priceFrom: 6_500_000,
     image: "/images/cities/engels.jpg",
-    href: "/catalog?city=Энгельс",
+    href: "/catalog/engels",
   },
   {
     id: 3,
@@ -227,7 +229,7 @@ export const reviewsData = [
     name: "Александр Петров",
     city: "Саратов",
     houseBought: "Дом 120 м², ул. Садовая",
-    date: "Март 2025",
+    date: "Май 2026",
     text: "Отличная компания! Дом построили в срок, качество на высоте. Участок ровный, газ подведён. Заселились через месяц после покупки.",
     rating: 5,
     avatar: "/images/reviews/avatar-1.jpg",
@@ -238,7 +240,7 @@ export const reviewsData = [
     name: "Елена Смирнова",
     city: "Энгельс",
     houseBought: "Дом 145 м², пос. Пригородный",
-    date: "Январь 2025",
+    date: "Март 2026",
     text: "Помогли с ипотекой, всё оформили быстро. Дом просторный, тёплый пол работает отлично. Рекомендую всем, кто ищет готовое решение.",
     rating: 5,
     avatar: "/images/reviews/avatar-2.jpg",
@@ -249,7 +251,7 @@ export const reviewsData = [
     name: "Дмитрий Козлов",
     city: "Балаково",
     houseBought: "Дом 105 м², с. Натальино",
-    date: "Ноябрь 2024",
+    date: "Декабрь 2025",
     text: "Третий год живём в доме от Кров-Сервис. Никаких проблем с коммуникациями. Предчистовая отделка позволила сделать ремонт по своему вкусу.",
     rating: 5,
     avatar: "/images/reviews/avatar-3.jpg",
@@ -257,44 +259,15 @@ export const reviewsData = [
   },
 ];
 
-export const blogData = [
-  {
-    id: 1,
-    title: "Как выбрать идеальный участок для строительства дома",
-    date: "12 мая 2024",
-    image: "/images/blog/blog-1.jpg",
-    href: "/blog/uchastok",
-    category: "construction",
-    popular: true,
-  },
-  {
-    id: 2,
-    title: "Ипотека на готовый дом: пошаговая инструкция",
-    date: "28 апреля 2024",
-    image: "/images/blog/blog-2.jpg",
-    href: "/blog/ipoteka",
-    category: "mortgage",
-    popular: true,
-  },
-  {
-    id: 3,
-    title: "Предчистовая отделка: что входит и зачем нужна",
-    date: "15 апреля 2024",
-    image: "/images/blog/blog-3.jpg",
-    href: "/blog/otdelka",
-    category: "construction",
-    popular: false,
-  },
-  {
-    id: 4,
-    title: "5 причин выбрать готовый дом вместо строительства",
-    date: "3 апреля 2024",
-    image: "/images/blog/blog-4.jpg",
-    href: "/blog/prichiny",
-    category: "construction",
-    popular: true,
-  },
-];
+export const blogData = blogArticles.map((article, index) => ({
+  id: index + 1,
+  title: article.title,
+  date: article.date,
+  image: article.image,
+  href: `/blog/${article.slug}`,
+  category: article.category,
+  popular: article.popular,
+}));
 
 export const faqData = [
   {
@@ -404,8 +377,8 @@ export const socialLinks = [
 export const quickFilters = [
   { label: "До 6 млн", href: "/catalog?price=до+5+000+000+₽" },
   { label: "3 комнаты", href: "/catalog?rooms=3" },
-  { label: "Саратов", href: "/catalog?city=Саратов" },
-  { label: "Энгельс", href: "/catalog?city=Энгельс" },
+  { label: "Саратов", href: "/catalog/saratov" },
+  { label: "Энгельс", href: "/catalog/engels" },
   { label: "Готов к заселению", href: "/catalog?readiness=Готов+к+заселению" },
   { label: "От 150 м²", href: "/catalog?area=150+–+200+м²" },
 ];
@@ -564,7 +537,7 @@ export const localSeoData = [
     title: "Готовые дома в Саратове",
     description:
       "Более 45 готовых домов с участком в Саратове и области. Газ, предчистовая отделка, ипотека от 15%. Заселение сразу после покупки.",
-    href: "/catalog?city=Саратов",
+    href: "/catalog/saratov",
     housesCount: 45,
   },
   {
@@ -573,7 +546,7 @@ export const localSeoData = [
     title: "Готовые дома в Энгельсе",
     description:
       "28 домов в Энгельсе — тихие районы, развитая инфраструктура, 15 минут до Саратова. Участок и коммуникации включены.",
-    href: "/catalog?city=Энгельс",
+    href: "/catalog/engels",
     housesCount: 28,
   },
   {

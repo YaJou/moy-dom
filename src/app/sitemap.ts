@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { blogArticles } from "@/data/blog";
 import { realHouses } from "@/data/houses";
 import { siteConfig } from "@/data/site";
 
@@ -6,7 +7,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "",
     "/catalog",
+    "/catalog/saratov",
+    "/catalog/engels",
     "/catalog/balakovo",
+    "/compare",
+    "/blog",
+    ...blogArticles.map((a) => `/blog/${a.slug}`),
     ...realHouses.map((h) => `/catalog/${h.id}`),
     "/projects",
     "/plots",

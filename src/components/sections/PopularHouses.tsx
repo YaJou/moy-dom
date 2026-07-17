@@ -1,8 +1,9 @@
 "use client";
 
 import { HouseCard } from "@/components/cards/HouseCard";
-import { realHouses } from "@/data/houses";
+import { getHousesByCity, realHouses } from "@/data/houses";
 import { popularHouseTabs } from "@/data/homepage";
+import { getCityCatalogHref } from "@/lib/catalog-urls";
 import { cn } from "@/lib/utils";
 import type { House } from "@/types/house";
 import { ArrowRight } from "lucide-react";
@@ -28,20 +29,31 @@ function filterByTab(houses: House[], tabId: string): House[] {
   }
 }
 
-export function PopularHouses() {
-  const [activeTab, setActiveTab] = useState("all");
+interface PopularHousesProps {
+  city?: string;
+  title?: string;
+  catalogHref?: string;
+}
 
-  const filtered = useMemo(
-    () => filterByTab(realHouses, activeTab),
-    [activeTab]
-  );
+export function PopularHouses({
+  city,
+  title = "Популярные дома",
+  catalogHref,
+}: PopularHousesProps = {}) {
+  const [activeTab, setActiveTab] = useState("all");
+  const href = catalogHref ?? (city ? getCityCatalogHref(city) : "/catalog");
+
+  const filtered = useMemo(() => {
+    const base = city ? getHousesByCity(city) : realHouses;
+    return filterByTab(base, activeTab);
+  }, [activeTab, city]);
 
   return (
     <section className="section-padding border-y border-border bg-background">
       <div className="container-main">
         <div className="mb-6 flex flex-col gap-4 sm:mb-8 lg:flex-row lg:items-center lg:justify-between">
-          <h2 className="section-title">Популярные дома</h2>
-          <Link href="/catalog" className="section-link shrink-0">
+          <h2 className="section-title">{title}</h2>
+          <Link href={href} className="section-link shrink-0">
             Все дома
             <ArrowRight className="h-4 w-4" />
           </Link>
@@ -73,9 +85,12 @@ export function PopularHouses() {
           </div>
         ) : (
           <div className="rounded-card border border-border bg-white p-8 text-center">
-            <p className="text-gray">По этому фильтру домов пока нет в каталоге.</p>
+            <p className="text-gray">
+              По этому фильтру домов пока нет
+              {city ? ` в городе ${city}` : " в каталоге"}.
+            </p>
             <Link
-              href="/catalog"
+              href={href}
               className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
             >
               Смотреть все дома

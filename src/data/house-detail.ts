@@ -519,20 +519,10 @@ export const similarHouseTabs = [
   { id: "garage", label: "С гаражом" },
 ];
 
-export const relatedArticles = [
-  {
-    title: "Как выбрать участок",
-    href: "/blog/uchastok",
-    date: "12 мая 2024",
-  },
-  {
-    title: "Что входит в предчистовую отделку",
-    href: "/blog/otdelka",
-    date: "15 апреля 2024",
-  },
-  {
-    title: "Как оформить семейную ипотеку",
-    href: "/blog/ipoteka",
-    date: "28 апреля 2024",
-  },
-];
+import { blogArticles } from "@/data/blog";
+
+export const relatedArticles = blogArticles.slice(0, 3).map((article) => ({
+  title: article.title,
+  href: `/blog/${article.slug}`,
+  date: article.date,
+}));

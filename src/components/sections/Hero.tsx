@@ -10,15 +10,35 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export function Hero() {
-  const priceFrom = `От ${formatPrice(getMinHousePrice())}`;
+export interface HeroProps {
+  title?: string;
+  titleCities?: string;
+  subtitle?: string;
+  priceFrom?: number;
+  primaryHref?: string;
+  secondaryHref?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+export function Hero({
+  title = heroData.title,
+  titleCities = heroData.titleCities,
+  subtitle = heroData.subtitle,
+  priceFrom,
+  primaryHref = "/catalog",
+  secondaryHref = "/#consultation",
+  image = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
+  imageAlt = heroData.imageAlt,
+}: HeroProps = {}) {
+  const priceLabel = `От ${formatPrice(priceFrom ?? getMinHousePrice())}`;
 
   return (
     <section className="relative overflow-hidden">
       <div className="relative h-[500px] sm:h-[560px] md:h-[640px] lg:h-[700px]">
         <Image
-          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
-          alt={heroData.imageAlt}
+          src={image}
+          alt={imageAlt}
           fill
           priority
           className="object-cover"
@@ -34,20 +54,20 @@ export function Hero() {
             className="max-w-2xl"
           >
             <h1 className="text-balance text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-[52px] lg:leading-[1.12]">
-              {heroData.title}
+              {title}
               <span className="mt-1 block text-2xl font-semibold text-white/95 sm:text-3xl md:text-4xl lg:text-[40px]">
-                {heroData.titleCities}
+                {titleCities}
               </span>
             </h1>
             <p className="mt-4 text-2xl font-bold text-primary-light sm:text-3xl">
-              {priceFrom}
+              {priceLabel}
             </p>
             <p className="mt-2 max-w-xl text-base text-white/85 sm:text-lg">
-              {heroData.subtitle}
+              {subtitle}
             </p>
             <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
               <Button asChild size="lg" className="rounded-xl">
-                <Link href="/catalog">{heroData.primaryButton}</Link>
+                <Link href={primaryHref}>{heroData.primaryButton}</Link>
               </Button>
               <Button
                 asChild
@@ -55,7 +75,7 @@ export function Hero() {
                 size="lg"
                 className="rounded-xl border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
               >
-                <Link href="/#consultation">{heroData.secondaryButton}</Link>
+                <Link href={secondaryHref}>{heroData.secondaryButton}</Link>
               </Button>
             </div>
             <ul className="mt-6 hidden flex-wrap gap-x-4 gap-y-2 sm:flex sm:mt-8">

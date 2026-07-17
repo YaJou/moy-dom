@@ -1,4 +1,5 @@
 import type { HouseDetailContent } from "@/data/house-detail";
+import { getCityCatalogHref } from "@/lib/catalog-urls";
 import type { House } from "@/types/house";
 import Link from "next/link";
 
@@ -21,7 +22,7 @@ export function HouseSeoContent({ house, detail }: HouseSeoContentProps) {
         ))}
       </div>
       <div className="mt-6 flex flex-wrap gap-2">
-        <Link href="/catalog/balakovo" className="text-sm text-primary hover:underline">
+        <Link href={getCityCatalogHref(house.city)} className="text-sm text-primary hover:underline">
           Дома в {house.city}
         </Link>
         <span className="text-gray">·</span>

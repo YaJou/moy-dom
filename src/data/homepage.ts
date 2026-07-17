@@ -87,8 +87,8 @@ export const blogTabs = [
 ];
 
 export const footerCities = [
-  { label: "Саратов", href: "/catalog?city=Саратов" },
-  { label: "Энгельс", href: "/catalog?city=Энгельс" },
+  { label: "Саратов", href: "/catalog/saratov" },
+  { label: "Энгельс", href: "/catalog/engels" },
   { label: "Балаково", href: "/catalog/balakovo" },
 ];
 
