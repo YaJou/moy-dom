@@ -1,4 +1,5 @@
-import { ipotekaBlocks, otdelkaBlocks } from "@/data/blog/articles/short";
+import { ipotekaBlocks } from "@/data/blog/articles/short";
+import { otdelkaBlocks } from "@/data/blog/articles/otdelka";
 import { prichinyBlocks } from "@/data/blog/articles/prichiny";
 import { uchastokBlocks } from "@/data/blog/articles/uchastok";
 
@@ -31,7 +32,13 @@ export type ArticleBlock =
     }
   | {
       type: "interactive";
-      kind: "reasons" | "quiz" | "timeline";
+      kind:
+        | "reasons"
+        | "quiz"
+        | "timeline"
+        | "finish-stages"
+        | "finish-checklist"
+        | "finish-quiz";
     };
 
 export interface BlogArticle {
@@ -81,12 +88,12 @@ export const blogArticles: BlogArticle[] = [
     slug: "otdelka",
     title: "Предчистовая отделка: что входит и зачем нужна",
     description:
-      "Что такое предчистовая отделка в готовом доме: стяжка, штукатурка, электрика, тёплый пол. Сколько стоит чистовой ремонт после заселения.",
+      "Что такое предчистовая отделка в доме: отличие от черновой и «под ключ», что обычно входит, сколько стоит чистовой ремонт. Таблицы, чек-лист и интерактивный тест.",
     date: "14 января 2026",
     dateIso: "2026-01-14",
     category: "construction",
     popular: false,
-    readTime: "9 мин",
+    readTime: "12 мин",
     image: "/images/blog/blog-3.jpg",
     relatedSlugs: ["uchastok", "ipoteka", "prichiny"],
     blocks: otdelkaBlocks,

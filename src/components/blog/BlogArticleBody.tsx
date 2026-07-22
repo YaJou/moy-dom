@@ -4,6 +4,11 @@ import {
   ReasonsAccordion,
   TimelineCompare,
 } from "@/components/blog/PrichinyInteractive";
+import {
+  FinishChecklist,
+  FinishQuiz,
+  FinishStagesSwitcher,
+} from "@/components/blog/OtdelkaInteractive";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, CheckCircle2, Info, Lightbulb } from "lucide-react";
 import Link from "next/link";
@@ -261,6 +266,15 @@ export function BlogArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
             }
             if (block.kind === "quiz") {
               return <PriorityQuiz key={index} />;
+            }
+            if (block.kind === "finish-stages") {
+              return <FinishStagesSwitcher key={index} />;
+            }
+            if (block.kind === "finish-checklist") {
+              return <FinishChecklist key={index} />;
+            }
+            if (block.kind === "finish-quiz") {
+              return <FinishQuiz key={index} />;
             }
             return null;
 
