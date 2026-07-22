@@ -4,7 +4,6 @@ import type { House } from "@/types/house";
 import {
   CheckCircle2,
   Droplets,
-  Flame,
   Home,
   Shield,
   Trees,
@@ -12,10 +11,9 @@ import {
 import Link from "next/link";
 
 const includedItems = [
-  { icon: Home, text: "Дом с предчистовой отделкой" },
+  { icon: Home, text: "Дом" },
   { icon: Trees, text: "Земельный участок в стоимости" },
   { icon: Droplets, text: "Скважина и выгребная яма" },
-  { icon: Flame, text: "Газ по границе участка" },
   { icon: Home, text: "Пластиковые окна и дверь" },
   { icon: Shield, text: "Оформление документов" },
 ];

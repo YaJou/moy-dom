@@ -2,30 +2,14 @@ import { includedPriceItems } from "@/data/house-detail";
 import {
   Home,
   Map,
-  Flame,
-  Zap,
   Droplets,
   Waves,
-  Thermometer,
-  Paintbrush,
-  Layers,
-  Cable,
+  Square,
+  DoorOpen,
   FileCheck,
 } from "lucide-react";
 
-const icons = [
-  Home,
-  Map,
-  Flame,
-  Zap,
-  Droplets,
-  Waves,
-  Thermometer,
-  Paintbrush,
-  Layers,
-  Cable,
-  FileCheck,
-];
+const icons = [Home, Map, Droplets, Waves, Square, DoorOpen, FileCheck];
 
 export function HouseIncludedCards() {
   return (

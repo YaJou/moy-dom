@@ -2,30 +2,13 @@ import { includedPriceData } from "@/data/homepage";
 import {
   Home,
   Map,
-  Flame,
-  Zap,
   Droplets,
   Waves,
-  Thermometer,
-  Layers,
-  Paintbrush,
   Square,
   DoorOpen,
 } from "lucide-react";
 
-const iconList = [
-  Home,
-  Map,
-  Flame,
-  Zap,
-  Droplets,
-  Waves,
-  Thermometer,
-  Layers,
-  Paintbrush,
-  Square,
-  DoorOpen,
-];
+const iconList = [Home, Map, Droplets, Waves, Square, DoorOpen];
 
 export function IncludedPrice() {
   return (
@@ -35,7 +18,7 @@ export function IncludedPrice() {
         <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-gray sm:text-base">
           Всё перечисленное уже включено в стоимость — без скрытых доплат за коммуникации и участок.
         </p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-3 lg:gap-5">
           {includedPriceData.items.map((item, i) => {
             const Icon = iconList[i] || Home;
             return (

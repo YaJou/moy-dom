@@ -12,11 +12,10 @@ export const heroBenefits = [
 ];
 
 export const houseAmenityBadges = [
-  "Газ",
-  "Тёплый пол",
-  "Предчистовая",
   "Участок",
   "Ипотека",
+  "Скважина",
+  "Окна",
 ];
 
 export const seoIntroData = {
@@ -58,13 +57,8 @@ export const includedPriceData = {
   items: [
     "Дом",
     "Участок",
-    "Газ",
-    "Электрика",
     "Вода",
     "Канализация",
-    "Тёплый пол",
-    "Стяжка",
-    "Штукатурка",
     "Окна",
     "Дверь",
   ],

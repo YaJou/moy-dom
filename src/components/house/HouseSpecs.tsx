@@ -1,14 +1,12 @@
 import type { House } from "@/types/house";
 import {
   Building2,
-  Car,
   Droplets,
   Flame,
   Home,
   MapPin,
   Ruler,
   Trees,
-  Zap,
 } from "lucide-react";
 
 interface HouseSpecsGridProps {
@@ -27,11 +25,9 @@ export function HouseSpecsGrid({ house }: HouseSpecsGridProps) {
     { icon: Building2, label: "Материал стен", value: specs.wallMaterial },
     { icon: Home, label: "Терраса", value: specs.terrace },
     { icon: Home, label: "Ремонт", value: specs.repair },
-    { icon: Zap, label: "Электричество", value: specs.electricity },
     { icon: Droplets, label: "Водоснабжение", value: specs.water },
     { icon: Flame, label: "Газ", value: specs.gas },
     { icon: Droplets, label: "Канализация", value: specs.sewage },
-    { icon: Car, label: "Парковка", value: specs.parking },
     { icon: MapPin, label: "Дорога", value: specs.road },
     { icon: MapPin, label: "До центра", value: specs.distanceToCenter },
     {
