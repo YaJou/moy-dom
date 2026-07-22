@@ -1,4 +1,5 @@
-import { ipotekaBlocks, otdelkaBlocks, prichinyBlocks } from "@/data/blog/articles/short";
+import { ipotekaBlocks, otdelkaBlocks } from "@/data/blog/articles/short";
+import { prichinyBlocks } from "@/data/blog/articles/prichiny";
 import { uchastokBlocks } from "@/data/blog/articles/uchastok";
 
 export type ArticleBlock =
@@ -12,7 +13,26 @@ export type ArticleBlock =
       title: string;
       text: string;
     }
-  | { type: "links"; title: string; links: { label: string; href: string }[] };
+  | { type: "links"; title: string; links: { label: string; href: string }[] }
+  | {
+      type: "stats";
+      items: { value: string; label: string }[];
+    }
+  | {
+      type: "compare";
+      leftTitle: string;
+      rightTitle: string;
+      rows: {
+        label: string;
+        left: string;
+        right: string;
+        winner?: "left" | "right";
+      }[];
+    }
+  | {
+      type: "interactive";
+      kind: "reasons" | "quiz" | "timeline";
+    };
 
 export interface BlogArticle {
   slug: string;
@@ -75,12 +95,12 @@ export const blogArticles: BlogArticle[] = [
     slug: "prichiny",
     title: "5 причин выбрать готовый дом вместо строительства",
     description:
-      "Почему готовый дом с участком выгоднее строительства с нуля: сроки, коммуникации, ипотека, гарантия застройщика.",
+      "Готовый дом или стройка с нуля? Сравнение сроков, бюджета, ипотеки и гарантии. Таблицы, интерактивный тест и честный разбор — когда выгоднее купить готовый дом в Саратовской области.",
     date: "28 ноября 2025",
     dateIso: "2025-11-28",
     category: "construction",
     popular: true,
-    readTime: "7 мин",
+    readTime: "14 мин",
     image: "/images/blog/blog-4.jpg",
     relatedSlugs: ["uchastok", "ipoteka", "otdelka"],
     blocks: prichinyBlocks,

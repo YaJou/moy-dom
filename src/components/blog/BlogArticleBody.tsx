@@ -1,4 +1,9 @@
 import type { ArticleBlock } from "@/data/blog";
+import {
+  PriorityQuiz,
+  ReasonsAccordion,
+  TimelineCompare,
+} from "@/components/blog/PrichinyInteractive";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, CheckCircle2, Info, Lightbulb } from "lucide-react";
 import Link from "next/link";
@@ -62,7 +67,7 @@ export function BlogArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                   className="mb-6 list-decimal space-y-2 pl-5 text-sm text-gray sm:text-base"
                 >
                   {block.items.map((item) => (
-                    <li key={item.slice(0, 30)} className="leading-relaxed">
+                    <li key={item.slice(0, 40)} className="leading-relaxed">
                       {item}
                     </li>
                   ))}
@@ -75,7 +80,7 @@ export function BlogArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                 className="mb-6 list-disc space-y-2 pl-5 text-sm text-gray sm:text-base"
               >
                 {block.items.map((item) => (
-                  <li key={item.slice(0, 30)} className="leading-relaxed">
+                  <li key={item.slice(0, 40)} className="leading-relaxed">
                     {item}
                   </li>
                 ))}
@@ -161,7 +166,7 @@ export function BlogArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                 </p>
                 <ul className="flex flex-wrap gap-2">
                   {block.links.map((link) => (
-                    <li key={link.href}>
+                    <li key={link.href + link.label}>
                       <Link
                         href={link.href}
                         className="inline-flex rounded-full border border-border bg-white px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary hover:bg-primary-light sm:text-sm"
@@ -173,6 +178,91 @@ export function BlogArticleBody({ blocks }: { blocks: ArticleBlock[] }) {
                 </ul>
               </div>
             );
+
+          case "stats":
+            return (
+              <div
+                key={index}
+                className="mb-8 grid grid-cols-1 gap-3 sm:grid-cols-3"
+              >
+                {block.items.map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-card border border-border bg-background p-4 text-center"
+                  >
+                    <p className="text-xl font-bold text-primary sm:text-2xl">
+                      {item.value}
+                    </p>
+                    <p className="mt-1 text-xs text-gray sm:text-sm">
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            );
+
+          case "compare":
+            return (
+              <div key={index} className="mb-8 overflow-x-auto">
+                <table className="w-full min-w-[560px] border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b border-border">
+                      <th className="bg-background p-3 text-left font-medium text-gray">
+                        Параметр
+                      </th>
+                      <th className="bg-background p-3 text-left font-semibold text-dark">
+                        {block.leftTitle}
+                      </th>
+                      <th className="bg-primary-light/50 p-3 text-left font-semibold text-primary">
+                        {block.rightTitle}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {block.rows.map((row) => (
+                      <tr
+                        key={row.label}
+                        className="border-b border-border/70"
+                      >
+                        <td className="p-3 font-medium text-dark">
+                          {row.label}
+                        </td>
+                        <td
+                          className={cn(
+                            "p-3 text-gray",
+                            row.winner === "left" &&
+                              "bg-green-50 font-semibold text-dark"
+                          )}
+                        >
+                          {row.left}
+                        </td>
+                        <td
+                          className={cn(
+                            "p-3 text-gray",
+                            row.winner === "right" &&
+                              "bg-primary-light/60 font-semibold text-primary"
+                          )}
+                        >
+                          {row.right}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+
+          case "interactive":
+            if (block.kind === "reasons") {
+              return <ReasonsAccordion key={index} />;
+            }
+            if (block.kind === "timeline") {
+              return <TimelineCompare key={index} />;
+            }
+            if (block.kind === "quiz") {
+              return <PriorityQuiz key={index} />;
+            }
+            return null;
 
           default:
             return null;
