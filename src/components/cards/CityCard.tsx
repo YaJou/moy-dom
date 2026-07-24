@@ -11,12 +11,6 @@ export interface CityCardProps {
   href: string;
 }
 
-const cityImages = [
-  "https://images.unsplash.com/photo-1513326738677-b964a06d8f8a?w=800&q=80",
-  "https://images.unsplash.com/photo-1520106212290-d0b81af694f8?w=800&q=80",
-  "https://images.unsplash.com/photo-1547448415-3d79d908137a?w=800&q=80",
-];
-
 function formatPriceFrom(price: number) {
   const millions = price / 1_000_000;
   return `от ${millions.toFixed(1).replace(".0", "")} млн`;
@@ -27,18 +21,16 @@ export function CityCard({
   housesCount,
   projectsCount,
   priceFrom,
+  image,
   href,
 }: CityCardProps) {
-  const index = ["Саратов", "Энгельс", "Балаково"].indexOf(name);
-  const imgSrc = cityImages[index >= 0 ? index : 0];
-
   return (
     <Link
       href={href}
       className="group relative block aspect-[16/10] overflow-hidden rounded-card sm:aspect-[16/9]"
     >
       <Image
-        src={imgSrc}
+        src={image}
         alt={`Дома в ${name}`}
         fill
         className="object-cover transition-transform duration-500 group-hover:scale-105"
