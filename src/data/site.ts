@@ -7,12 +7,12 @@ export const siteConfig = {
   tagline: "Готовые частные дома",
   description:
     "Готовые частные дома в Саратове, Энгельсе и Балаково. С участком, коммуникациями и сопровождением сделки. Ипотека и рассрочка.",
-  url: "https://moy-dom.ru",
+  url: "https://dom-krovservice64.ru",
   phone: "+7 (919) 822-35-34",
   phoneHours: "Ежедневно с 8:00 до 17:00",
   whatsapp: "https://wa.me/79198223534",
   telegram: "https://t.me/moydom",
-  email: "info@moy-dom.ru",
+  email: "info@dom-krovservice64.ru",
   address: "г. Энгельс, Пристанская, 70",
   workingHours: "Пн–Вс: 8:00 – 17:00",
 };
