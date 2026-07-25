@@ -24,7 +24,9 @@ type HouseCardProps = Pick<
   | "promoLabel"
   | "image"
   | "images"
->;
+> & {
+  priority?: boolean;
+};
 
 const badgeStyles: Record<HouseBadge, string> = {
   new: "bg-primary text-white",
@@ -50,6 +52,7 @@ export function HouseCard(props: HouseCardProps) {
     rooms,
     badge,
     promoLabel,
+    priority = false,
   } = props;
   const house = props as House;
   const cover = getHouseCover(house);
@@ -62,6 +65,7 @@ export function HouseCard(props: HouseCardProps) {
           alt={title}
           fill
           objectFit="contain"
+          priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
         <div className="absolute left-3 top-3 flex gap-1.5 sm:left-4 sm:top-4">

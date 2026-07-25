@@ -165,7 +165,7 @@ export const citiesData = [
     housesCount: 18,
     projectsCount: 24,
     priceFrom: 6_500_000,
-    image: "/images/saratov.png",
+    image: "/images/saratov.jpg",
     href: "/catalog/saratov",
   },
   {
@@ -174,7 +174,7 @@ export const citiesData = [
     housesCount: 14,
     projectsCount: 16,
     priceFrom: 6_500_000,
-    image: "/images/engels.png",
+    image: "/images/engels.jpg",
     href: "/catalog/engels",
   },
   {

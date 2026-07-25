@@ -1,9 +1,6 @@
 import { seoIntroData } from "@/data/homepage";
 import Image from "next/image";
 
-const defaultImage =
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=80";
-
 interface SeoIntroProps {
   title?: string;
   paragraphs?: string[];
@@ -14,7 +11,7 @@ interface SeoIntroProps {
 export function SeoIntro({
   title = seoIntroData.title,
   paragraphs = seoIntroData.paragraphs,
-  image = defaultImage,
+  image = seoIntroData.image,
   imageAlt,
 }: SeoIntroProps = {}) {
   return (
@@ -28,6 +25,7 @@ export function SeoIntro({
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
+              loading="lazy"
             />
           </div>
           <div>

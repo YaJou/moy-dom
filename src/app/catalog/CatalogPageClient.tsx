@@ -61,8 +61,8 @@ export function CatalogPageClient() {
         <div className="container-main">
           {results.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4 lg:gap-7">
-              {results.map((house) => (
-                <HouseCard key={house.id} {...house} />
+              {results.map((house, index) => (
+                <HouseCard key={house.id} {...house} priority={index < 2} />
               ))}
             </div>
           ) : (

@@ -44,6 +44,7 @@ export function HouseImage({
       )}
       sizes={sizes}
       priority={priority}
+      fetchPriority={priority ? "high" : undefined}
       onError={() => setImgSrc(HOUSE_IMAGE_FALLBACK)}
     />
   );

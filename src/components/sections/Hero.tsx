@@ -1,11 +1,8 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { getMinHousePrice } from "@/data/houses";
 import { heroBenefits } from "@/data/homepage";
 import { heroData } from "@/data/site";
 import { formatPrice } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -28,7 +25,7 @@ export function Hero({
   priceFrom,
   primaryHref = "/catalog",
   secondaryHref = "/#consultation",
-  image = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80",
+  image = heroData.image,
   imageAlt = heroData.imageAlt,
 }: HeroProps = {}) {
   const priceLabel = `От ${formatPrice(priceFrom ?? getMinHousePrice())}`;
@@ -41,18 +38,14 @@ export function Hero({
           alt={imageAlt}
           fill
           priority
+          fetchPriority="high"
           className="object-cover"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent" />
 
         <div className="container-main relative flex h-full items-start pt-8 sm:items-center sm:pt-0">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-2xl"
-          >
+          <div className="hero-content max-w-2xl">
             <h1 className="text-balance text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-[52px] lg:leading-[1.12]">
               {title}
               <span className="mt-1 block text-2xl font-semibold text-white/95 sm:text-3xl md:text-4xl lg:text-[40px]">
@@ -89,7 +82,7 @@ export function Hero({
                 </li>
               ))}
             </ul>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

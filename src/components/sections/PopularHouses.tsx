@@ -79,8 +79,8 @@ export function PopularHouses({
 
         {filtered.length > 0 ? (
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4 lg:gap-7">
-            {filtered.map((house) => (
-              <HouseCard key={house.id} {...house} />
+            {filtered.map((house, index) => (
+              <HouseCard key={house.id} {...house} priority={index < 1} />
             ))}
           </div>
         ) : (

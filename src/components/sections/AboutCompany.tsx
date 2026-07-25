@@ -4,9 +4,6 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const aboutImage =
-  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80";
-
 export function AboutCompany() {
   return (
     <section className="section-padding bg-white">
@@ -14,11 +11,12 @@ export function AboutCompany() {
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="relative aspect-[16/10] overflow-hidden rounded-card shadow-card lg:aspect-[4/3]">
             <Image
-              src={aboutImage}
+              src={aboutCompanyData.image}
               alt={aboutCompanyData.title}
               fill
               className="object-cover"
               sizes="(max-width: 1024px) 100vw, 50vw"
+              loading="lazy"
             />
           </div>
           <div>
