@@ -7,9 +7,7 @@ import type { Metadata } from "next";
 import type { HouseDetailContent } from "@/data/house-detail";
 
 export function buildHouseTitle(house: House): string {
-  const readiness =
-    house.readiness === "ready" ? "готов к заселению" : "от застройщика";
-  return `${house.title} в ${house.district}, ${house.city} — ${formatPrice(house.price)} | ${siteConfig.name}`;
+  return `${house.title} в ${house.district}, ${house.city} — ${formatPrice(house.price)}`;
 }
 
 export function buildHouseDescription(house: House): string {

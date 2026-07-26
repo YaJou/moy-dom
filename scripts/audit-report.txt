@@ -1,0 +1,251 @@
+﻿============================================================
+TLS
+============================================================
+version: TLSv1.3
+cipher: ('TLS_AES_256_GCM_SHA384', 'TLSv1.3', 256)
+subject: {'commonName': 'www.dom-krovservice64.ru'}
+issuer: {'countryName': 'BE', 'organizationName': 'GlobalSign nv-sa', 'commonName': 'GlobalSign GCC R3 DV TLS CA 2020'}
+notBefore: Jul 24 09:05:02 2026 GMT
+notAfter: Feb  8 09:05:02 2027 GMT
+days_left: 197
+sans: ['www.dom-krovservice64.ru', 'autodiscover.dom-krovservice64.ru', 'mail.dom-krovservice64.ru', 'owa.dom-krovservice64.ru', 'dom-krovservice64.ru']
+self_signed: False
+
+============================================================
+DNS / MAIL
+============================================================
+
+-- MX --
+я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜:  UnKnown
+Address:  198.18.0.2
+dom-krovservice64.ru	MX preference = 10, mail exchanger = mx1.hosting.reg.ru
+dom-krovservice64.ru	MX preference = 20, mail exchanger = mx2.hosting.reg.ru
+
+-- TXT --
+я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜:  UnKnown
+Address:  198.18.0.2
+dom-krovservice64.ru	text =
+"v=spf1 ip4:37.140.192.196 a mx include:_spf.hosting.reg.ru ~all"
+
+-- A --
+я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜:  UnKnown
+Address:  198.18.0.2
+я┐╜я┐╜я┐╜:     dom-krovservice64.ru
+Address:  198.18.0.190
+
+-- DMARC TXT --
+*** UnKnown я┐╜я┐╜ удая┐╜я┐╜я┐╜я┐╜ я┐╜я┐╜я┐╜я┐╜ _dmarc.dom-krovservice64.ru: Non-existent domain
+я┐╜я┐╜я┐╜я┐╜я┐╜я┐╜:  UnKnown
+Address:  198.18.0.2
+
+-- DKIM selectors (common) --
+default: not found
+google: not found
+selector1: not found
+selector2: not found
+mail: not found
+dkim: not found
+
+============================================================
+PAGES SEO
+============================================================
+
+## https://dom-krovservice64.ru/ [200]
+title (66): ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б тАФ ╨У╨╛╤В╨╛╨▓╤Л╨╡ ╤З╨░╤Б╤В╨╜╤Л╨╡ ╨┤╨╛╨╝╨░ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡, ╨н╨╜╨│╨╡╨╗╤М╤Б╨╡ ╨╕ ╨С╨░╨╗╨░╨║╨╛╨▓╨╛
+desc (126): ╨У╨╛╤В╨╛╨▓╤Л╨╡ ╤З╨░╤Б╤В╨╜╤Л╨╡ ╨┤╨╛╨╝╨░ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡, ╨н╨╜╨│╨╡╨╗╤М╤Б╨╡ ╨╕ ╨С╨░╨╗╨░╨║╨╛╨▓╨╛. ╨б ╤Г╤З╨░╤Б╤В╨║╨╛╨╝, ╨║╨╛╨╝╨╝╤Г╨╜╨╕╨║╨░╤Ж╨╕╤П╨╝╨╕ ╨╕ ╤Б╨╛╨┐╤А╨╛╨▓╨╛
+robots: index, follow
+canonical: https://dom-krovservice64.ru/
+H1(1): ['╨У╨╛╤В╨╛╨▓╤Л╨╡ ╤З╨░╤Б╤В╨╜╤Л╨╡ ╨┤╨╛╨╝╨░╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡, ╨н╨╜╨│╨╡╨╗╤М╤Б╨╡ ╨╕ ╨С╨░╨╗╨░╨║╨╛╨▓╨╛']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'FAQPage']
+imgs=34 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+headers: {
+  "strict-transport-security": null,
+  "content-security-policy": null,
+  "content-security-policy-report-only": null,
+  "x-frame-options": "SAMEORIGIN",
+  "referrer-policy": "strict-origin-when-cross-origin",
+  "permissions-policy": "geolocation=(), microphone=(), camera=()",
+  "x-content-type-options": "nosniff",
+  "content-encoding": "gzip",
+  "cache-control": "public, max-age=300, must-revalidate",
+  "content-type": "text/html"
+}
+
+## https://dom-krovservice64.ru/catalog/ [200]
+title (35): ╨Ъ╨░╤В╨░╨╗╨╛╨│ ╨│╨╛╤В╨╛╨▓╤Л╤Е ╨┤╨╛╨╝╨╛╨▓ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (140): ╨Ъ╨░╤В╨░╨╗╨╛╨│ ╨│╨╛╤В╨╛╨▓╤Л╤Е ╤З╨░╤Б╤В╨╜╤Л╤Е ╨┤╨╛╨╝╨╛╨▓ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡, ╨н╨╜╨│╨╡╨╗╤М╤Б╨╡ ╨╕ ╨С╨░╨╗╨░╨║╨╛╨▓╨╛. ╨д╨╕╨╗╤М╤В╤А ╨┐╨╛ ╤Ж╨╡╨╜╨╡, ╨┐╨╗╨╛╤Й╨░╨┤╨╕, ╨║╨╛
+robots: index, follow
+canonical: https://dom-krovservice64.ru/catalog/
+H1(0): []
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/catalog/saratov/ [200]
+title (64): ╨Ъ╤Г╨┐╨╕╤В╤М ╨┤╨╛╨╝ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡ ╨╛╤В ╨╖╨░╤Б╤В╤А╨╛╨╣╤Й╨╕╨║╨░ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (134): ╨У╨╛╤В╨╛╨▓╤Л╨╡ ╤З╨░╤Б╤В╨╜╤Л╨╡ ╨┤╨╛╨╝╨░ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡ ╨╕ ╨╛╨▒╨╗╨░╤Б╤В╨╕. ╨г╤З╨░╤Б╤В╨╛╨║, ╨║╨╛╨╝╨╝╤Г╨╜╨╕╨║╨░╤Ж╨╕╨╕, ╨╕╨┐╨╛╤В╨╡╨║╨░ ╨╕ ╤А╨░╤Б╤Б╤А╨╛╤З╨║╨░. ╨Я╤А╨╛
+robots: index, follow
+canonical: https://dom-krovservice64.ru/catalog/saratov/
+H1(1): ['╨У╨╛╤В╨╛╨▓╤Л╨╡ ╤З╨░╤Б╤В╨╜╤Л╨╡ ╨┤╨╛╨╝╨░╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╨╡']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/images/saratov.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=22 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/catalog/1/ [200]
+title (96): ╨Ф╨╛╨╝ 105 ╨╝┬▓ ╨╜╨░ ╤Г╤З╨░╤Б╤В╨║╨╡ 10 ╤Б╨╛╤В. ╨▓ ╤Б. ╨Э╨░╤В╨░╨╗╤М╨╕╨╜╨╛, ╨С╨░╨╗╨░╨║╨╛╨▓╨╛ тАФ 7┬а250┬а000 тВ╜ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б | ╨Ъ╤А╨╛╨▓-
+desc (206): ╨Ю╨┤╨╜╨╛╤Н╤В╨░╨╢╨╜╤Л╨╣ ╨┤╨╛╨╝ 105 ╨╝┬▓ ╤Б ╤В╨╡╤А╤А╨░╤Б╨╛╨╣ 15 ╨╝┬▓ ╨╜╨░ ╤Г╤З╨░╤Б╤В╨║╨╡ 10 ╤Б╨╛╤В╨╛╨║ ╨▓ ╤Б. ╨Э╨░╤В╨░╨╗╤М╨╕╨╜╨╛. ╨У╨░╨╖ ╨┐╨╛ ╨│╤А╨░╨╜╨╕╤Ж╨╡
+robots: index, follow
+canonical: https://dom-krovservice64.ru/catalog/1/
+H1(1): ['╨Ф╨╛╨╝ 105 ╨╝┬▓ ╨╜╨░ ╤Г╤З╨░╤Б╤В╨║╨╡ 10 ╤Б╨╛╤В.']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/images/houses/natalino-mehanizatorov-105/02.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList', 'BreadcrumbList', 'Product', 'SingleFamilyResidence', 'RealEstateListing', 'FAQPage', 'ImageObject', 'ImageObject', 'ImageObject', 'ImageObject', 'ImageObject', 'ImageObject', 'ImageObject']
+imgs=13 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/blog/ [200]
+title (37): ╨С╨╗╨╛╨│ ╨╛ ╨╖╨░╨│╨╛╤А╨╛╨┤╨╜╤Л╤Е ╨┤╨╛╨╝╨░╤Е | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (116): ╨б╤В╨░╤В╤М╨╕ ╨╛ ╨▓╤Л╨▒╨╛╤А╨╡ ╤Г╤З╨░╤Б╤В╨║╨░, ╨╕╨┐╨╛╤В╨╡╨║╨╡ ╨╜╨░ ╨│╨╛╤В╨╛╨▓╤Л╨╣ ╨┤╨╛╨╝, ╨╛╤В╨┤╨╡╨╗╨║╨╡ ╨╕ ╨┐╨╛╨║╤Г╨┐╨║╨╡ ╤З╨░╤Б╤В╨╜╨╛╨│╨╛ ╨┤╨╛╨╝╨░ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓
+robots: index, follow
+canonical: https://dom-krovservice64.ru/blog/
+H1(1): ['╨Я╨╛╨╗╨╡╨╖╨╜╤Л╨╡ ╤Б╤В╨░╤В╤М╨╕']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=4 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/blog/uchastok/ [200]
+title (81): ╨Ъ╨░╨║ ╨▓╤Л╨▒╤А╨░╤В╤М ╤Г╤З╨░╤Б╤В╨╛╨║ ╨┤╨╗╤П ╤Б╤В╤А╨╛╨╕╤В╨╡╨╗╤М╤Б╤В╨▓╨░ ╨┤╨╛╨╝╨░: ╨┐╨╛╨╗╨╜╨╛╨╡ ╤А╤Г╨║╨╛╨▓╨╛╨┤╤Б╤В╨▓╨╛ 2026 | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (198): ╨Ъ╨░╨║ ╨▓╤Л╨▒╤А╨░╤В╤М ╨╖╨╡╨╝╨╡╨╗╤М╨╜╤Л╨╣ ╤Г╤З╨░╤Б╤В╨╛╨║ ╨┐╨╛╨┤ ╤Б╤В╤А╨╛╨╕╤В╨╡╨╗╤М╤Б╤В╨▓╨╛ ╨┤╨╛╨╝╨░ ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╤Б╨║╨╛╨╣ ╨╛╨▒╨╗╨░╤Б╤В╨╕: ╨║╨░╤В╨╡╨│╨╛╤А╨╕╤П ╨╖╨╡╨╝╨╗
+robots: index, follow
+canonical: https://dom-krovservice64.ru/blog/uchastok/
+H1(1): ['╨Ъ╨░╨║ ╨▓╤Л╨▒╤А╨░╤В╤М ╤Г╤З╨░╤Б╤В╨╛╨║ ╨┤╨╗╤П ╤Б╤В╤А╨╛╨╕╤В╨╡╨╗╤М╤Б╤В╨▓╨░ ╨┤╨╛╨╝╨░: ╨┐╨╛╨╗╨╜╨╛╨╡ ╤А╤Г╨║╨╛╨▓╨╛╨┤╤Б╤В╨▓╨╛ 2026']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/images/blog/blog-1.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'Article', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/about/ [200]
+title (24): ╨Ю ╨║╨╛╨╝╨┐╨░╨╜╨╕╨╕ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (168): ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б тАФ ╤Б╤В╤А╨╛╨╕╤В╨╡╨╗╤М╨╜╨░╤П ╨║╨╛╨╝╨┐╨░╨╜╨╕╤П ╨▓ ╨б╨░╤А╨░╤В╨╛╨▓╤Б╨║╨╛╨╣ ╨╛╨▒╨╗╨░╤Б╤В╨╕. ╨С╨╛╨╗╨╡╨╡ 200 ╨┐╨╛╤Б╤В╤А╨╛╨╡╨╜╨╜╤Л╤Е ╨┤╨╛╨╝╨╛╨▓, ╨┐╨╛
+robots: index, follow
+canonical: https://dom-krovservice64.ru/about/
+H1(1): ['╨Ю ╨║╨╛╨╝╨┐╨░╨╜╨╕╨╕ ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/contacts/ [200]
+title (22): ╨Ъ╨╛╨╜╤В╨░╨║╤В╤Л | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (141): ╨Ъ╨╛╨╜╤В╨░╨║╤В╤Л ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б: ╤В╨╡╨╗╨╡╤Д╨╛╨╜ +7 (919) 822-35-34, ╨░╨┤╤А╨╡╤Б ╨│. ╨н╨╜╨│╨╡╨╗╤М╤Б, ╨Я╤А╨╕╤Б╤В╨░╨╜╤Б╨║╨░╤П, 70. ╨Ч╨░╨┐╨╕╤Б
+robots: index, follow
+canonical: https://dom-krovservice64.ru/contacts/
+H1(1): ['╨Ъ╨╛╨╜╤В╨░╨║╤В╤Л']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'ContactPage', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/privacy/ [200]
+title (41): ╨Я╨╛╨╗╨╕╤В╨╕╨║╨░ ╨║╨╛╨╜╤Д╨╕╨┤╨╡╨╜╤Ж╨╕╨░╨╗╤М╨╜╨╛╤Б╤В╨╕ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (85): ╨Я╨╛╨╗╨╕╤В╨╕╨║╨░ ╨║╨╛╨╜╤Д╨╕╨┤╨╡╨╜╤Ж╨╕╨░╨╗╤М╨╜╨╛╤Б╤В╨╕ ╤Б╨░╨╣╤В╨░ ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б. ╨Я╨╛╤А╤П╨┤╨╛╨║ ╨╛╨▒╤А╨░╨▒╨╛╤В╨║╨╕ ╨┐╨╡╤А╤Б╨╛╨╜╨░╨╗╤М╨╜╤Л╤Е ╨┤╨░╨╜╨╜╤Л╤Е.
+robots: index, follow
+canonical: https://dom-krovservice64.ru/privacy/
+H1(1): ['╨Я╨╛╨╗╨╕╤В╨╕╨║╨░ ╨║╨╛╨╜╤Д╨╕╨┤╨╡╨╜╤Ж╨╕╨░╨╗╤М╨╜╨╛╤Б╤В╨╕']
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+## https://dom-krovservice64.ru/compare/ [200]
+title (29): ╨б╤А╨░╨▓╨╜╨╡╨╜╨╕╨╡ ╨┤╨╛╨╝╨╛╨▓ | ╨Ъ╤А╨╛╨▓-╨б╨╡╤А╨▓╨╕╤Б
+desc (79): ╨б╤А╨░╨▓╨╜╨╕╤В╨╡ ╨┤╨╛ 3 ╨│╨╛╤В╨╛╨▓╤Л╤Е ╨┤╨╛╨╝╨╛╨▓ ╨┐╨╛ ╤Ж╨╡╨╜╨╡, ╨┐╨╗╨╛╤Й╨░╨┤╨╕, ╤Г╤З╨░╤Б╤В╨║╤Г, ╨║╨╛╨╝╨╝╤Г╨╜╨╕╨║╨░╤Ж╨╕╤П╨╝ ╨╕ ╨╕╨┐╨╛╤В╨╡╨║╨╡.
+robots: noindex, follow
+canonical: https://dom-krovservice64.ru/compare/
+H1(0): []
+lang=ru viewport=True charset_utf8=True
+og:image=https://dom-krovservice64.ru/og-image.jpg
+twitter:card=summary_large_image
+jsonld=[['RealEstateAgent', 'LocalBusiness'], 'WebSite', 'BreadcrumbList']
+imgs=0 no_alt=0 blank_no_noopener=0
+mixed_http=[]
+emails=['info@dom-krovservice64.ru']
+
+============================================================
+DUPLICATE TITLES
+============================================================
+
+DUPLICATE DESCRIPTIONS
+
+============================================================
+INTERNAL LINKS SAMPLE
+============================================================
+OK 200 https://dom-krovservice64.ru/
+OK 200 https://dom-krovservice64.ru/built/
+OK 200 https://dom-krovservice64.ru/contacts/
+OK 200 https://dom-krovservice64.ru/catalog/
+OK 200 https://dom-krovservice64.ru/catalog/1/
+OK 200 https://dom-krovservice64.ru/catalog/2/
+OK 200 https://dom-krovservice64.ru/catalog/3/
+OK 200 https://dom-krovservice64.ru/catalog/4/
+OK 200 https://dom-krovservice64.ru/catalog/5/
+OK 200 https://dom-krovservice64.ru/catalog/6/
+OK 200 https://dom-krovservice64.ru/about/
+OK 200 https://dom-krovservice64.ru/catalog/saratov/
+OK 200 https://dom-krovservice64.ru/catalog/engels/
+OK 200 https://dom-krovservice64.ru/catalog/balakovo/
+OK 200 https://dom-krovservice64.ru/blog/
+OK 200 https://dom-krovservice64.ru/blog/uchastok/
+OK 200 https://dom-krovservice64.ru/blog/ipoteka/
+OK 200 https://dom-krovservice64.ru/blog/otdelka/
+OK 200 https://dom-krovservice64.ru/blog/prichiny/
+BAD 0 https://dom-krovservice64.ru/catalog/?floors=1 ╤Н╤В╨░╨╢
+BAD 0 https://dom-krovservice64.ru/catalog/?floors=2 ╤Н╤В╨░╨╢╨░
+OK 200 https://dom-krovservice64.ru/documents/
+OK 200 https://dom-krovservice64.ru/sitemap/
+OK 200 https://dom-krovservice64.ru/privacy/
+OK 200 https://dom-krovservice64.ru/offer/
+
+============================================================
+OG IMAGE
+============================================================
+status 200 type image/jpeg len 131973
+cache max-age=3888000
+
+============================================================
+HTTP OPEN CHECK
+============================================================
+unexpected 200 on HTTP https://dom-krovservice64.ru:443/
+
+DONE broken_links= [('https://dom-krovservice64.ru/catalog/?floors=1 ╤Н╤В╨░╨╢', 0, "URL can't contain control characters. '/catalog/?floors=1 ╤Н╤В╨░╨╢' (found at least ' ')"), ('https://dom-krovservice64.ru/catalog/?floors=2 ╤Н╤В╨░╨╢╨░', 0, "URL can't contain control characters. '/catalog/?floors=2 ╤Н╤В╨░╨╢╨░' (found at least ' ')")]

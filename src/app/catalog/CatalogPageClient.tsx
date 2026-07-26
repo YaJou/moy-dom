@@ -46,8 +46,7 @@ export function CatalogPageClient() {
     <>
       <section className="bg-white pb-6 pt-2 sm:pb-8">
         <div className="container-main mb-6 sm:mb-8">
-          <h1 className="section-title">Каталог домов</h1>
-          <p className="mt-2 text-sm text-gray sm:text-base">
+          <p className="text-sm text-gray sm:text-base">
             {activeCount > 0
               ? `Найдено ${results.length} ${pluralizeHouses(results.length)} по выбранным фильтрам`
               : `Всего ${housesData.length} ${pluralizeHouses(housesData.length)} в каталоге`}

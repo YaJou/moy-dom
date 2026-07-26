@@ -23,6 +23,14 @@ export default function ComparePage() {
           { label: "Сравнение" },
         ]}
       />
+      <section className="bg-white pt-2">
+        <div className="container-main">
+          <h1 className="section-title">Сравнение домов</h1>
+          <p className="mt-2 text-sm text-gray sm:text-base">
+            Сравните до 3 объектов по цене, площади, участку и коммуникациям.
+          </p>
+        </div>
+      </section>
       <Suspense
         fallback={
           <div className="container-main py-16 text-center text-gray">

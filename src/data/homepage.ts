@@ -87,8 +87,8 @@ export const footerCities = [
 ];
 
 export const footerCategories = [
-  { label: "Одноэтажные", href: "/catalog/?floors=1 этаж" },
-  { label: "Двухэтажные", href: "/catalog/?floors=2 этажа" },
+  { label: "Одноэтажные", href: "/catalog/?floors=1%20%D1%8D%D1%82%D0%B0%D0%B6" },
+  { label: "Двухэтажные", href: "/catalog/?floors=2%20%D1%8D%D1%82%D0%B0%D0%B6%D0%B0" },
   { label: "Саратов", href: "/catalog/saratov/" },
   { label: "Энгельс", href: "/catalog/engels/" },
   { label: "Балаково", href: "/catalog/balakovo/" },

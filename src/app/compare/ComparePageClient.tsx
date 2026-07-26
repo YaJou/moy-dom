@@ -6,7 +6,6 @@ import { formatPrice, cn } from "@/lib/utils";
 import { getBestHouseIndices, type CompareRowKey } from "@/lib/compare-highlight";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { getHouseCover } from "@/lib/house-images";
-import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { CompareButton } from "@/components/house/CompareButton";
 import { siteConfig } from "@/data/site";
 import type { House } from "@/types/house";
@@ -63,26 +62,12 @@ export function ComparePageClient() {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          { label: "Главная", href: "/" },
-          { label: "Каталог", href: "/catalog" },
-          { label: "Сравнение домов" },
-        ]}
-      />
-
-      <section className="section-padding bg-white">
+      <section className="section-padding bg-white pt-6">
         <div className="container-main">
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h1 className="section-title flex items-center gap-2">
-                <GitCompareArrows className="h-7 w-7 text-primary" />
-                Сравнение домов
-              </h1>
-              <p className="mt-2 text-sm text-gray sm:text-base">
-                Сравните до 3 домов по ключевым параметрам. Лучшие значения
-                подсвечены.
-              </p>
+            <div className="flex items-center gap-2 text-sm text-gray">
+              <GitCompareArrows className="h-5 w-5 text-primary" />
+              Лучшие значения в таблице подсвечены
             </div>
             {houses.length > 0 && (
               <button

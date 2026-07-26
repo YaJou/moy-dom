@@ -20,6 +20,15 @@ export default function CatalogPage() {
           { label: "Каталог домов" },
         ]}
       />
+      <section className="bg-white pb-2 pt-2 sm:pb-4">
+        <div className="container-main">
+          <h1 className="section-title">Каталог домов</h1>
+          <p className="mt-2 text-sm text-gray sm:text-base">
+            Готовые частные дома в Саратове, Энгельсе и Балаково — с участком,
+            коммуникациями, ипотекой и рассрочкой.
+          </p>
+        </div>
+      </section>
       <Suspense
         fallback={
           <div className="container-main py-16 text-center text-gray">
