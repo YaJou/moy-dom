@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/data/site";
 import { Phone } from "lucide-react";
+import Link from "next/link";
 
 export function StickyMobileCTA() {
   return (
@@ -15,7 +16,9 @@ export function StickyMobileCTA() {
           <Phone className="h-4 w-4 text-primary" />
           Позвонить
         </a>
-        <Button className="flex-1 rounded-xl">Заказать звонок</Button>
+        <Button asChild className="flex-1 rounded-xl">
+          <Link href="/#consultation">Заказать звонок</Link>
+        </Button>
       </div>
     </div>
   );

@@ -24,6 +24,7 @@ export default function DocumentsPage() {
           <h1 className="section-title">Документы и реквизиты</h1>
           <p className="mt-3 text-sm text-gray sm:text-base">
             Официальные данные компании для договора и банковского сопровождения.
+            ИНН и ОГРН должны соответствовать выписке ЕГРЮЛ.
           </p>
           <dl className="mt-8 space-y-4 rounded-card border border-border p-5 sm:p-6">
             <div>

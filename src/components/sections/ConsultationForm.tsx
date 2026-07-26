@@ -1,6 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  ConsentCheckbox,
+  PrivacyPolicyLink,
+} from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
 import { CheckCircle2, Send } from "lucide-react";
 import { useState } from "react";
@@ -13,6 +17,7 @@ export function ConsultationForm({
   defaultCity = "Саратов",
 }: ConsultationFormProps = {}) {
   const [submitted, setSubmitted] = useState(false);
+  const [consentPd, setConsentPd] = useState(false);
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -22,7 +27,9 @@ export function ConsultationForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!consentPd) return;
     setSubmitted(true);
+    setConsentPd(false);
     setForm({ name: "", phone: "", city: defaultCity, message: "" });
   };
 
@@ -84,6 +91,8 @@ export function ConsultationForm({
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    autoComplete="name"
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -97,6 +106,8 @@ export function ConsultationForm({
                   </label>
                   <input
                     type="tel"
+                    name="phone"
+                    autoComplete="tel"
                     required
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -109,6 +120,7 @@ export function ConsultationForm({
                     Город
                   </label>
                   <select
+                    name="city"
                     value={form.city}
                     onChange={(e) => setForm({ ...form, city: e.target.value })}
                     className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
@@ -123,6 +135,7 @@ export function ConsultationForm({
                     Комментарий
                   </label>
                   <textarea
+                    name="message"
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
                     placeholder="Расскажите, какой дом вас интересует"
@@ -130,13 +143,19 @@ export function ConsultationForm({
                     className="w-full resize-none rounded-xl border border-border bg-white px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                   />
                 </div>
-                <Button type="submit" className="w-full rounded-xl">
+                <ConsentCheckbox
+                  id="consult-consent-pd"
+                  checked={consentPd}
+                  onChange={setConsentPd}
+                >
+                  Даю согласие на обработку персональных данных в целях обратной
+                  связи и консультации по объектам недвижимости в соответствии с{" "}
+                  <PrivacyPolicyLink />.
+                </ConsentCheckbox>
+                <Button type="submit" className="w-full rounded-xl" disabled={!consentPd}>
                   <Send className="h-4 w-4" />
                   Отправить заявку
                 </Button>
-                <p className="text-center text-xs text-gray">
-                  Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
-                </p>
               </form>
             )}
           </div>

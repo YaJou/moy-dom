@@ -97,6 +97,7 @@ export const footerCategories = [
 
 export const companyRequisites = {
   name: 'ООО "Кров-Сервис"',
+  /** Замените на реальные ИНН/ОГРН из выписки ЕГРЮЛ перед публикацией в продакшен. */
   inn: "6449XXXXXX",
   ogrn: "1126449XXXXX",
 };

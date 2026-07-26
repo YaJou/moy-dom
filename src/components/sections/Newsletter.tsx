@@ -1,6 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  ConsentCheckbox,
+  PrivacyPolicyLink,
+} from "@/components/legal/ConsentCheckbox";
 import { alertsData } from "@/data/site";
 import { cn } from "@/lib/utils";
 import { Bell, CheckCircle2, ExternalLink } from "lucide-react";
@@ -13,15 +17,29 @@ export function Newsletter() {
   const [channel, setChannel] = useState<ChannelId>("whatsapp");
   const [phone, setPhone] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [consentPd, setConsentPd] = useState(false);
+  const [consentNotify, setConsentNotify] = useState(false);
 
   const needsPhone = channel !== "vk";
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (needsPhone && !phone.trim()) return;
+    if (!consentPd || !consentNotify) return;
     setSubmitted(true);
     setPhone("");
+    setConsentPd(false);
+    setConsentNotify(false);
   };
+
+  const channelLabel =
+    channel === "sms"
+      ? "SMS"
+      : channel === "whatsapp"
+        ? "WhatsApp"
+        : channel === "telegram"
+          ? "Telegram"
+          : "выбранный канал";
 
   return (
     <section className="bg-primary py-6 sm:py-8">
@@ -53,8 +71,8 @@ export function Newsletter() {
             </ul>
 
             <p className="mt-5 text-xs text-white/60 sm:text-sm">
-              Никаких рекламных рассылок и звонков — только уведомления по
-              выбранному городу.
+              Уведомления только по выбранному городу. Отписаться можно в любой
+              момент по контактам в сообщении или на сайте.
             </p>
           </div>
 
@@ -100,9 +118,8 @@ export function Newsletter() {
                 </div>
 
                 <p className="text-sm leading-relaxed text-gray">
-                  В нашей группе ВКонтакте публикуются все новые объекты,
-                  скидки и актуальные предложения по Саратову, Энгельсу и
-                  Балаково.
+                  В нашей группе ВКонтакте публикуются новые объекты, скидки и
+                  предложения. Подписка оформляется на стороне ВКонтакте.
                 </p>
 
                 <a
@@ -175,7 +192,9 @@ export function Newsletter() {
                   </label>
                   <input
                     id="alert-phone"
+                    name="phone"
                     type="tel"
+                    autoComplete="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="+7 (___) ___-__-__"
@@ -184,14 +203,34 @@ export function Newsletter() {
                   />
                 </div>
 
-                <Button type="submit" className="h-12 w-full rounded-xl">
+                <div className="space-y-3">
+                  <ConsentCheckbox
+                    id="alerts-consent-pd"
+                    checked={consentPd}
+                    onChange={setConsentPd}
+                  >
+                    Даю согласие на обработку персональных данных (номер телефона)
+                    для оформления подписки на уведомления в соответствии с{" "}
+                    <PrivacyPolicyLink />.
+                  </ConsentCheckbox>
+                  <ConsentCheckbox
+                    id="alerts-consent-notify"
+                    checked={consentNotify}
+                    onChange={setConsentNotify}
+                  >
+                    Согласен(на) получать информационные сообщения о новых домах,
+                    скидках и статусах объектов в городе {city} через{" "}
+                    {channelLabel}. Согласие можно отозвать.
+                  </ConsentCheckbox>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="h-12 w-full rounded-xl"
+                  disabled={!consentPd || !consentNotify}
+                >
                   Получать уведомления
                 </Button>
-
-                <p className="text-center text-xs text-gray">
-                  Нажимая кнопку, вы соглашаетесь получать сообщения только о
-                  новых домах в {city}
-                </p>
               </form>
             )}
 
