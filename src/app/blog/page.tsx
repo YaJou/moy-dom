@@ -1,14 +1,15 @@
 import { BlogCard } from "@/components/cards/BlogCard";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
-import { blogArticles } from "@/data/blog";
+import { blogArticles, getBlogArticleHref } from "@/data/blog";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Блог о загородных домах",
   description:
     "Статьи о выборе участка, ипотеке на готовый дом, отделке и покупке частного дома в Саратовской области. Кров-Сервис.",
-  alternates: { canonical: "/blog" },
-};
+  path: "/blog/",
+});
 
 export default function BlogPage() {
   return (
@@ -35,7 +36,7 @@ export default function BlogPage() {
                 title={article.title}
                 date={article.date}
                 image={article.image}
-                href={`/blog/${article.slug}`}
+                href={getBlogArticleHref(article.slug)}
               />
             ))}
           </div>

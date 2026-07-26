@@ -11,6 +11,7 @@ import { AboutCompany } from "@/components/sections/AboutCompany";
 import { Cities } from "@/components/sections/Cities";
 import { StatsSection } from "@/components/sections/StatsSection";
 import { MapSection } from "@/components/sections/MapSection";
+import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import {
   getCityLanding,
   getCityMinPrice,
@@ -67,6 +68,13 @@ export function CityLandingPage({ slug }: CityLandingPageProps) {
 
   return (
     <>
+      <Breadcrumb
+        items={[
+          { label: "Главная", href: "/" },
+          { label: "Каталог", href: "/catalog/" },
+          { label: landing.city },
+        ]}
+      />
       <Hero
         title={landing.title}
         titleCities={landing.titleCities}

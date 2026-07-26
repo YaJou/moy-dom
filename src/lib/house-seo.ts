@@ -20,12 +20,13 @@ export function buildHouseMetadata(house: House): Metadata {
   const title = buildHouseTitle(house);
   const description = buildHouseDescription(house);
   const image = getHouseCover(house);
-  const url = `${siteConfig.url}/catalog/${house.id}`;
+  const path = `/catalog/${house.id}/`;
+  const url = `${siteConfig.url}${path}`;
 
   return {
     title,
     description,
-    alternates: { canonical: `/catalog/${house.id}` },
+    alternates: { canonical: path },
     openGraph: {
       type: "website",
       url,
@@ -49,14 +50,18 @@ export function buildHouseSchemas(
   detail: HouseDetailContent
 ) {
   const image = getHouseCover(house);
-  const url = `${siteConfig.url}/catalog/${house.id}`;
+  const path = `/catalog/${house.id}/`;
+  const url = `${siteConfig.url}${path}`;
+  const absoluteImage = image.startsWith("http")
+    ? image
+    : `${siteConfig.url}${image}`;
 
   const breadcrumb = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Главная", item: siteConfig.url },
-      { "@type": "ListItem", position: 2, name: "Каталог", item: `${siteConfig.url}/catalog` },
+      { "@type": "ListItem", position: 1, name: "Главная", item: `${siteConfig.url}/` },
+      { "@type": "ListItem", position: 2, name: "Каталог", item: `${siteConfig.url}/catalog/` },
       {
         "@type": "ListItem",
         position: 3,
@@ -72,15 +77,23 @@ export function buildHouseSchemas(
     "@type": "Product",
     name: house.title,
     description: house.shortDescription,
-    image: house.images.length ? house.images : [image],
+    image: (house.images.length ? house.images : [image]).map((img) =>
+      img.startsWith("http") ? img : `${siteConfig.url}${img}`
+    ),
     brand: { "@type": "Brand", name: house.builder },
+    sku: `house-${house.id}`,
     offers: {
       "@type": "Offer",
       url,
       price: house.price,
       priceCurrency: "RUB",
       availability: "https://schema.org/InStock",
-      seller: { "@type": "Organization", name: house.builder },
+      itemCondition: "https://schema.org/NewCondition",
+      seller: {
+        "@type": "Organization",
+        name: house.builder,
+        telephone: siteConfig.phone,
+      },
     },
   };
 
@@ -89,7 +102,7 @@ export function buildHouseSchemas(
     "@type": "SingleFamilyResidence",
     name: house.title,
     description: house.shortDescription,
-    image,
+    image: absoluteImage,
     url,
     address: {
       "@type": "PostalAddress",
@@ -112,22 +125,20 @@ export function buildHouseSchemas(
     numberOfBathroomsTotal: house.specs.bathroom.includes("2") ? 2 : 1,
   };
 
-  const localBusiness = {
+  const listing = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: siteConfig.name,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    telephone: siteConfig.phone,
-    email: siteConfig.email,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteConfig.address,
-      addressLocality: "Энгельс",
-      addressRegion: "Саратовская область",
-      addressCountry: "RU",
+    "@type": "RealEstateListing",
+    name: house.title,
+    description: house.shortDescription,
+    url,
+    datePosted: `${house.specs.buildYear}-01-01`,
+    image: absoluteImage,
+    offers: {
+      "@type": "Offer",
+      price: house.price,
+      priceCurrency: "RUB",
+      availability: "https://schema.org/InStock",
     },
-    openingHours: "Mo-Su 08:00-17:00",
   };
 
   const faq = {
@@ -148,5 +159,5 @@ export function buildHouseSchemas(
     description: house.shortDescription,
   }));
 
-  return { breadcrumb, product, residence, localBusiness, faq, images };
+  return { breadcrumb, product, residence, listing, faq, images };
 }

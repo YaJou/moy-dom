@@ -119,5 +119,5 @@ export function getBlogArticle(slug: string): BlogArticle | undefined {
 }
 
 export function getBlogArticleHref(slug: string): string {
-  return `/blog/${slug}`;
+  return `/blog/${slug}/`;
 }

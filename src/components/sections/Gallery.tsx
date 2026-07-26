@@ -6,19 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const galleryImages = [
-  "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&q=80",
-  "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&q=80",
-  "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80",
-  "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=600&q=80",
-  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&q=80",
-];
-
-type GalleryItem = { id: number; alt: string; type: "photo" | "video" };
-
-const items: GalleryItem[] = galleryData.map((item, i) => ({
+const items = galleryData.map((item, i) => ({
   ...item,
-  type: i === 2 || i === 4 ? "video" : "photo",
+  type: (i === 2 || i === 4 ? "video" : "photo") as "photo" | "video",
 }));
 
 export function Gallery() {
@@ -29,7 +19,7 @@ export function Gallery() {
       <div className="container-main">
         <div className="mb-8 flex items-center justify-between gap-4 sm:mb-10 lg:mb-12">
           <h2 className="section-title">Построенные дома</h2>
-          <Link href="/built" className="section-link shrink-0">
+          <Link href="/built/" className="section-link shrink-0">
             Смотреть все работы
             <ArrowRight className="h-4 w-4" />
           </Link>
@@ -43,12 +33,14 @@ export function Gallery() {
               onClick={() => setLightbox(index)}
               className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-card"
             >
-              <div className={`relative w-full ${index % 3 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"}`}>
+              <div
+                className={`relative w-full ${index % 3 === 0 ? "aspect-[3/4]" : "aspect-[4/3]"}`}
+              >
                 <Image
-                  src={galleryImages[index % galleryImages.length]}
+                  src={item.image}
                   alt={item.alt}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
                   sizes="(max-width: 768px) 50vw, 33vw"
                   loading="lazy"
                 />
@@ -70,21 +62,17 @@ export function Gallery() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
           onClick={() => setLightbox(null)}
           role="dialog"
-          aria-modal
+          aria-modal="true"
+          aria-label="Просмотр фото"
         >
           <div className="relative max-h-[90vh] max-w-4xl overflow-hidden rounded-card">
             <Image
-              src={galleryImages[lightbox % galleryImages.length]}
+              src={items[lightbox].image}
               alt={items[lightbox].alt}
               width={900}
               height={600}
               className="max-h-[85vh] w-auto object-contain"
             />
-            {items[lightbox].type === "video" && (
-              <p className="absolute bottom-4 left-4 rounded-lg bg-black/60 px-3 py-1.5 text-sm text-white">
-                Видеообзор дома
-              </p>
-            )}
           </div>
         </div>
       )}

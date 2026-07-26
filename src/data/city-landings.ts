@@ -35,7 +35,7 @@ export const cityLandings: Record<CitySlug, CityLandingContent> = {
     ],
     heroImage: "/images/saratov.jpg",
     heroImageAlt: "Частный дом в Саратове от Кров-Сервис",
-    catalogHref: "/catalog/saratov",
+    catalogHref: "/catalog/saratov/",
     districtsNote: "Саратов и пригороды",
   },
   engels: {
@@ -54,7 +54,7 @@ export const cityLandings: Record<CitySlug, CityLandingContent> = {
     ],
     heroImage: "/images/engels.jpg",
     heroImageAlt: "Частный дом в Энгельсе от Кров-Сервис",
-    catalogHref: "/catalog/engels",
+    catalogHref: "/catalog/engels/",
     districtsNote: "СНТ «Новое», СНТ «Малинки»",
   },
   balakovo: {
@@ -73,7 +73,7 @@ export const cityLandings: Record<CitySlug, CityLandingContent> = {
     ],
     heroImage: "/images/balakovo.jpg",
     heroImageAlt: "Частный дом в Балаково, с. Натальино",
-    catalogHref: "/catalog/balakovo",
+    catalogHref: "/catalog/balakovo/",
     districtsNote: "с. Натальино",
   },
 };

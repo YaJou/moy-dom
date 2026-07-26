@@ -205,7 +205,7 @@ export default async function HousePage({ params }: HousePageProps) {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.localBusiness) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas.listing) }}
       />
       <script
         type="application/ld+json"

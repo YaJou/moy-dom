@@ -6,7 +6,6 @@ import { Footer } from "@/components/layout/Footer";
 import {
   OrganizationSchema,
   WebSiteSchema,
-  BreadcrumbSchema,
 } from "@/components/seo/Schema";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
@@ -22,7 +21,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline}`,
+    default: `${siteConfig.name} — ${siteConfig.tagline} в Саратове, Энгельсе и Балаково`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -30,16 +29,20 @@ export const metadata: Metadata = {
     "готовые дома",
     "частные дома",
     "дома с участком",
+    "купить дом",
     "строительная компания",
     "Саратов",
     "Энгельс",
     "Балаково",
     "коттеджи",
     "загородные дома",
+    "семейная ипотека",
+    "Кров-Сервис",
   ],
-  authors: [{ name: siteConfig.name }],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
+  category: "real estate",
   formatDetection: {
     email: false,
     address: false,
@@ -60,7 +63,7 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: `${siteConfig.name} — готовые частные дома`,
       },
     ],
   },
@@ -81,6 +84,13 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/icon.svg" }],
+  },
 };
 
 export default function RootLayout({
@@ -93,7 +103,6 @@ export default function RootLayout({
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
-        <BreadcrumbSchema />
       </head>
       <body className="min-h-screen overflow-x-hidden pb-20 font-sans lg:pb-0">
         <AppProviders>

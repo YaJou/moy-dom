@@ -1,10 +1,12 @@
 import { BlogArticleBody } from "@/components/blog/BlogArticleBody";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
+import { ArticleSchema } from "@/components/seo/Schema";
 import {
   blogArticles,
   getBlogArticle,
   getBlogArticleHref,
 } from "@/data/blog";
+import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -24,18 +26,14 @@ export async function generateMetadata({
   const article = getBlogArticle(slug);
   if (!article) return {};
 
-  return {
+  return buildPageMetadata({
     title: article.title,
     description: article.description,
-    alternates: { canonical: getBlogArticleHref(slug) },
-    openGraph: {
-      title: article.title,
-      description: article.description,
-      type: "article",
-      publishedTime: article.dateIso,
-      locale: "ru_RU",
-    },
-  };
+    path: getBlogArticleHref(slug),
+    image: article.image,
+    type: "article",
+    publishedTime: article.dateIso,
+  });
 }
 
 export default async function BlogArticlePage({ params }: BlogArticlePageProps) {
@@ -53,10 +51,17 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
 
   return (
     <>
+      <ArticleSchema
+        title={article.title}
+        description={article.description}
+        path={getBlogArticleHref(slug)}
+        image={article.image}
+        datePublished={article.dateIso}
+      />
       <Breadcrumb
         items={[
           { label: "Главная", href: "/" },
-          { label: "Блог", href: "/blog" },
+          { label: "Блог", href: "/blog/" },
           { label: article.title },
         ]}
       />

@@ -1,10 +1,16 @@
 # Performance: long cache for hashed Next static assets and media
 <IfModule mod_headers.c>
+  # Security
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header set X-XSS-Protection "1; mode=block"
+
   <FilesMatch "\.(js|css|woff2|woff|ttf|otf|eot|ico|svg|gif|jpg|jpeg|png|webp|avif|mp4|webm)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 
-  # HTML: short cache so updates appear quickly
   <FilesMatch "\.(html?)$">
     Header set Cache-Control "public, max-age=300, must-revalidate"
   </FilesMatch>
@@ -20,15 +26,43 @@
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
   ExpiresByType text/html "access plus 5 minutes"
 </IfModule>
 
-# Gzip
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
 </IfModule>
 
-# Prefer Brotli/Gzip if available via host
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # HTTPS
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # www → non-www
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
+  # Add trailing slash for extensionless URLs (directories / clean paths)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_URI} !/$
+  RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{1,5}$
+  RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+  # Pretty catalog filters → working query URLs
+  RewriteRule ^catalog/one-story/?$ /catalog/?floors=1%20%D1%8D%D1%82%D0%B0%D0%B6 [L,R=301,NE,QSA]
+  RewriteRule ^catalog/two-story/?$ /catalog/?floors=2%20%D1%8D%D1%82%D0%B0%D0%B6%D0%B0 [L,R=301,NE,QSA]
+  RewriteRule ^catalog/garage/?$ /catalog/ [L,R=301]
+  RewriteRule ^catalog/terrace/?$ /catalog/ [L,R=301]
+
+  # Legacy / dead routes → closest live pages
+  RewriteRule ^projects(/.*)?$ /catalog/ [L,R=301]
+  RewriteRule ^plots(/.*)?$ /catalog/ [L,R=301]
+  RewriteRule ^reviews(/.*)?$ /#reviews [L,R=301,NE]
+  RewriteRule ^works(/.*)?$ /built/ [L,R=301]
 </IfModule>

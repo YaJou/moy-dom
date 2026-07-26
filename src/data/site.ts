@@ -33,48 +33,39 @@ export const navigation: NavItem[] = [
   {
     label: "Каталог домов",
     shortLabel: "Каталог",
-    href: "/catalog",
+    href: "/catalog/",
     children: [
-      { label: "Все дома", href: "/catalog" },
-      { label: "Одноэтажные", href: "/catalog/one-story" },
-      { label: "Двухэтажные", href: "/catalog/two-story" },
-      { label: "С гаражом", href: "/catalog/garage" },
-      { label: "С террасой", href: "/catalog/terrace" },
+      { label: "Все дома", href: "/catalog/" },
+      { label: "Саратов", href: "/catalog/saratov/" },
+      { label: "Энгельс", href: "/catalog/engels/" },
+      { label: "Балаково", href: "/catalog/balakovo/" },
+      { label: "Одноэтажные", href: "/catalog/?floors=1 этаж" },
+      { label: "Двухэтажные", href: "/catalog/?floors=2 этажа" },
     ],
   },
-  {
-    label: "Проекты",
-    href: "/projects",
-    children: [
-      { label: "Все проекты", href: "/projects" },
-      { label: "До 100 м²", href: "/projects/small" },
-      { label: "100–150 м²", href: "/projects/medium" },
-      { label: "От 150 м²", href: "/projects/large" },
-    ],
-  },
-  { label: "Построенные дома", shortLabel: "Построенные", href: "/built" },
+  { label: "Построенные дома", shortLabel: "Построенные", href: "/built/" },
   {
     label: "Блог",
-    href: "/blog",
+    href: "/blog/",
     children: [
-      { label: "Все статьи", href: "/blog" },
-      { label: "Выбор участка", href: "/blog/uchastok" },
-      { label: "Ипотека", href: "/blog/ipoteka" },
-      { label: "Отделка", href: "/blog/otdelka" },
+      { label: "Все статьи", href: "/blog/" },
+      { label: "Выбор участка", href: "/blog/uchastok/" },
+      { label: "Ипотека", href: "/blog/ipoteka/" },
+      { label: "Отделка", href: "/blog/otdelka/" },
+      { label: "5 причин купить готовый", href: "/blog/prichiny/" },
     ],
   },
   {
     label: "О компании",
     shortLabel: "О нас",
-    href: "/about",
+    href: "/about/",
     children: [
-      { label: "О нас", href: "/about" },
-      { label: "Наши работы", href: "/works" },
-      { label: "Документы", href: "/documents" },
-      { label: "Партнёры", href: "/partners" },
+      { label: "О нас", href: "/about/" },
+      { label: "Документы", href: "/documents/" },
+      { label: "Партнёры", href: "/partners/" },
     ],
   },
-  { label: "Контакты", href: "/contacts" },
+  { label: "Контакты", href: "/contacts/" },
 ];
 
 export const heroData = {
@@ -346,25 +337,21 @@ export const faqData = [
 
 export const footerLinks = {
   catalog: [
-    { label: "Все дома", href: "/catalog" },
-    { label: "Одноэтажные", href: "/catalog/one-story" },
-    { label: "Двухэтажные", href: "/catalog/two-story" },
-    { label: "С гаражом", href: "/catalog/garage" },
-    { label: "С террасой", href: "/catalog/terrace" },
+    { label: "Все дома", href: "/catalog/" },
+    { label: "Саратов", href: "/catalog/saratov/" },
+    { label: "Энгельс", href: "/catalog/engels/" },
+    { label: "Балаково", href: "/catalog/balakovo/" },
   ],
   info: [
-    { label: "Проекты домов", href: "/projects" },
-    { label: "Участки", href: "/plots" },
-    { label: "Построенные дома", href: "/built" },
-    { label: "Блог", href: "/blog" },
-    { label: "Отзывы", href: "/reviews" },
+    { label: "Построенные дома", href: "/built/" },
+    { label: "Блог", href: "/blog/" },
+    { label: "Партнёры", href: "/partners/" },
+    { label: "Сравнение", href: "/compare/" },
   ],
   company: [
-    { label: "О компании", href: "/about" },
-    { label: "Наши работы", href: "/works" },
-    { label: "Документы", href: "/documents" },
-    { label: "Партнёры", href: "/partners" },
-    { label: "Контакты", href: "/contacts" },
+    { label: "О компании", href: "/about/" },
+    { label: "Документы", href: "/documents/" },
+    { label: "Контакты", href: "/contacts/" },
   ],
 };
 
@@ -537,7 +524,7 @@ export const localSeoData = [
     title: "Готовые дома в Саратове",
     description:
       "Более 45 готовых домов с участком в Саратове и области. Газ, предчистовая отделка, ипотека от 15%. Заселение сразу после покупки.",
-    href: "/catalog/saratov",
+    href: "/catalog/saratov/",
     housesCount: 45,
   },
   {
@@ -546,7 +533,7 @@ export const localSeoData = [
     title: "Готовые дома в Энгельсе",
     description:
       "28 домов в Энгельсе — тихие районы, развитая инфраструктура, 15 минут до Саратова. Участок и коммуникации включены.",
-    href: "/catalog/engels",
+    href: "/catalog/engels/",
     housesCount: 28,
   },
   {
@@ -555,7 +542,7 @@ export const localSeoData = [
     title: "Готовые дома в Балаково",
     description:
       "4 готовых дома в с. Натальино — 10 соток, газ по границе, семейная ипотека. Асфальтированный подъезд, школа рядом.",
-    href: "/catalog/balakovo",
+    href: "/catalog/balakovo/",
     housesCount: 4,
   },
 ];

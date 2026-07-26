@@ -18,11 +18,12 @@ export function VideoSection() {
 
         <div className="relative aspect-video overflow-hidden rounded-card shadow-card">
           <Image
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"
+            src={videoData.thumbnail}
             alt={videoData.title}
             fill
             className="object-cover"
             sizes="(max-width: 1440px) 100vw, 1440px"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-black/30" />
           <button

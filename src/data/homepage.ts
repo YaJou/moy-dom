@@ -81,18 +81,18 @@ export const blogTabs = [
 ];
 
 export const footerCities = [
-  { label: "Саратов", href: "/catalog/saratov" },
-  { label: "Энгельс", href: "/catalog/engels" },
-  { label: "Балаково", href: "/catalog/balakovo" },
+  { label: "Саратов", href: "/catalog/saratov/" },
+  { label: "Энгельс", href: "/catalog/engels/" },
+  { label: "Балаково", href: "/catalog/balakovo/" },
 ];
 
 export const footerCategories = [
-  { label: "Одноэтажные", href: "/catalog/one-story" },
-  { label: "Двухэтажные", href: "/catalog/two-story" },
-  { label: "До 8 млн", href: "/catalog?price=5+000+000+–+7+000+000+₽" },
-  { label: "С гаражом", href: "/catalog/garage" },
-  { label: "С террасой", href: "/catalog/terrace" },
-  { label: "Готовые к заселению", href: "/catalog?readiness=Готов+к+заселению" },
+  { label: "Одноэтажные", href: "/catalog/?floors=1 этаж" },
+  { label: "Двухэтажные", href: "/catalog/?floors=2 этажа" },
+  { label: "Саратов", href: "/catalog/saratov/" },
+  { label: "Энгельс", href: "/catalog/engels/" },
+  { label: "Балаково", href: "/catalog/balakovo/" },
+  { label: "Все дома", href: "/catalog/" },
 ];
 
 export const companyRequisites = {
