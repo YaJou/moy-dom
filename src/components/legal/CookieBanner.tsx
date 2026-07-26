@@ -36,10 +36,14 @@ export function CookieBanner() {
           </p>
           <p id="cookie-banner-desc" className="mt-1.5 text-xs leading-relaxed text-gray sm:text-sm">
             Мы используем необходимые технические данные браузера (например, список
-            сравнения домов в localStorage). Аналитические и рекламные cookie на
-            сайте сейчас не устанавливаются до вашего согласия. Подробнее — в{" "}
-            <Link href="/privacy/#cookies" className="font-medium text-primary underline-offset-2 hover:underline">
-              Политике конфиденциальности
+            сравнения домов). Аналитические и рекламные cookie не ставятся до вашего
+            согласия. Подробнее — в{" "}
+            <Link href="/cookies/" className="font-medium text-primary underline-offset-2 hover:underline">
+              Политике cookie
+            </Link>{" "}
+            и{" "}
+            <Link href="/privacy/" className="font-medium text-primary underline-offset-2 hover:underline">
+              Политике обработки ПДн
             </Link>
             .
           </p>
@@ -50,14 +54,14 @@ export function CookieBanner() {
             onClick={() => choose("rejected")}
             className="inline-flex h-11 items-center justify-center rounded-xl border border-border px-5 text-sm font-semibold text-dark hover:border-primary hover:text-primary"
           >
-            Только необходимые
+            Отказаться
           </button>
           <button
             type="button"
             onClick={() => choose("accepted")}
             className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white hover:bg-primary-hover"
           >
-            Принять все
+            Принять
           </button>
         </div>
       </div>

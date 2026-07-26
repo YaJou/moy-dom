@@ -209,18 +209,17 @@ export function Newsletter() {
                     checked={consentPd}
                     onChange={setConsentPd}
                   >
-                    Даю согласие на обработку персональных данных (номер телефона)
-                    для оформления подписки на уведомления в соответствии с{" "}
-                    <PrivacyPolicyLink />.
+                    Нажимая кнопку, я соглашаюсь на обработку персональных данных
+                    согласно <PrivacyPolicyLink />.
                   </ConsentCheckbox>
                   <ConsentCheckbox
                     id="alerts-consent-notify"
                     checked={consentNotify}
                     onChange={setConsentNotify}
                   >
-                    Согласен(на) получать информационные сообщения о новых домах,
-                    скидках и статусах объектов в городе {city} через{" "}
-                    {channelLabel}. Согласие можно отозвать.
+                    Отдельно соглашаюсь получать информационные сообщения о новых
+                    домах и скидках в городе {city} через {channelLabel}. Согласие
+                    можно отозвать.
                   </ConsentCheckbox>
                 </div>
 

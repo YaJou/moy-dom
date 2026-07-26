@@ -50,7 +50,7 @@ export function PrivacyPolicyLink({ className }: { className?: string }) {
         className
       )}
     >
-      Политикой конфиденциальности
+      Политике обработки персональных данных
     </Link>
   );
 }

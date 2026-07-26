@@ -67,7 +67,10 @@ export default function DocumentsPage() {
 
           <div className="mt-6 flex flex-wrap gap-3 text-sm">
             <Link href="/privacy/" className="font-medium text-primary hover:underline">
-              Политика конфиденциальности
+              Политика обработки ПДн
+            </Link>
+            <Link href="/cookies/" className="font-medium text-primary hover:underline">
+              Политика cookie
             </Link>
             <Link href="/offer/" className="font-medium text-primary hover:underline">
               Публичная оферта

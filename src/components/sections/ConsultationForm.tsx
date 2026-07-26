@@ -148,9 +148,8 @@ export function ConsultationForm({
                   checked={consentPd}
                   onChange={setConsentPd}
                 >
-                  Даю согласие на обработку персональных данных в целях обратной
-                  связи и консультации по объектам недвижимости в соответствии с{" "}
-                  <PrivacyPolicyLink />.
+                  Нажимая кнопку, я соглашаюсь на обработку персональных данных
+                  согласно <PrivacyPolicyLink />.
                 </ConsentCheckbox>
                 <Button type="submit" className="w-full rounded-xl" disabled={!consentPd}>
                   <Send className="h-4 w-4" />

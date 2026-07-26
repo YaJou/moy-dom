@@ -38,8 +38,9 @@ const sections = [
   {
     title: "Юридическая информация",
     links: [
-      { label: "Политика конфиденциальности", href: "/privacy/" },
-      { label: "Публичная оферта", href: "/offer/" },
+    { label: "Политика обработки ПДн", href: "/privacy/" },
+    { label: "Политика cookie", href: "/cookies/" },
+    { label: "Публичная оферта", href: "/offer/" },
     ],
   },
 ];

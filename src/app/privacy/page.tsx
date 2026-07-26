@@ -7,8 +7,8 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   ...buildPageMetadata({
-    title: "Политика конфиденциальности",
-    description: `Политика конфиденциальности сайта ${siteConfig.name}. Порядок обработки персональных данных по 152-ФЗ.`,
+    title: "Политика обработки персональных данных",
+    description: `Политика обработки персональных данных ${siteConfig.name} (152-ФЗ). Цели, сроки, права субъектов, cookie.`,
     path: "/privacy/",
   }),
   robots: { index: true, follow: true },
@@ -23,12 +23,12 @@ export default function PrivacyPage() {
       <Breadcrumb
         items={[
           { label: "Главная", href: "/" },
-          { label: "Политика конфиденциальности" },
+          { label: "Политика обработки ПДн" },
         ]}
       />
       <section className="section-padding bg-white">
         <article className="container-main max-w-3xl">
-          <h1 className="section-title">Политика конфиденциальности</h1>
+          <h1 className="section-title">Политика обработки персональных данных</h1>
           <p className="mt-4 text-sm text-gray">
             Редакция {VERSION} · дата публикации / обновления: {REVISION}
           </p>
@@ -124,6 +124,14 @@ export default function PrivacyPage() {
               При просмотре встроенных карт Яндекса или видео YouTube сторонний
               сервис может устанавливать собственные cookie по своим правилам —
               такие виджеты загружаются как внешний контент.
+            </p>
+
+            <p>
+              Подробнее о cookie — отдельная{" "}
+              <Link href="/cookies/" className="text-primary hover:underline">
+                Политика использования cookie
+              </Link>
+              .
             </p>
 
             <h2 className="pt-2 text-lg font-semibold">6. Сроки хранения</h2>

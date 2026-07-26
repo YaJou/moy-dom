@@ -116,7 +116,8 @@ export function Footer() {
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
           <p className="text-sm text-white/50">© {new Date().getFullYear()} {siteConfig.name}. Все права защищены.</p>
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-            <Link href="/privacy/" className="text-sm text-white/50 transition-colors hover:text-primary">Политика конфиденциальности</Link>
+            <Link href="/privacy/" className="text-sm text-white/50 transition-colors hover:text-primary">Политика обработки ПДн</Link>
+            <Link href="/cookies/" className="text-sm text-white/50 transition-colors hover:text-primary">Политика cookie</Link>
             <Link href="/offer/" className="text-sm text-white/50 transition-colors hover:text-primary">Публичная оферта</Link>
             <Link href="/documents/" className="text-sm text-white/50 transition-colors hover:text-primary">Документы</Link>
           </div>
