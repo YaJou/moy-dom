@@ -18,10 +18,13 @@ const inter = Inter({
   preload: true,
 });
 
+const homeTitle =
+  "Готовые дома в Саратове, Энгельсе, Балаково — Кров-Сервис";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.tagline} в Саратове, Энгельсе и Балаково`,
+    default: homeTitle,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -56,20 +59,20 @@ export const metadata: Metadata = {
     locale: "ru_RU",
     url: siteConfig.url,
     siteName: siteConfig.name,
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    title: homeTitle,
     description: siteConfig.description,
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: `${siteConfig.name} — готовые частные дома`,
+        alt: homeTitle,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    title: homeTitle,
     description: siteConfig.description,
     images: ["/og-image.jpg"],
   },
