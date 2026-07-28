@@ -3,12 +3,14 @@ import { Inter } from "next/font/google";
 import { AppProviders } from "@/components/layout/AppProviders";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { YandexMetrika } from "@/components/analytics/YandexMetrika";
 import {
   OrganizationSchema,
   WebSiteSchema,
 } from "@/components/seo/Schema";
 import { homeCitability } from "@/data/geo";
 import { siteConfig } from "@/data/site";
+import { yandexMetrikaEarlyScript } from "@/lib/yandex-metrika";
 import "./globals.css";
 
 const inter = Inter({
@@ -113,10 +115,14 @@ export default function RootLayout({
   return (
     <html lang="ru" className={inter.variable}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{ __html: yandexMetrikaEarlyScript }}
+        />
         <OrganizationSchema />
         <WebSiteSchema />
       </head>
       <body className="min-h-screen overflow-x-hidden pb-20 font-sans lg:pb-0">
+        <YandexMetrika />
         <AppProviders>
           <Header />
           <main className="overflow-x-hidden">{children}</main>
