@@ -33,7 +33,7 @@ export function Footer() {
     <footer className="bg-footer text-white">
       <div className="container-main py-12 sm:py-14 lg:py-16">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-6 lg:gap-8">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 h-card">
             <div className="flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="text-white">
@@ -41,11 +41,13 @@ export function Footer() {
                 </svg>
               </div>
               <div>
-                <div className="text-lg font-bold">{siteConfig.name}</div>
-                <div className="text-xs text-white/60">{siteConfig.tagline}</div>
+                <a href={siteConfig.url} className="u-url p-name text-lg font-bold text-white">
+                  {siteConfig.name}
+                </a>
+                <div className="p-category text-xs text-white/60">{siteConfig.tagline}</div>
               </div>
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-white/60">
+            <p className="p-note mt-4 text-sm leading-relaxed text-white/60">
               Строительная компания с 15-летним опытом. Строим качественные частные дома с участком и коммуникациями.
             </p>
             <div className="mt-5 flex gap-3">
@@ -97,12 +99,12 @@ export function Footer() {
             <h4 className="mb-4 text-sm font-semibold uppercase tracking-wide text-white/90">Контакты</h4>
             <ul className="space-y-3 text-sm text-white/60">
               <li>
-                <a href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} className="font-semibold text-white transition-colors hover:text-primary">{siteConfig.phone}</a>
+                <a href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} className="p-tel font-semibold text-white transition-colors hover:text-primary">{siteConfig.phone}</a>
               </li>
               <li>
-                <a href={`mailto:${siteConfig.email}`} className="transition-colors hover:text-primary">{siteConfig.email}</a>
+                <a href={`mailto:${siteConfig.email}`} className="u-email transition-colors hover:text-primary">{siteConfig.email}</a>
               </li>
-              <li>{siteConfig.address}</li>
+              <li className="p-street-address">{siteConfig.address}</li>
               <li className="font-medium text-white/80">{siteConfig.workingHours}</li>
             </ul>
             <div className="mt-4 border-t border-white/10 pt-4 text-xs text-white/50">
@@ -120,6 +122,7 @@ export function Footer() {
             <Link href="/cookies/" className="text-sm text-white/50 transition-colors hover:text-primary">Политика cookie</Link>
             <Link href="/offer/" className="text-sm text-white/50 transition-colors hover:text-primary">Публичная оферта</Link>
             <Link href="/documents/" className="text-sm text-white/50 transition-colors hover:text-primary">Документы</Link>
+            <a href="/llms.txt" className="text-sm text-white/50 transition-colors hover:text-primary">llms.txt</a>
           </div>
         </div>
       </div>

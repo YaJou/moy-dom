@@ -7,6 +7,7 @@ import {
   OrganizationSchema,
   WebSiteSchema,
 } from "@/components/seo/Schema";
+import { homeCitability } from "@/data/geo";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
@@ -42,7 +43,10 @@ export const metadata: Metadata = {
     "семейная ипотека",
     "Кров-Сервис",
   ],
-  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  authors: [
+    { name: siteConfig.name, url: `${siteConfig.url}/about/` },
+    { name: 'ООО "Кров-Сервис"', url: `${siteConfig.url}/about/` },
+  ],
   creator: siteConfig.name,
   publisher: siteConfig.name,
   category: "real estate",
@@ -53,6 +57,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+  },
+  other: {
+    "article:author": siteConfig.name,
+    "article:published_time": homeCitability.datePublished,
+    "article:modified_time": homeCitability.dateModified,
   },
   openGraph: {
     type: "website",

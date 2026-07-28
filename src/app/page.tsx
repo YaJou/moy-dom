@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/Hero";
 import { SearchBar } from "@/components/sections/SearchBar";
 import { SeoIntro } from "@/components/sections/SeoIntro";
+import { KeyFacts } from "@/components/sections/KeyFacts";
 import { NewHouses } from "@/components/sections/NewHouses";
 import { PopularHouses } from "@/components/sections/PopularHouses";
 import { Features } from "@/components/sections/Features";
@@ -10,9 +11,19 @@ import { MortgageCalculator } from "@/components/sections/MortgageCalculator";
 import { AboutCompany } from "@/components/sections/AboutCompany";
 import { Cities } from "@/components/sections/Cities";
 import { StatsSection } from "@/components/sections/StatsSection";
-import { FaqPageSchema } from "@/components/seo/Schema";
-import { faqData } from "@/data/site";
+import { PageCitability } from "@/components/seo/PageCitability";
+import {
+  BreadcrumbJsonLd,
+  FaqPageSchema,
+  HomePageSchema,
+} from "@/components/seo/Schema";
+import { homeCitability } from "@/data/geo";
+import { faqData, siteConfig } from "@/data/site";
+import { absoluteUrl } from "@/lib/seo";
 import { MapSection } from "@/components/sections/MapSection";
+
+const homeTitle =
+  "Готовые дома в Саратове, Энгельсе, Балаково — Кров-Сервис";
 
 const Gallery = dynamic(() =>
   import("@/components/sections/Gallery").then((mod) => mod.Gallery)
@@ -52,12 +63,27 @@ const Newsletter = dynamic(() =>
 );
 
 export default function HomePage() {
+  const citations = homeCitability.sources.map((s) => ({
+    name: s.label,
+    url: s.external ? s.href : absoluteUrl(s.href),
+  }));
+
   return (
     <>
+      <HomePageSchema
+        title={homeTitle}
+        description={siteConfig.description}
+        datePublished={homeCitability.datePublished}
+        dateModified={homeCitability.dateModified}
+        citations={citations}
+      />
+      <BreadcrumbJsonLd items={[{ label: "Главная", href: "/" }]} />
       <FaqPageSchema items={faqData} />
       <Hero />
       <SearchBar />
+      <PageCitability />
       <SeoIntro />
+      <KeyFacts />
       <NewHouses />
       <PopularHouses />
       <Features />

@@ -14,7 +14,7 @@ export function JsonLd({ data }: { data: Record<string, unknown> | Record<string
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": ["RealEstateAgent", "LocalBusiness"],
+    "@type": ["Organization", "RealEstateAgent", "LocalBusiness"],
     "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     legalName: 'ООО "Кров-Сервис"',
@@ -23,7 +23,10 @@ export function OrganizationSchema() {
     telephone: siteConfig.phone,
     email: siteConfig.email,
     image: absoluteUrl("/og-image.jpg"),
-    logo: absoluteUrl("/icon.svg"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/icon.svg"),
+    },
     address: {
       "@type": "PostalAddress",
       streetAddress: "Пристанская, 70",
@@ -74,6 +77,52 @@ export function OrganizationSchema() {
   return <JsonLd data={schema} />;
 }
 
+export function HomePageSchema({
+  title,
+  description,
+  datePublished,
+  dateModified,
+  citations,
+}: {
+  title: string;
+  description: string;
+  datePublished: string;
+  dateModified: string;
+  citations: { name: string; url: string }[];
+}) {
+  const pageUrl = absoluteUrl("/");
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: "ru-RU",
+    isPartOf: { "@id": `${siteConfig.url}/#website` },
+    about: { "@id": `${siteConfig.url}/#organization` },
+    author: { "@id": `${siteConfig.url}/#organization` },
+    publisher: { "@id": `${siteConfig.url}/#organization` },
+    datePublished,
+    dateModified,
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: absoluteUrl("/og-image.jpg"),
+    },
+    citation: citations.map((c) => ({
+      "@type": "CreativeWork",
+      name: c.name,
+      url: c.url.startsWith("http") ? c.url : absoluteUrl(c.url),
+    })),
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", ".section-title", "#faq"],
+    },
+  };
+
+  return <JsonLd data={schema} />;
+}
+
 export function WebSiteSchema() {
   const schema = {
     "@context": "https://schema.org",
@@ -101,21 +150,12 @@ export function BreadcrumbJsonLd({ items }: { items: BreadcrumbItem[] }) {
   const schema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: items.map((item, index) => {
-      const isLast = index === items.length - 1;
-      return {
-        "@type": "ListItem",
-        position: index + 1,
-        name: item.label,
-        ...(!isLast && item.href
-          ? { item: absoluteUrl(item.href) }
-          : isLast
-            ? {}
-            : item.href
-              ? { item: absoluteUrl(item.href) }
-              : {}),
-      };
-    }),
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+      ...(item.href ? { item: absoluteUrl(item.href) } : {}),
+    })),
   };
 
   return <JsonLd data={schema} />;
