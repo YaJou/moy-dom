@@ -110,7 +110,9 @@ export function Footer() {
             <div className="mt-4 border-t border-white/10 pt-4 text-xs text-white/50">
               <p>{companyRequisites.name}</p>
               <p className="mt-1">ИНН {companyRequisites.inn}</p>
-              <p>ОГРН {companyRequisites.ogrn}</p>
+              <p>
+                {companyRequisites.ogrnLabel} {companyRequisites.ogrn}
+              </p>
             </div>
           </div>
         </div>

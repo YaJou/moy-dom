@@ -28,8 +28,8 @@ export default function DocumentsPage() {
         <div className="container-main max-w-4xl">
           <h1 className="section-title">Документы и реквизиты</h1>
           <p className="mt-3 text-sm text-gray sm:text-base">
-            Официальные данные компании и комплект локальных актов по обработке
-            персональных данных (152-ФЗ). ИНН и ОГРН замените на данные из ЕГРЮЛ.
+            Официальные данные оператора сайта (ИП) и комплект локальных актов по
+            обработке персональных данных (152-ФЗ).
           </p>
 
           <dl className="mt-8 space-y-4 rounded-card border border-border p-5 sm:p-6">
@@ -40,19 +40,37 @@ export default function DocumentsPage() {
               </dd>
             </div>
             <div>
+              <dt className="text-sm text-gray">Бренд</dt>
+              <dd className="mt-1 font-semibold text-dark">
+                {companyRequisites.brandName}
+              </dd>
+            </div>
+            <div>
               <dt className="text-sm text-gray">ИНН</dt>
               <dd className="mt-1 font-semibold text-dark">
                 {companyRequisites.inn}
               </dd>
             </div>
             <div>
-              <dt className="text-sm text-gray">ОГРН</dt>
+              <dt className="text-sm text-gray">{companyRequisites.ogrnLabel}</dt>
               <dd className="mt-1 font-semibold text-dark">
                 {companyRequisites.ogrn}
               </dd>
             </div>
             <div>
-              <dt className="text-sm text-gray">Адрес</dt>
+              <dt className="text-sm text-gray">Дата регистрации</dt>
+              <dd className="mt-1 font-semibold text-dark">
+                {companyRequisites.registeredAtRu}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-sm text-gray">Адрес регистрации</dt>
+              <dd className="mt-1 font-semibold text-dark">
+                {companyRequisites.legalAddress}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-sm text-gray">Офис / контакты</dt>
               <dd className="mt-1 font-semibold text-dark">
                 {siteConfig.address}
               </dd>

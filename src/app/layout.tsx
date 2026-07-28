@@ -9,6 +9,7 @@ import {
   WebSiteSchema,
 } from "@/components/seo/Schema";
 import { homeCitability } from "@/data/geo";
+import { companyRequisites } from "@/data/homepage";
 import { siteConfig } from "@/data/site";
 import { yandexMetrikaEarlyScript } from "@/lib/yandex-metrika";
 import "./globals.css";
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
   ],
   authors: [
     { name: siteConfig.name, url: `${siteConfig.url}/about/` },
-    { name: 'ООО "Кров-Сервис"', url: `${siteConfig.url}/about/` },
+    { name: companyRequisites.name, url: `${siteConfig.url}/about/` },
   ],
   creator: siteConfig.name,
   publisher: siteConfig.name,

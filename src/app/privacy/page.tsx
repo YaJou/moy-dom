@@ -49,7 +49,10 @@ export default function PrivacyPage() {
             <ul className="list-disc space-y-1 pl-5">
               <li>Наименование: {companyRequisites.name}</li>
               <li>ИНН: {companyRequisites.inn}</li>
-              <li>ОГРН: {companyRequisites.ogrn}</li>
+              <li>
+                {companyRequisites.ogrnLabel}: {companyRequisites.ogrn}
+              </li>
+              <li>Адрес регистрации: {companyRequisites.legalAddress}</li>
               <li>Адрес: {siteConfig.address}</li>
               <li>Email: {siteConfig.email}</li>
               <li>Телефон: {siteConfig.phone}</li>

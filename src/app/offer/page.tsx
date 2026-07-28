@@ -67,7 +67,10 @@ export default function OfferPage() {
             <ul className="list-none space-y-1">
               <li>{companyRequisites.name}</li>
               <li>ИНН {companyRequisites.inn}</li>
-              <li>ОГРН {companyRequisites.ogrn}</li>
+              <li>
+                {companyRequisites.ogrnLabel} {companyRequisites.ogrn}
+              </li>
+              <li>{companyRequisites.legalAddress}</li>
               <li>{siteConfig.address}</li>
               <li>
                 Тел. {siteConfig.phone}, {siteConfig.email}

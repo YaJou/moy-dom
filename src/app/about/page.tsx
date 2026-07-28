@@ -45,8 +45,10 @@ export default function AboutPage() {
             <li>• Телефон: {siteConfig.phone}</li>
             <li>• Режим работы: {siteConfig.workingHours}</li>
             <li>
-              • {companyRequisites.name}, ИНН {companyRequisites.inn}
+              • {companyRequisites.name}, ИНН {companyRequisites.inn},{" "}
+              {companyRequisites.ogrnLabel} {companyRequisites.ogrn}
             </li>
+            <li>• Адрес регистрации: {companyRequisites.legalAddress}</li>
           </ul>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/catalog/" className="btn-primary">

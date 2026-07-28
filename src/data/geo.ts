@@ -1,10 +1,11 @@
 import { siteConfig } from "@/data/site";
+import { companyRequisites } from "@/data/homepage";
 
 /** Сигналы цитируемости / GEO для главной и WebPage schema */
 export const homeCitability = {
   author: {
     name: siteConfig.name,
-    legalName: 'ООО "Кров-Сервис"',
+    legalName: companyRequisites.name,
     url: "/about/",
   },
   /** Первая публикация главной (ориентир запуска сайта) */

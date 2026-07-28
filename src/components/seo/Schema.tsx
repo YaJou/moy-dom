@@ -1,6 +1,7 @@
 import { siteConfig } from "@/data/site";
 import { absoluteUrl, jsonLdScript } from "@/lib/seo";
 import type { BreadcrumbItem } from "@/components/seo/Breadcrumb";
+import { companyRequisites } from "@/data/homepage";
 
 export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
   return (
@@ -17,7 +18,9 @@ export function OrganizationSchema() {
     "@type": ["Organization", "RealEstateAgent", "LocalBusiness"],
     "@id": `${siteConfig.url}/#organization`,
     name: siteConfig.name,
-    legalName: 'ООО "Кров-Сервис"',
+    legalName: companyRequisites.name,
+    alternateName: companyRequisites.brandName,
+    taxID: companyRequisites.inn,
     description: siteConfig.description,
     url: siteConfig.url,
     telephone: siteConfig.phone,
