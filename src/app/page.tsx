@@ -81,7 +81,6 @@ export default function HomePage() {
       <FaqPageSchema items={faqData} />
       <Hero />
       <SearchBar />
-      <PageCitability />
       <SeoIntro />
       <KeyFacts />
       <NewHouses />
@@ -107,6 +106,7 @@ export default function HomePage() {
       <FAQ />
       <ConsultationForm />
       <Newsletter />
+      <PageCitability />
     </>
   );
 }
