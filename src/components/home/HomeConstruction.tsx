@@ -39,8 +39,10 @@ export function HomeConstruction() {
       <div className="container-main">
         <div className="construction-grid">
           <div className="construction-side">
-            <h2 className="h2-desktop font-extrabold text-text">
-              Качество видно ещё до отделки
+            <h2 className="construction-title">
+              Качество видно
+              <br />
+              ещё до отделки
             </h2>
             <p className="construction-desc">
               Показываем материалы и этапы строительства наших домов

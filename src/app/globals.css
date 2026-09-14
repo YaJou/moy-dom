@@ -1114,7 +1114,36 @@
     .construction-grid {
       grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
       gap: 40px;
-      align-items: start;
+      align-items: stretch;
+    }
+  }
+
+  .construction-side {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .construction-title {
+    margin: 0;
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+    color: var(--text);
+  }
+
+  @media (min-width: 768px) {
+    .construction-title {
+      font-size: 32px;
+      line-height: 40px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .construction-title {
+      font-size: 36px;
+      line-height: 44px;
+      letter-spacing: -1.1px;
     }
   }
 
@@ -1174,7 +1203,8 @@
   .construction-link {
     display: inline-flex;
     align-items: center;
-    margin-top: 28px;
+    margin-top: auto;
+    padding-top: 28px;
     font-size: 15px;
     line-height: 22px;
     font-weight: 700;
@@ -1198,11 +1228,21 @@
     .construction-gallery {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
+      align-items: stretch;
+      min-height: 360px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .construction-gallery {
+      min-height: 100%;
+      height: 100%;
     }
   }
 
   .construction-card {
     margin: 0;
+    height: 100%;
     opacity: 0.72;
     transition: opacity 160ms ease, transform 160ms ease;
   }
@@ -1212,8 +1252,10 @@
   }
 
   .construction-card-btn {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    height: 100%;
     padding: 0;
     border: none;
     background: none;
@@ -1225,10 +1267,24 @@
     position: relative;
     display: block;
     width: 100%;
-    aspect-ratio: 261 / 220;
+    flex: 1 1 auto;
+    min-height: 240px;
     overflow: hidden;
     border-radius: var(--r-image);
     background-color: var(--page);
+  }
+
+  @media (min-width: 640px) {
+    .construction-card-photo {
+      min-height: 280px;
+      aspect-ratio: auto;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .construction-card-photo {
+      min-height: 320px;
+    }
   }
 
   .construction-card.is-active .construction-card-photo {
@@ -1237,6 +1293,7 @@
 
   .construction-card-caption {
     display: block;
+    flex-shrink: 0;
     margin-top: 12px;
     font-size: 14px;
     line-height: 20px;
