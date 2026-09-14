@@ -2,6 +2,7 @@ import { ArticleToc } from "@/components/blog/ArticleToc";
 import { BlogArticleBody } from "@/components/blog/BlogArticleBody";
 import { BlogRelatedArticles } from "@/components/blog/BlogRelatedArticles";
 import { IpotekaArticle } from "@/components/blog/IpotekaArticle";
+import { PrichinyArticle } from "@/components/blog/PrichinyArticle";
 import {
   OtdelkaRelatedHouses,
 } from "@/components/blog/OtdelkaInteractive";
@@ -230,6 +231,8 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
       />
       {article.slug === "ipoteka" ? (
         <IpotekaArticle article={article} />
+      ) : article.slug === "prichiny" ? (
+        <PrichinyArticle article={article} />
       ) : article.layout === "journal" ? (
         <JournalArticle article={article} />
       ) : (

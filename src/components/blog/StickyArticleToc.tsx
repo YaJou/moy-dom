@@ -23,7 +23,8 @@ export function StickyArticleToc({ items }: StickyArticleTocProps) {
       const box = boxRef.current;
       if (!slot || !box) return;
 
-      const layout = (slot.closest(".mp-layout") ||
+      const layout = (slot.closest(".pr-layout") ||
+        slot.closest(".mp-layout") ||
         slot.closest(".ja-layout")) as HTMLElement | null;
       if (!layout) return;
 
