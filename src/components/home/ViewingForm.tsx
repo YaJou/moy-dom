@@ -96,7 +96,9 @@ export function ViewingForm({
       onSuccess?.();
     } catch {
       analytics.leadError("viewing", "server");
-      setError("Не удалось отправить заявку. Попробуйте ещё раз или напишите в Telegram.");
+      setError(
+        "Не удалось отправить заявку. Попробуйте ещё раз или напишите в Telegram."
+      );
     } finally {
       setLoading(false);
     }
@@ -104,9 +106,9 @@ export function ViewingForm({
 
   if (submitted) {
     return (
-      <div className={cn("rounded-panel bg-surface p-6 text-center", className)}>
+      <div className={cn("viewing-form-card text-center", className)}>
         <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-success" />
-        <h3 className="text-lg font-bold text-text">Заявка отправлена</h3>
+        <h3 className="text-lg font-extrabold text-text">Заявка отправлена</h3>
         <p className="mt-2 text-sm text-muted">
           Мы свяжемся с вами для согласования просмотра.
         </p>
@@ -131,18 +133,18 @@ export function ViewingForm({
     <form
       id={id}
       onSubmit={handleSubmit}
-      className={cn("rounded-panel bg-surface p-6", className)}
+      className={cn("viewing-form-card", className)}
     >
-      <div className={cn("grid gap-4", compact ? "grid-cols-1" : "sm:grid-cols-2")}>
+      <div className="viewing-form-row">
         <div>
-          <label htmlFor={`${formId}-city`} className="field-label">
+          <label htmlFor={`${formId}-city`} className="sr-only">
             Выберите город
           </label>
           <select
             id={`${formId}-city`}
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="field-input"
+            className="viewing-form-input viewing-form-select"
           >
             <option>Саратов</option>
             <option>Энгельс</option>
@@ -150,104 +152,110 @@ export function ViewingForm({
           </select>
         </div>
         <div>
-          <label htmlFor={`${formId}-method`} className="field-label">
-            Способ связи
-          </label>
-          <select
-            id={`${formId}-method`}
-            value={method}
-            onChange={(e) => setMethod(e.target.value as ContactMethod)}
-            className="field-input"
-          >
-            <option value="phone">Позвонить</option>
-            <option value="telegram">Написать в Telegram</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="mt-4">
-        <label htmlFor={`${formId}-contact`} className="field-label">
-          {method === "phone" ? "Телефон" : "Telegram username или ссылка"}
-        </label>
-        <input
-          id={`${formId}-contact`}
-          type={method === "phone" ? "tel" : "text"}
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-          className={cn("field-input", error && "border-error")}
-          placeholder={method === "phone" ? "+7 (___) ___-__-__" : "@username"}
-          autoComplete={method === "phone" ? "tel" : "off"}
-        />
-        {error && <p className="mt-1.5 text-sm text-error">{error}</p>}
-      </div>
-
-      {!showComment ? (
-        <button
-          type="button"
-          className="mt-3 text-sm font-medium text-muted hover:text-text"
-          onClick={() => setShowComment(true)}
-        >
-          Добавить комментарий
-        </button>
-      ) : (
-        <div className="mt-4">
-          <label htmlFor={`${formId}-name`} className="field-label">
-            Имя (необязательно)
+          <label htmlFor={`${formId}-contact`} className="sr-only">
+            {method === "phone" ? "Телефон" : "Telegram"}
           </label>
           <input
-            id={`${formId}-name`}
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="field-input"
-            autoComplete="name"
-          />
-          <label htmlFor={`${formId}-comment`} className="field-label mt-4">
-            Комментарий (необязательно)
-          </label>
-          <textarea
-            id={`${formId}-comment`}
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            rows={3}
-            className="field-input min-h-[96px] resize-none py-3"
+            id={`${formId}-contact`}
+            type={method === "phone" ? "tel" : "text"}
+            value={contact}
+            onChange={(e) => {
+              setContact(e.target.value);
+              if (error) setError(null);
+            }}
+            className={cn("viewing-form-input", error && "is-error")}
+            placeholder={
+              method === "phone" ? "Телефон или Telegram" : "@username"
+            }
+            autoComplete={method === "phone" ? "tel" : "off"}
           />
         </div>
-      )}
+      </div>
+      {error && <p className="viewing-form-error">{error}</p>}
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <a
-          href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
-          className="btn-secondary flex-1 min-w-[120px]"
-          onClick={() => analytics.contactClick("phone")}
+      <div className="viewing-form-meta">
+        <div
+          className="viewing-method-toggle"
+          role="group"
+          aria-label="Способ связи"
         >
-          Позвонить
-        </a>
-        <a
-          href={siteConfig.telegram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-secondary flex-1 min-w-[120px]"
-          onClick={() => analytics.contactClick("telegram")}
+          <button
+            type="button"
+            className={cn(
+              "viewing-method-btn",
+              method === "phone" && "is-active"
+            )}
+            onClick={() => {
+              setMethod("phone");
+              setError(null);
+            }}
+          >
+            Позвонить
+          </button>
+          <button
+            type="button"
+            className={cn(
+              "viewing-method-btn",
+              method === "telegram" && "is-active"
+            )}
+            onClick={() => {
+              setMethod("telegram");
+              setError(null);
+            }}
+          >
+            Написать
+          </button>
+        </div>
+
+        <ConsentCheckbox
+          id={`${formId}-consent`}
+          checked={consent}
+          onChange={setConsent}
+          className="viewing-form-consent"
         >
-          Написать
-        </a>
+          Я соглашаюсь с{" "}
+          <PrivacyPolicyLink />
+        </ConsentCheckbox>
       </div>
 
-      <ConsentCheckbox
-        id={`${formId}-consent`}
-        checked={consent}
-        onChange={setConsent}
-        className="mt-4"
-      >
-        Я соглашаюсь на обработку персональных данных согласно{" "}
-        <PrivacyPolicyLink />.
-      </ConsentCheckbox>
+      {!compact && (
+        <>
+          {!showComment ? (
+            <button
+              type="button"
+              className="viewing-form-comment-toggle"
+              onClick={() => setShowComment(true)}
+            >
+              Добавить комментарий
+            </button>
+          ) : (
+            <div className="mt-3 space-y-3">
+              <input
+                id={`${formId}-name`}
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="viewing-form-input"
+                placeholder="Имя (необязательно)"
+                autoComplete="name"
+              />
+              <textarea
+                id={`${formId}-comment`}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                rows={3}
+                className="viewing-form-input viewing-form-textarea"
+                placeholder="Комментарий (необязательно)"
+              />
+            </div>
+          )}
+        </>
+      )}
 
       <button
         type="submit"
         disabled={!consent || loading}
-        className="btn-primary mt-4 w-full disabled:opacity-50"
+        className="viewing-form-submit"
       >
         {loading ? "Отправка…" : "Записаться на просмотр"}
       </button>
@@ -265,11 +273,11 @@ export function ViewingFormTelegramLink() {
       href={siteConfig.telegram}
       target="_blank"
       rel="noopener noreferrer"
-      className="mt-6 inline-flex items-center gap-2 text-base font-medium text-text hover:text-forest"
+      className="viewing-telegram-link"
       onClick={() => analytics.contactClick("telegram")}
     >
-      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0088cc]/10 text-[#0088cc]">
-        <IconTelegram />
+      <span className="viewing-telegram-icon">
+        <IconTelegram className="h-5 w-5" />
       </span>
       Можно написать в Telegram
     </Link>

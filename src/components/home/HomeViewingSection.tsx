@@ -2,14 +2,12 @@ import { ViewingForm, ViewingFormTelegramLink } from "./ViewingForm";
 
 export function HomeViewingSection() {
   return (
-    <section id="viewing" className="bg-page py-8">
+    <section id="viewing" className="viewing-section">
       <div className="container-main">
-        <div className="grid gap-8 rounded-card bg-orange-soft p-6 sm:p-10 lg:grid-cols-[1fr_440px] lg:gap-14">
-          <div>
-            <h2 className="h2-desktop text-text">
-              Посмотрите дом вживую
-            </h2>
-            <p className="mt-4 text-lg leading-7 text-muted">
+        <div className="viewing-panel">
+          <div className="viewing-copy">
+            <h2 className="viewing-title">Посмотрите дом вживую</h2>
+            <p className="viewing-subtitle">
               Выберите город и удобный способ связи. Договоримся о просмотре
             </p>
             <ViewingFormTelegramLink />
