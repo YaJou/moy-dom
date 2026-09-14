@@ -5,6 +5,7 @@ import { analytics } from "@/lib/analytics";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House } from "@/types/house";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -145,24 +146,38 @@ export function HomeHero() {
                   onClick={() => openLightbox()}
                   aria-label="Развернуть фото"
                 >
-                  <Image
-                    key={activePhoto}
-                    src={activePhoto}
-                    alt={heroHouse.title}
-                    fill
-                    priority={!showInterior && activeIndex === 0}
-                    className="object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, 696px"
-                  />
+                  <AnimatePresence initial={false}>
+                    <motion.span
+                      key={activePhoto}
+                      className="hero-gallery-fade"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                      <Image
+                        src={activePhoto}
+                        alt={heroHouse.title}
+                        fill
+                        priority={!showInterior && activeIndex === 0}
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 100vw, 696px"
+                      />
+                    </motion.span>
+                  </AnimatePresence>
                 </button>
 
                 <div className="pointer-events-none absolute inset-0 z-10">
                   <div className="pointer-events-auto absolute left-3 top-3 sm:left-5 sm:top-5">
                     <div
-                      className="hero-photo-toggle"
+                      className={cn(
+                        "hero-photo-toggle",
+                        showInterior && "is-interior"
+                      )}
                       role="tablist"
                       aria-label="Вид дома"
                     >
+                      <span className="hero-photo-toggle-thumb" aria-hidden />
                       <button
                         type="button"
                         role="tab"
