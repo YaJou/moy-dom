@@ -2,6 +2,7 @@
 
 import { ArticleToc } from "@/components/blog/ArticleToc";
 import { BlogRelatedArticles } from "@/components/blog/BlogRelatedArticles";
+import { EditorialImage } from "@/components/blog/EditorialImage";
 import {
   PrichinyBudgetTool,
   PrichinyChecklist,
@@ -10,7 +11,6 @@ import {
 import { StickyArticleToc } from "@/components/blog/StickyArticleToc";
 import { HomeHouseCard } from "@/components/home/HomeHouseCard";
 import { ViewingForm } from "@/components/home/ViewingForm";
-import { HouseImage } from "@/components/ui/HouseImage";
 import {
   PRICHINY_BUDGET_ITEMS,
   PRICHINY_BUILD_WHEN,
@@ -75,15 +75,13 @@ function CompareSection() {
       <h2 className="ja-h2">Готовый дом или стройка с нуля?</h2>
       <div className="pr-compare-cards">
         <figure className="pr-compare-card">
-          <div className="pr-compare-photo">
-            <HouseImage
-              src={PRICHINY_IMG.build}
-              alt=""
-              fill
-              objectFit="cover"
-              sizes="(max-width: 768px) 100vw, 560px"
-            />
-          </div>
+          <EditorialImage
+            src={PRICHINY_IMG.build}
+            aspect="3 / 2"
+            sizes="(max-width: 768px) 100vw, 560px"
+            width={840}
+            height={560}
+          />
           <figcaption>
             <h3>Строить под себя</h3>
             <p>
@@ -94,15 +92,13 @@ function CompareSection() {
           </figcaption>
         </figure>
         <figure className="pr-compare-card">
-          <div className="pr-compare-photo">
-            <HouseImage
-              src={PRICHINY_IMG.ready}
-              alt=""
-              fill
-              objectFit="cover"
-              sizes="(max-width: 768px) 100vw, 560px"
-            />
-          </div>
+          <EditorialImage
+            src={PRICHINY_IMG.ready}
+            aspect="3 / 2"
+            sizes="(max-width: 768px) 100vw, 560px"
+            width={840}
+            height={560}
+          />
           <figcaption>
             <h3>Выбрать готовый дом</h3>
             <p>
@@ -165,17 +161,16 @@ export function PrichinyArticle({ article }: { article: BlogArticle }) {
         </header>
 
         <figure className="ja-cover pr-cover">
-          <div className="pr-cover-frame">
-            <HouseImage
-              src={article.image}
-              alt=""
-              fill
-              objectFit="cover"
-              sizes="1200px"
-              priority
-              className="pr-cover-img"
-            />
-          </div>
+          <EditorialImage
+            src={article.image}
+            aspect="3 / 2"
+            className="pr-cover-frame"
+            imgClassName="pr-cover-img"
+            priority
+            width={1200}
+            height={800}
+            sizes="1200px"
+          />
           <figcaption className="ja-caption">
             {article.coverCaption ?? "Иллюстрация"}
           </figcaption>
@@ -221,15 +216,14 @@ export function PrichinyArticle({ article }: { article: BlogArticle }) {
                     ) : null}
                     {"image" in reason && reason.image ? (
                       <figure className="pr-reason-figure">
-                        <div className="pr-reason-photo">
-                          <HouseImage
-                            src={reason.image}
-                            alt=""
-                            fill
-                            objectFit="cover"
-                            sizes="(max-width: 768px) 100vw, 760px"
-                          />
-                        </div>
+                        <EditorialImage
+                          src={reason.image}
+                          aspect="760 / 460"
+                          className="pr-reason-photo"
+                          width={760}
+                          height={460}
+                          sizes="(max-width: 768px) 100vw, 760px"
+                        />
                         <figcaption className="ja-caption">
                           {"imageCaption" in reason && reason.imageCaption
                             ? reason.imageCaption
@@ -250,15 +244,14 @@ export function PrichinyArticle({ article }: { article: BlogArticle }) {
               </p>
               <div className="pr-inspect">
                 <figure className="pr-inspect-figure">
-                  <div className="pr-inspect-photo">
-                    <HouseImage
-                      src={PRICHINY_IMG.inspection}
-                      alt=""
-                      fill
-                      objectFit="cover"
-                      sizes="(max-width: 1024px) 100vw, 360px"
-                    />
-                  </div>
+                  <EditorialImage
+                    src={PRICHINY_IMG.inspection}
+                    aspect="4 / 3"
+                    className="pr-inspect-photo"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 1024px) 100vw, 360px"
+                  />
                   <figcaption className="ja-caption">Иллюстрация</figcaption>
                 </figure>
                 <PrichinyChecklist />
