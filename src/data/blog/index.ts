@@ -38,8 +38,18 @@ export type ArticleBlock =
         | "timeline"
         | "finish-stages"
         | "finish-checklist"
-        | "finish-quiz";
+        | "finish-quiz"
+        | "finish-viewing-checklist"
+        | "finish-houses-cta";
     };
+
+export interface BlogArticleAuthor {
+  name: string;
+  role: string;
+  experience: string;
+  href: string;
+  photo?: string;
+}
 
 export interface BlogArticle {
   slug: string;
@@ -47,10 +57,16 @@ export interface BlogArticle {
   description: string;
   date: string;
   dateIso: string;
+  updatedDate?: string;
+  updatedDateIso?: string;
   category: "construction" | "mortgage" | "general";
+  categoryLabel?: string;
   popular: boolean;
   readTime: string;
   image: string;
+  coverCaption?: string;
+  layout?: "default" | "journal";
+  author?: BlogArticleAuthor;
   blocks: ArticleBlock[];
   relatedSlugs: string[];
 }
@@ -86,16 +102,29 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     slug: "otdelka",
-    title: "Предчистовая отделка: что входит и зачем нужна",
+    title: "Предчистовая отделка: что входит и что останется сделать",
     description:
-      "Что такое предчистовая отделка в доме: отличие от черновой и «под ключ», что обычно входит, сколько стоит чистовой ремонт. Таблицы, чек-лист и интерактивный тест.",
+      "Какие работы закрывает предчистовая отделка, чем она отличается от черновой и «под ключ», что проверить на просмотре и где возможны дополнительные расходы.",
     date: "14 января 2026",
     dateIso: "2026-01-14",
+    updatedDate: "14 сентября 2026",
+    updatedDateIso: "2026-09-14",
     category: "construction",
+    categoryLabel: "Отделка и комплектация",
     popular: false,
     readTime: "12 мин",
-    image: "/images/blog/blog-3.jpg",
-    relatedSlugs: ["uchastok", "ipoteka", "prichiny"],
+    image: "/images/design-kit/07-pre-finish-interior.png",
+    coverCaption:
+      "Пример помещения с предчистовой подготовкой: ровные стены и стяжка под чистовой ремонт. Уточняйте точный состав работ по выбранному дому — комплектация объектов может отличаться.",
+    layout: "journal",
+    author: {
+      name: "Кров-Сервис",
+      role: "Отдел продаж и сопровождения объектов",
+      experience:
+        "Помогаем покупателям сверять комплектацию на просмотре: стены, стяжка, инженерия и состав работ в договоре.",
+      href: "/about/",
+    },
+    relatedSlugs: ["prichiny", "uchastok", "ipoteka"],
     blocks: otdelkaBlocks,
   },
   {
