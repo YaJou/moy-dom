@@ -6,15 +6,16 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useViewingModal } from "./ViewingModalProvider";
 
-function RangeField({
+function MortgageRange({
   label,
   value,
   display,
   min,
   max,
   step,
+  minLabel,
+  maxLabel,
   onChange,
-  dark = false,
 }: {
   label: string;
   value: number;
@@ -22,19 +23,16 @@ function RangeField({
   min: number;
   max: number;
   step: number;
+  minLabel: string;
+  maxLabel: string;
   onChange: (v: number) => void;
-  dark?: boolean;
 }) {
+  const pct = ((value - min) / (max - min)) * 100;
+
   return (
-    <div>
-      <div className="mb-2 flex items-center justify-between gap-2 text-sm">
-        <span className={dark ? "text-muted-on-forest" : "text-muted"}>
-          {label}
-        </span>
-        <span className={`font-semibold tabular-nums ${dark ? "text-white" : "text-text"}`}>
-          {display}
-        </span>
-      </div>
+    <div className="mortgage-field">
+      <p className="mortgage-field-label">{label}</p>
+      <p className="mortgage-field-value">{display}</p>
       <input
         type="range"
         min={min}
@@ -42,8 +40,16 @@ function RangeField({
         step={step}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className={dark ? "range-track" : "range-track-light accent-orange"}
+        className="mortgage-range"
+        style={{
+          background: `linear-gradient(to right, var(--orange) 0%, var(--orange) ${pct}%, rgba(255,255,255,0.22) ${pct}%, rgba(255,255,255,0.22) 100%)`,
+        }}
+        aria-label={label}
       />
+      <div className="mortgage-field-bounds">
+        <span>{minLabel}</span>
+        <span>{maxLabel}</span>
+      </div>
     </div>
   );
 }
@@ -63,86 +69,75 @@ export function HomeMortgage() {
   const monthlyDisplay = Math.round(result.monthly);
 
   return (
-    <section id="mortgage" className="bg-page py-8">
+    <section id="mortgage" className="mortgage-section">
       <div className="container-main">
-        <div className="grid gap-8 rounded-card bg-forest p-6 sm:p-8 lg:grid-cols-[1fr_384px] lg:gap-12">
-          <div>
-            <h3 className="h3-panel text-white">
-              Рассчитайте комфортный платёж
-            </h3>
-            <p className="mt-2 text-base text-muted-on-forest">
-              Пример расчёта — не предложение банка
+        <div className="mortgage-panel">
+          <div className="mortgage-controls">
+            <h3 className="mortgage-title">Рассчитайте комфортный платёж</h3>
+            <p className="mortgage-subtitle">
+              Измените стоимость, взнос и срок
             </p>
-            <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-x-6">
-              <RangeField
+
+            <div className="mortgage-fields">
+              <MortgageRange
                 label="Стоимость дома"
                 value={price}
                 display={formatPrice(price)}
                 min={3_000_000}
                 max={12_000_000}
                 step={100_000}
+                minLabel="3 млн"
+                maxLabel="12 млн"
                 onChange={setPrice}
-                dark
               />
-              <RangeField
+              <MortgageRange
                 label="Первый взнос"
                 value={downPct}
-                display={`${downPct}%`}
+                display={`${downPct} %`}
                 min={10}
                 max={70}
                 step={5}
+                minLabel="10 %"
+                maxLabel="70 %"
                 onChange={setDownPct}
-                dark
               />
-              <RangeField
+              <MortgageRange
                 label="Срок"
                 value={years}
                 display={`${years} лет`}
                 min={5}
                 max={30}
                 step={1}
+                minLabel="5 лет"
+                maxLabel="30 лет"
                 onChange={setYears}
-                dark
               />
-              <RangeField
+              <MortgageRange
                 label="Расчётная ставка"
                 value={rate}
-                display={`${rate}%`}
+                display={`${rate.toLocaleString("ru-RU")} %`}
                 min={6}
                 max={20}
                 step={0.5}
+                minLabel="6 %"
+                maxLabel="20 %"
                 onChange={setRate}
-                dark
               />
             </div>
           </div>
 
-          <div className="rounded-panel border border-white/20 bg-transparent p-6 text-white">
-            <p className="text-sm text-muted-on-forest">Ежемесячный платёж</p>
-            <p className="calc-result mt-1 text-white">
+          <div className="mortgage-result">
+            <p className="mortgage-result-label">Ваш ежемесячный платёж</p>
+            <p className="mortgage-result-value">
               {formatPrice(monthlyDisplay)}
-              <span className="text-lg font-bold">/мес.</span>
+              <span> / мес.</span>
             </p>
-            <div className="mt-4 space-y-2 border-t border-white/15 pt-4 text-sm text-muted-on-forest">
-              <div className="flex justify-between">
-                <span>Сумма кредита</span>
-                <span className="font-semibold text-white tabular-nums">
-                  {formatPrice(Math.round(result.loan))}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Первый взнос</span>
-                <span className="font-semibold text-white tabular-nums">
-                  {formatPrice(Math.round(result.downPayment))}
-                </span>
-              </div>
-            </div>
-            <p className="mt-4 text-xs text-muted-on-forest">
+            <p className="mortgage-result-note">
               Пример расчёта, не предложение банка
             </p>
             <button
               type="button"
-              className="btn-primary mt-5 w-full"
+              className="mortgage-result-btn"
               onClick={() =>
                 openViewing({
                   calculator: JSON.stringify({
@@ -157,13 +152,11 @@ export function HomeMortgage() {
             >
               Подобрать дома
             </button>
+            <Link href="/blog/ipoteka/" className="mortgage-result-link">
+              Способы покупки и условия →
+            </Link>
           </div>
         </div>
-        <p className="mt-4 text-center text-sm text-muted">
-          <Link href="/blog/ipoteka/" className="font-medium text-text hover:text-orange">
-            Способы покупки и условия →
-          </Link>
-        </p>
       </div>
     </section>
   );
