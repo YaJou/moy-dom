@@ -114,7 +114,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={manrope.variable}>
+    <html lang="ru" className={`${manrope.variable} ${manrope.className}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: yandexMetrikaEarlyScript }}
@@ -122,11 +122,11 @@ export default function RootLayout({
         <OrganizationSchema />
         <WebSiteSchema />
       </head>
-      <body className="min-h-screen overflow-x-hidden pb-20 font-sans lg:pb-0">
+      <body className="min-h-screen overflow-x-clip bg-page pb-20 text-text lg:pb-0">
         <YandexMetrika />
         <AppProviders>
           <Header />
-          <main className="overflow-x-hidden">{children}</main>
+          <main className="overflow-x-clip">{children}</main>
           <Footer />
         </AppProviders>
       </body>

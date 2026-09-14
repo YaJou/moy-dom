@@ -40,7 +40,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 120px;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
@@ -50,7 +50,7 @@
     font-family: var(--font-manrope), Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    overflow-x: clip;
     max-width: 100%;
   }
 
@@ -2973,11 +2973,16 @@
   @media (min-width: 1024px) {
     .ja-aside {
       display: block;
+      align-self: start;
+      width: 280px;
     }
 
     .ja-aside-sticky {
       position: sticky;
-      top: 96px;
+      top: 88px;
+      max-height: calc(100vh - 104px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
     }
   }
 
