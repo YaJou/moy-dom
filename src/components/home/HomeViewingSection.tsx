@@ -1,5 +1,5 @@
 import { siteConfig } from "@/data/site";
-import { CheckCircle2, Phone } from "lucide-react";
+import { IconCheck, IconPhone } from "./icons";
 import { ViewingForm, ViewingFormTelegramLink } from "./ViewingForm";
 
 const BENEFITS = [
@@ -29,7 +29,7 @@ export function HomeViewingSection() {
             <ul className="viewing-benefits">
               {BENEFITS.map((item) => (
                 <li key={item}>
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-orange" />
+                  <IconCheck className="h-4 w-4 shrink-0 text-orange" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -40,7 +40,7 @@ export function HomeViewingSection() {
               className="viewing-phone-cta"
             >
               <span className="viewing-phone-cta-icon">
-                <Phone className="h-4 w-4" />
+                <IconPhone className="h-4 w-4" />
               </span>
               <span>
                 <span className="viewing-phone-cta-label">

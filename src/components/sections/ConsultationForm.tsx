@@ -6,7 +6,7 @@ import {
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
-import { CheckCircle2, Phone, Send } from "lucide-react";
+import { IconCheck, IconPhone, IconSend } from "@/components/home/icons";
 import { useState } from "react";
 
 interface ConsultationFormProps {
@@ -56,7 +56,7 @@ export function ConsultationForm({
                 "Организация просмотра",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm text-text">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-orange" />
+                  <IconCheck className="h-4 w-4 shrink-0 text-orange" />
                   {item}
                 </li>
               ))}
@@ -66,7 +66,7 @@ export function ConsultationForm({
               className="mt-6 inline-flex items-center gap-3 rounded-control border border-border bg-page px-3.5 py-3 transition-colors hover:border-orange/40"
             >
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-soft text-orange">
-                <Phone className="h-4 w-4" />
+                <IconPhone className="h-4 w-4" />
               </span>
               <span>
                 <span className="block text-xs text-muted">
@@ -82,7 +82,7 @@ export function ConsultationForm({
           <div className="rounded-card border border-border bg-background p-5 shadow-card sm:p-6 lg:p-8">
             {submitted ? (
               <div className="flex flex-col items-center py-8 text-center">
-                <CheckCircle2 className="mb-4 h-12 w-12 text-primary" />
+                <IconCheck className="mb-4 h-12 w-12 text-primary" />
                 <h3 className="text-xl font-semibold text-dark">Заявка отправлена!</h3>
                 <p className="mt-2 text-sm text-gray">
                   Мы свяжемся с вами в ближайшее время.
@@ -163,7 +163,7 @@ export function ConsultationForm({
                   согласно <PrivacyPolicyLink />.
                 </ConsentCheckbox>
                 <Button type="submit" className="w-full rounded-xl" disabled={!consentPd}>
-                  <Send className="h-4 w-4" />
+                  <IconSend className="h-4 w-4" />
                   Отправить заявку
                 </Button>
               </form>

@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="1140" viewBox="0 0 1120 1140">
+<rect width="1120" height="1140" fill="#F7F8FA"/>
+<text x="32" y="48" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="bold" fill="#203C32">KROV-SERVICE / ICONS</text>
+<text x="32" y="78" font-family="DejaVu Sans,sans-serif" font-size="14" fill="#68716B">64 SVG · 24 × 24 · stroke 1.75 · currentColor</text>
+<rect x="32" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v11H3Z"/><path d="M9 21V12h6v9"/></g>
+<text x="93" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">home</text>
+<rect x="166" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 3.5C10 3 3 7 3 13a7 7 0 0 0 7 7c6 0 10-7 10.5-16.5Z"/><path d="M3 21 16 8"/></g>
+<text x="227" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">leaf</text>
+<rect x="300" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Z"/><path d="M9 3v16M15 5v16"/></g>
+<text x="361" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">map</text>
+<rect x="434" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></g>
+<text x="495" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">map-pin</text>
+<rect x="568" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10V4h6M14 20h6v-6M4 4l6 6M20 20l-6-6"/><path d="M14 4h6v6M4 14v6h6"/></g>
+<text x="629" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">area</text>
+<rect x="702" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v3M21 18v3M3 11V5h18v6M3 18v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5Z"/><path d="M6 11V8h5v3M13 11V8h5v3"/></g>
+<text x="763" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">bed</text>
+<rect x="836" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3ZM11 3v8H3M11 15v6M15 11h6"/></g>
+<text x="897" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">rooms</text>
+<rect x="970" y="108" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 123) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11V7a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4M5 18v3M19 18v3"/><path d="M5 14v-3a2 2 0 0 0-4 0v7h22v-7a2 2 0 0 0-4 0v3Z"/></g>
+<text x="1031" y="194" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">sofa</text>
+<rect x="32" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="17" rx="1"/><path d="M12 3v17M9 10v3M15 10v3M6 20v2M18 20v2"/></g>
+<text x="93" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">wardrobe</text>
+<rect x="166" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5ZM6 12V5a2 2 0 0 1 4 0v1M5 22l1-2M19 22l-1-2M8 6h4"/></g>
+<text x="227" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">bath</text>
+<rect x="300" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12ZM6 21V11h12v10M6 15h12M6 18h12"/></g>
+<text x="361" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">garage</text>
+<rect x="434" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 2-5h10l2 5M3 17v3h3v-3M18 17v3h3v-3M3 17V9l2-1h14l2 1v8Z"/><path d="M6 12h2M16 12h2M9 16h6"/></g>
+<text x="495" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">car</text>
+<rect x="568" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 7 9-4 9 4-9 4ZM3 12l9 4 9-4M3 17l9 4 9-4"/></g>
+<text x="629" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">floors</text>
+<rect x="702" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 13-13 5 5L8 21ZM12 7l2 2M9 10l2 2M6 13l2 2"/></g>
+<text x="763" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">ruler</text>
+<rect x="836" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H3v5M16 3h5v5M21 16v5h-5M8 21H3v-5"/></g>
+<text x="897" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">maximize</text>
+<rect x="970" y="232" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 247) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h4M11 6h10M3 12h10M17 12h4M3 18h4M11 18h10"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="18" r="2"/></g>
+<text x="1031" y="318" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">filter</text>
+<rect x="32" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></g>
+<text x="93" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">search</text>
+<rect x="166" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 5.5a5.1 5.1 0 0 0-7.2 0L12 6.8l-1.3-1.3a5.1 5.1 0 0 0-7.2 7.2L12 21l8.5-8.3a5.1 5.1 0 0 0 0-7.2Z"/></g>
+<text x="227" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">heart</text>
+<rect x="300" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M8 21h8M4 7h16M6 7l-4 8h8ZM18 7l-4 8h8Z"/><path d="M2 15a4 3 0 0 0 8 0M14 15a4 3 0 0 0 8 0"/></g>
+<text x="361" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">compare</text>
+<rect x="434" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></g>
+<text x="495" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">chevron-down</text>
+<rect x="568" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m6 15 6-6 6 6"/></g>
+<text x="629" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">chevron-up</text>
+<rect x="702" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></g>
+<text x="763" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">chevron-left</text>
+<rect x="836" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></g>
+<text x="897" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">chevron-right</text>
+<rect x="970" y="356" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 371) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18m-7-7 7 7-7 7"/></g>
+<text x="1031" y="442" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">arrow-right</text>
+<rect x="32" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19 19 5M5 5h14v14"/></g>
+<text x="93" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">arrow-up-right</text>
+<rect x="166" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7M21 3l-9 9M10 5H3v16h16v-7"/></g>
+<text x="227" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">external-link</text>
+<rect x="300" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M4 12h16"/></g>
+<text x="361" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">plus</text>
+<rect x="434" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/></g>
+<text x="495" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">minus</text>
+<rect x="568" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m5 5 14 14M19 5 5 19"/></g>
+<text x="629" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">close</text>
+<rect x="702" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></g>
+<text x="763" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">menu</text>
+<rect x="836" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></g>
+<text x="897" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">check</text>
+<rect x="970" y="480" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 495) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m7.5 12 3 3 6-6"/></g>
+<text x="1031" y="566" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">circle-check</text>
+<rect x="32" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/><path d="m8 12 3 3 5-6"/></g>
+<text x="93" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">shield</text>
+<rect x="166" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H4a1 1 0 0 0-1 1c0 9.4 7.6 17 17 17a1 1 0 0 0 1-1v-4l-5-2-2 3a15 15 0 0 1-7-7l3-2Z"/></g>
+<text x="227" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">phone</text>
+<rect x="300" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m21 3-4 18-6-5-4 3 1-7L21 3ZM3 10l18-7-13 9Z"/><path d="m8 12 9-6-6 10"/></g>
+<text x="361" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">telegram</text>
+<rect x="434" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 4 12 8-12 8Z"/></g>
+<text x="495" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">play</text>
+<rect x="568" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="2"/><path d="m16 10 6-4v12l-6-4"/></g>
+<text x="629" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">video</text>
+<rect x="702" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h4l2-3h6l2 3h4v14H3Z"/><circle cx="12" cy="13" r="4"/></g>
+<text x="763" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">camera</text>
+<rect x="836" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8" cy="8" r="1.5"/><path d="m3 17 5-5 4 4 4-6 5 7"/></g>
+<text x="897" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">image</text>
+<rect x="970" y="604" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 619) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M7 14h2M15 14h2M7 18h2"/></g>
+<text x="1031" y="690" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">calendar</text>
+<rect x="32" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 3"/></g>
+<text x="93" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">clock</text>
+<rect x="166" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g>
+<text x="227" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">mail</text>
+<rect x="300" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4H3v13h4v4l5-4h9Z"/><path d="M7 8h10M7 12h6"/></g>
+<text x="361" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">message</text>
+<rect x="434" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9L2 9ZM11 13 22 2"/></g>
+<text x="495" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">send</text>
+<rect x="568" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M10 21h4"/></g>
+<text x="629" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">bell</text>
+<rect x="702" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V3h11v18M15 9h5v12M2 21h20M7 7h1M11 7h1M7 11h1M11 11h1M7 15h1M11 15h1M8 21v-3h3v3"/></g>
+<text x="763" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">building</text>
+<rect x="836" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h9l5 5v13H5ZM14 3v6h5M8 13h8M8 17h6"/></g>
+<text x="897" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">document</text>
+<rect x="970" y="728" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 743) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M3 16v5h18v-5"/></g>
+<text x="1031" y="814" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">download</text>
+<rect x="32" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5H4v17h16V5h-4"/><rect x="8" y="2" width="8" height="5" rx="1"/><path d="m8 13 2 2 6-5M8 18h8"/></g>
+<text x="93" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">clipboard</text>
+<rect x="166" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13Z"/><path d="M8 15a4 4 0 0 0 4 4"/></g>
+<text x="227" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">water</text>
+<rect x="300" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10h8V7h6v3h2a3 3 0 0 1 3 3v3h-6v-2H3ZM11 4h6M14 2v5M3 8v8"/><path d="M19 19v2"/></g>
+<text x="361" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">faucet</text>
+<rect x="434" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2c1 6-5 7-5 11a3 3 0 0 0 6 0c1 1 2 2 2 4a4 4 0 0 1-8 0"/><path d="M8 5c-1 4-5 6-5 10a9 7 0 0 0 18 0c0-5-4-7-5-9 0 3-2 4-2 4"/></g>
+<text x="495" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">flame</text>
+<rect x="568" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14V5a3 3 0 0 1 6 0v9a5 5 0 1 1-6 0Z"/><path d="M12 8v9"/><circle cx="12" cy="17" r="1"/></g>
+<text x="629" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">thermometer</text>
+<rect x="702" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M4 17V7a2 2 0 0 1 4 0v8a2 2 0 0 0 4 0V7a2 2 0 0 1 4 0v8a2 2 0 0 0 4 0V3"/></g>
+<text x="763" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">underfloor-heating</text>
+<rect x="836" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="1"/><path d="M2 9h20M2 15h20M8 3v6M17 3v6M6 9v6M14 9v6M9 15v6M18 15v6"/></g>
+<text x="897" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">brick-wall</text>
+<rect x="970" y="852" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 867) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13h18v7H3ZM3 13l4-4h10l4 4M7 9V3M12 9V3M17 9V3M7 16v4M12 16v4M17 16v4"/></g>
+<text x="1031" y="938" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">foundation</text>
+<rect x="32" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(73 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m2 13 10-10 10 10M4 13h16M6 13v8h12v-8M16 7V3h3v7"/></g>
+<text x="93" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">roof</text>
+<rect x="166" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(207 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 5h8v4H8ZM8 13h1M12 13h1M16 13h.1M8 17h1M12 17h1M16 17h.1"/></g>
+<text x="227" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">calculator</text>
+<rect x="300" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(341 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7v.1"/></g>
+<text x="361" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">info</text>
+<rect x="434" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(475 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></g>
+<text x="495" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">user</text>
+<rect x="568" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(609 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 14 0v2M17 4a4 4 0 0 1 0 8M19 15a5 5 0 0 1 3 4v2"/></g>
+<text x="629" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">users</text>
+<rect x="702" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(743 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5"/><path d="m12 12 9 9M17 17l3-3M19 19l3-3"/></g>
+<text x="763" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">key</text>
+<rect x="836" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(877 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2-7 9h4l-6 7h18l-6-7h4ZM12 18v4"/></g>
+<text x="897" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">tree</text>
+<rect x="970" y="976" width="122" height="110" rx="14" fill="white" stroke="#E3E7E3"/>
+<g transform="translate(1011 991) scale(1.65)" fill="none" stroke="#203C32" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3 6.3 7 .9-5.1 4.9 1.3 6.9-6.2-3.3L5.8 21l1.3-6.9L2 9.2l7-.9Z"/></g>
+<text x="1031" y="1062" text-anchor="middle" fill="#202522" font-family="DejaVu Sans,sans-serif" font-size="10">star</text>
+</svg>

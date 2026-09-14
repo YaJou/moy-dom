@@ -4,10 +4,15 @@ import { searchFilters } from "@/data/site";
 import { buildSearchParams, estimateCatalogCount } from "@/lib/filters";
 import { analytics } from "@/lib/analytics";
 import { DEFAULT_FILTERS, type SearchFiltersState } from "@/types/house";
-import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
-import { IconBed, IconMapPin, IconRuble } from "./icons";
+import {
+  IconBed,
+  IconChevronDown,
+  IconFilter,
+  IconMapPin,
+  IconRuble,
+} from "./icons";
 
 const quickFilters = [
   { label: "До 8 млн", patch: { price: "7 000 000 – 10 000 000 ₽" as const } },
@@ -44,7 +49,7 @@ function FilterField({
             </option>
           ))}
         </select>
-        <ChevronDown className="filter-select-chevron h-5 w-5" aria-hidden />
+        <IconChevronDown className="filter-select-chevron h-5 w-5" />
       </div>
     </div>
   );
@@ -137,7 +142,7 @@ export function HomeFilter() {
             onClick={() => setExpanded(!expanded)}
             className="filter-all-params"
           >
-            <SlidersHorizontal className="h-5 w-5" />
+            <IconFilter className="h-5 w-5" />
             Все параметры
           </button>
           <span className="filter-divider" aria-hidden />

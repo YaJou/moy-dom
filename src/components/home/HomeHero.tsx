@@ -4,7 +4,6 @@ import { realHouses, getMinHousePrice } from "@/data/houses";
 import { analytics } from "@/lib/analytics";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,8 +11,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   IconArrow,
+  IconChevronLeft,
+  IconChevronRight,
+  IconClose,
   IconLeaf,
   IconMapPin,
+  IconMaximize,
   IconPhoto,
 } from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
@@ -211,9 +214,8 @@ export function HomeHero() {
                     onClick={() => openLightbox()}
                     aria-label="Развернуть на весь экран"
                   >
-                    <Maximize2
+                    <IconMaximize
                       className="h-[18px] w-[18px] text-white sm:h-5 sm:w-5"
-                      strokeWidth={2.5}
                     />
                   </button>
 
@@ -287,7 +289,7 @@ export function HomeHero() {
               className="absolute right-3 top-3 z-20 flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:right-5 sm:top-5 sm:px-4"
               aria-label="Закрыть"
             >
-              <X className="h-5 w-5 text-white" strokeWidth={2.5} />
+              <IconClose className="h-5 w-5 text-white" />
               <span>Закрыть</span>
             </button>
 
@@ -302,7 +304,7 @@ export function HomeHero() {
                   className="absolute left-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:left-5 sm:h-14 sm:w-14"
                   aria-label="Предыдущее фото"
                 >
-                  <ChevronLeft className="h-7 w-7 text-white" strokeWidth={2.25} />
+                  <IconChevronLeft className="h-7 w-7 text-white" />
                 </button>
                 <button
                   type="button"
@@ -313,7 +315,7 @@ export function HomeHero() {
                   className="absolute right-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:right-5 sm:h-14 sm:w-14"
                   aria-label="Следующее фото"
                 >
-                  <ChevronRight className="h-7 w-7 text-white" strokeWidth={2.25} />
+                  <IconChevronRight className="h-7 w-7 text-white" />
                 </button>
               </>
             )}

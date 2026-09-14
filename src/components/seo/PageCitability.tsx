@@ -1,5 +1,10 @@
 import { homeCitability } from "@/data/geo";
-import { ArrowUpRight, CalendarDays, RefreshCw, UserRound } from "lucide-react";
+import {
+  IconArrowUpRight,
+  IconCalendar,
+  IconClock,
+  IconUser,
+} from "@/components/home/icons";
 import Link from "next/link";
 
 function formatRuDate(iso: string) {
@@ -16,7 +21,7 @@ export function PageCitability() {
   const meta = [
     {
       label: "Автор",
-      icon: UserRound,
+      icon: IconUser,
       content: (
         <Link
           href={author.url}
@@ -28,14 +33,14 @@ export function PageCitability() {
     },
     {
       label: "Опубликовано",
-      icon: CalendarDays,
+      icon: IconCalendar,
       content: (
         <time dateTime={datePublished}>{formatRuDate(datePublished)}</time>
       ),
     },
     {
       label: "Обновлено",
-      icon: RefreshCw,
+      icon: IconClock,
       content: (
         <time dateTime={dateModified}>{formatRuDate(dateModified)}</time>
       ),
@@ -60,7 +65,7 @@ export function PageCitability() {
 
           <dl className="grid gap-0 sm:grid-cols-3">
             {meta.map((item, index) => {
-              const Icon = item.icon;
+              const MetaIcon = item.icon;
               return (
                 <div
                   key={item.label}
@@ -71,7 +76,7 @@ export function PageCitability() {
                   }
                 >
                   <dt className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
-                    <Icon className="h-3.5 w-3.5 text-orange" strokeWidth={2} />
+                    <MetaIcon className="h-3.5 w-3.5 text-orange" />
                     {item.label}
                   </dt>
                   <dd className="mt-2 text-sm font-semibold leading-snug text-text">
@@ -102,7 +107,7 @@ export function PageCitability() {
                         title={source.note}
                       >
                         {source.label}
-                        <ArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover:text-orange" />
+                        <IconArrowUpRight className="h-3.5 w-3.5 text-muted transition-colors group-hover:text-orange" />
                       </a>
                     </li>
                   );

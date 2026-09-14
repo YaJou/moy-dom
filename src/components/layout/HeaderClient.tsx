@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
+import { IconClose, IconMenu, IconPhone } from "@/components/home/icons";
 import type { NavItem } from "@/data/site";
-import { Menu, Phone, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -58,7 +58,7 @@ export function HeaderClient({
           aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
           aria-expanded={isOpen}
         >
-          {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          {isOpen ? <IconClose className="h-4 w-4" /> : <IconMenu className="h-4 w-4" />}
         </button>
       </div>
 
@@ -99,7 +99,7 @@ export function HeaderClient({
               href={`tel:${phone.replace(/\D/g, "")}`}
               className="flex items-center gap-2 text-sm font-semibold text-text"
             >
-              <Phone className="h-4 w-4 text-orange" /> {phone}
+              <IconPhone className="h-4 w-4 text-orange" /> {phone}
             </a>
             <Button
               className="w-full rounded-full"

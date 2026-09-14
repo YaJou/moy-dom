@@ -7,10 +7,9 @@ import {
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
-import { IconTelegram } from "./icons";
+import { IconCheck, IconTelegram } from "./icons";
 
 export interface ViewingFormContext {
   houseId?: number;
@@ -107,7 +106,7 @@ export function ViewingForm({
   if (submitted) {
     return (
       <div className={cn("viewing-form-card text-center", className)}>
-        <CheckCircle2 className="mx-auto mb-4 h-12 w-12 text-success" />
+        <IconCheck className="mx-auto mb-4 h-12 w-12 text-success" />
         <h3 className="text-lg font-extrabold text-text">Заявка отправлена</h3>
         <p className="mt-2 text-sm text-muted">
           Мы свяжемся с вами для согласования просмотра.

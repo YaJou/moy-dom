@@ -1,0 +1,386 @@
+[
+  {
+    "name": "home",
+    "label": "Дом",
+    "file": "icons/home.svg",
+    "symbol": "ks-home"
+  },
+  {
+    "name": "leaf",
+    "label": "Лист",
+    "file": "icons/leaf.svg",
+    "symbol": "ks-leaf"
+  },
+  {
+    "name": "map",
+    "label": "Карта",
+    "file": "icons/map.svg",
+    "symbol": "ks-map"
+  },
+  {
+    "name": "map-pin",
+    "label": "Расположение",
+    "file": "icons/map-pin.svg",
+    "symbol": "ks-map-pin"
+  },
+  {
+    "name": "area",
+    "label": "Площадь",
+    "file": "icons/area.svg",
+    "symbol": "ks-area"
+  },
+  {
+    "name": "bed",
+    "label": "Спальни",
+    "file": "icons/bed.svg",
+    "symbol": "ks-bed"
+  },
+  {
+    "name": "rooms",
+    "label": "Комнаты",
+    "file": "icons/rooms.svg",
+    "symbol": "ks-rooms"
+  },
+  {
+    "name": "sofa",
+    "label": "Кухня-гостиная",
+    "file": "icons/sofa.svg",
+    "symbol": "ks-sofa"
+  },
+  {
+    "name": "wardrobe",
+    "label": "Хранение",
+    "file": "icons/wardrobe.svg",
+    "symbol": "ks-wardrobe"
+  },
+  {
+    "name": "bath",
+    "label": "Санузел",
+    "file": "icons/bath.svg",
+    "symbol": "ks-bath"
+  },
+  {
+    "name": "garage",
+    "label": "Гараж",
+    "file": "icons/garage.svg",
+    "symbol": "ks-garage"
+  },
+  {
+    "name": "car",
+    "label": "Парковка",
+    "file": "icons/car.svg",
+    "symbol": "ks-car"
+  },
+  {
+    "name": "floors",
+    "label": "Этажность",
+    "file": "icons/floors.svg",
+    "symbol": "ks-floors"
+  },
+  {
+    "name": "ruler",
+    "label": "Размеры",
+    "file": "icons/ruler.svg",
+    "symbol": "ks-ruler"
+  },
+  {
+    "name": "maximize",
+    "label": "Увеличить",
+    "file": "icons/maximize.svg",
+    "symbol": "ks-maximize"
+  },
+  {
+    "name": "filter",
+    "label": "Фильтры",
+    "file": "icons/filter.svg",
+    "symbol": "ks-filter"
+  },
+  {
+    "name": "search",
+    "label": "Поиск",
+    "file": "icons/search.svg",
+    "symbol": "ks-search"
+  },
+  {
+    "name": "heart",
+    "label": "Избранное",
+    "file": "icons/heart.svg",
+    "symbol": "ks-heart"
+  },
+  {
+    "name": "compare",
+    "label": "Сравнить",
+    "file": "icons/compare.svg",
+    "symbol": "ks-compare"
+  },
+  {
+    "name": "chevron-down",
+    "label": "Раскрыть",
+    "file": "icons/chevron-down.svg",
+    "symbol": "ks-chevron-down"
+  },
+  {
+    "name": "chevron-up",
+    "label": "Свернуть",
+    "file": "icons/chevron-up.svg",
+    "symbol": "ks-chevron-up"
+  },
+  {
+    "name": "chevron-left",
+    "label": "Предыдущий",
+    "file": "icons/chevron-left.svg",
+    "symbol": "ks-chevron-left"
+  },
+  {
+    "name": "chevron-right",
+    "label": "Следующий",
+    "file": "icons/chevron-right.svg",
+    "symbol": "ks-chevron-right"
+  },
+  {
+    "name": "arrow-right",
+    "label": "Перейти",
+    "file": "icons/arrow-right.svg",
+    "symbol": "ks-arrow-right"
+  },
+  {
+    "name": "arrow-up-right",
+    "label": "Перейти по ссылке",
+    "file": "icons/arrow-up-right.svg",
+    "symbol": "ks-arrow-up-right"
+  },
+  {
+    "name": "external-link",
+    "label": "Открыть отдельно",
+    "file": "icons/external-link.svg",
+    "symbol": "ks-external-link"
+  },
+  {
+    "name": "plus",
+    "label": "Добавить",
+    "file": "icons/plus.svg",
+    "symbol": "ks-plus"
+  },
+  {
+    "name": "minus",
+    "label": "Уменьшить",
+    "file": "icons/minus.svg",
+    "symbol": "ks-minus"
+  },
+  {
+    "name": "close",
+    "label": "Закрыть",
+    "file": "icons/close.svg",
+    "symbol": "ks-close"
+  },
+  {
+    "name": "menu",
+    "label": "Меню",
+    "file": "icons/menu.svg",
+    "symbol": "ks-menu"
+  },
+  {
+    "name": "check",
+    "label": "Выбрано",
+    "file": "icons/check.svg",
+    "symbol": "ks-check"
+  },
+  {
+    "name": "circle-check",
+    "label": "Подтверждено",
+    "file": "icons/circle-check.svg",
+    "symbol": "ks-circle-check"
+  },
+  {
+    "name": "shield",
+    "label": "Гарантия",
+    "file": "icons/shield.svg",
+    "symbol": "ks-shield"
+  },
+  {
+    "name": "phone",
+    "label": "Позвонить",
+    "file": "icons/phone.svg",
+    "symbol": "ks-phone"
+  },
+  {
+    "name": "telegram",
+    "label": "Telegram",
+    "file": "icons/telegram.svg",
+    "symbol": "ks-telegram"
+  },
+  {
+    "name": "play",
+    "label": "Воспроизвести",
+    "file": "icons/play.svg",
+    "symbol": "ks-play"
+  },
+  {
+    "name": "video",
+    "label": "Видео",
+    "file": "icons/video.svg",
+    "symbol": "ks-video"
+  },
+  {
+    "name": "camera",
+    "label": "Фотографии",
+    "file": "icons/camera.svg",
+    "symbol": "ks-camera"
+  },
+  {
+    "name": "image",
+    "label": "Изображение",
+    "file": "icons/image.svg",
+    "symbol": "ks-image"
+  },
+  {
+    "name": "calendar",
+    "label": "Дата просмотра",
+    "file": "icons/calendar.svg",
+    "symbol": "ks-calendar"
+  },
+  {
+    "name": "clock",
+    "label": "Время",
+    "file": "icons/clock.svg",
+    "symbol": "ks-clock"
+  },
+  {
+    "name": "mail",
+    "label": "Почта",
+    "file": "icons/mail.svg",
+    "symbol": "ks-mail"
+  },
+  {
+    "name": "message",
+    "label": "Написать",
+    "file": "icons/message.svg",
+    "symbol": "ks-message"
+  },
+  {
+    "name": "send",
+    "label": "Отправить",
+    "file": "icons/send.svg",
+    "symbol": "ks-send"
+  },
+  {
+    "name": "bell",
+    "label": "Уведомления",
+    "file": "icons/bell.svg",
+    "symbol": "ks-bell"
+  },
+  {
+    "name": "building",
+    "label": "Компания",
+    "file": "icons/building.svg",
+    "symbol": "ks-building"
+  },
+  {
+    "name": "document",
+    "label": "Документы",
+    "file": "icons/document.svg",
+    "symbol": "ks-document"
+  },
+  {
+    "name": "download",
+    "label": "Скачать",
+    "file": "icons/download.svg",
+    "symbol": "ks-download"
+  },
+  {
+    "name": "clipboard",
+    "label": "Комплектация",
+    "file": "icons/clipboard.svg",
+    "symbol": "ks-clipboard"
+  },
+  {
+    "name": "water",
+    "label": "Вода",
+    "file": "icons/water.svg",
+    "symbol": "ks-water"
+  },
+  {
+    "name": "faucet",
+    "label": "Коммуникации",
+    "file": "icons/faucet.svg",
+    "symbol": "ks-faucet"
+  },
+  {
+    "name": "flame",
+    "label": "Газ",
+    "file": "icons/flame.svg",
+    "symbol": "ks-flame"
+  },
+  {
+    "name": "thermometer",
+    "label": "Отопление",
+    "file": "icons/thermometer.svg",
+    "symbol": "ks-thermometer"
+  },
+  {
+    "name": "underfloor-heating",
+    "label": "Тёплый пол",
+    "file": "icons/underfloor-heating.svg",
+    "symbol": "ks-underfloor-heating"
+  },
+  {
+    "name": "brick-wall",
+    "label": "Кирпичная кладка",
+    "file": "icons/brick-wall.svg",
+    "symbol": "ks-brick-wall"
+  },
+  {
+    "name": "foundation",
+    "label": "Фундамент",
+    "file": "icons/foundation.svg",
+    "symbol": "ks-foundation"
+  },
+  {
+    "name": "roof",
+    "label": "Кровля",
+    "file": "icons/roof.svg",
+    "symbol": "ks-roof"
+  },
+  {
+    "name": "calculator",
+    "label": "Калькулятор",
+    "file": "icons/calculator.svg",
+    "symbol": "ks-calculator"
+  },
+  {
+    "name": "info",
+    "label": "Информация",
+    "file": "icons/info.svg",
+    "symbol": "ks-info"
+  },
+  {
+    "name": "user",
+    "label": "Клиент",
+    "file": "icons/user.svg",
+    "symbol": "ks-user"
+  },
+  {
+    "name": "users",
+    "label": "Команда",
+    "file": "icons/users.svg",
+    "symbol": "ks-users"
+  },
+  {
+    "name": "key",
+    "label": "Передача ключей",
+    "file": "icons/key.svg",
+    "symbol": "ks-key"
+  },
+  {
+    "name": "tree",
+    "label": "Участок",
+    "file": "icons/tree.svg",
+    "symbol": "ks-tree"
+  },
+  {
+    "name": "star",
+    "label": "Отзывы",
+    "file": "icons/star.svg",
+    "symbol": "ks-star"
+  }
+]

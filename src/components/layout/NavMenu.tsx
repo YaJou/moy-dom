@@ -1,9 +1,9 @@
 "use client";
 
 import type { NavItem } from "@/data/site";
+import { IconChevronDown } from "@/components/home/icons";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -48,7 +48,7 @@ function NavDropdown({ item }: { item: NavItem }) {
         )}
       >
         <NavLabel item={item} />
-        <ChevronDown
+        <IconChevronDown
           className={cn(
             "h-3.5 w-3.5 shrink-0 text-muted transition-transform duration-200",
             open && "rotate-180 text-orange"

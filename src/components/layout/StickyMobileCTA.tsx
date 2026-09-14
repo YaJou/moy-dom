@@ -1,9 +1,9 @@
 "use client";
 
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
+import { IconPhone } from "@/components/home/icons";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
-import { Phone } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export function StickyMobileCTA() {
@@ -35,7 +35,7 @@ export function StickyMobileCTA() {
           className="flex h-11 flex-1 items-center justify-center gap-2 rounded-control border border-border text-sm font-bold text-text"
           onClick={() => analytics.contactClick("phone")}
         >
-          <Phone className="h-5 w-5" strokeWidth={1.75} />
+          <IconPhone className="h-5 w-5" />
           Позвонить
         </a>
         <button
