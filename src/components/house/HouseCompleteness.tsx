@@ -59,7 +59,7 @@ export function HouseCompleteness({ house, detail }: HouseCompletenessProps) {
                 src={active.image}
                 alt={`${active.label} — ${house.title}`}
                 fill
-                objectFit="cover"
+                objectFit="contain"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>

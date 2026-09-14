@@ -3482,11 +3482,18 @@
 
   .hp-complete-photo {
     position: relative;
-    min-height: 260px;
+    min-height: 320px;
+    height: 100%;
     overflow: hidden;
     border-radius: var(--r-image);
     border: 1px solid var(--border);
     background: #fff;
+  }
+
+  @media (min-width: 1024px) {
+    .hp-complete-photo {
+      min-height: 360px;
+    }
   }
 
   .hp-complete-rows {
