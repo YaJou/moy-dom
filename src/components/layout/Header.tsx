@@ -21,92 +21,112 @@ function MessengerIcon({ type }: { type: "whatsapp" | "telegram" }) {
 
 export function Header() {
   return (
-    <>
-      <div className="relative sticky top-0 z-50 border-b border-border/60 bg-white lg:static lg:z-40">
-        <div className="container-main">
-          <div className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-16 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
-            <Link
-              href="/"
-              className="flex min-w-0 items-center justify-self-start"
-            >
-              <Image
-                src="/images/krovservice-logo.png"
-                alt={siteConfig.name}
-                width={280}
-                height={56}
-                className="h-9 w-auto max-w-[min(100%,200px)] object-contain object-left sm:h-11 sm:max-w-[240px] lg:max-w-[280px]"
-                priority
-              />
-            </Link>
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
+      <div className="container-main relative">
+        {/* Mobile */}
+        <div className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:hidden">
+          <Link href="/" className="flex min-w-0 items-center">
+            <Image
+              src="/images/krovservice-logo.png"
+              alt={siteConfig.name}
+              width={280}
+              height={56}
+              className="h-9 w-auto max-w-[200px] object-contain object-left sm:h-10 sm:max-w-[220px]"
+              priority
+            />
+          </Link>
+          <HeaderClient
+            navigation={navigation}
+            phone={siteConfig.phone}
+            phoneHours={siteConfig.phoneHours}
+            whatsapp={siteConfig.whatsapp}
+            telegram={siteConfig.telegram}
+          />
+        </div>
 
-            <div className="hidden items-center gap-4 justify-self-center lg:flex xl:gap-5">
-              <div className="flex items-center gap-1.5">
-                <a
-                  href={siteConfig.whatsapp}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-[#25D366] transition-colors hover:bg-[#25D366]/10"
-                  aria-label="WhatsApp"
-                >
-                  <MessengerIcon type="whatsapp" />
-                </a>
-                <a
-                  href={siteConfig.telegram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-[#0088cc] transition-colors hover:bg-[#0088cc]/10"
-                  aria-label="Telegram"
-                >
-                  <MessengerIcon type="telegram" />
-                </a>
+        {/* Desktop: logo spans both rows */}
+        <div className="hidden items-stretch gap-5 lg:flex xl:gap-6">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center self-stretch py-2.5"
+          >
+            <Image
+              src="/images/krovservice-logo.png"
+              alt={siteConfig.name}
+              width={360}
+              height={96}
+              className="h-[88px] w-auto max-w-[300px] object-contain object-left xl:h-[96px] xl:max-w-[340px]"
+              priority
+            />
+          </Link>
+
+          <div className="flex min-w-0 flex-1 flex-col">
+            <div className="flex h-14 items-center justify-between gap-4 border-b border-border/50 xl:h-16">
+              <div className="flex min-w-0 items-center gap-3 xl:gap-5">
+                <div className="flex shrink-0 items-center gap-1.5">
+                  <a
+                    href={siteConfig.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-[#25D366] transition-colors hover:bg-[#25D366]/10"
+                    aria-label="WhatsApp"
+                  >
+                    <MessengerIcon type="whatsapp" />
+                  </a>
+                  <a
+                    href={siteConfig.telegram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-[#0088cc] transition-colors hover:bg-[#0088cc]/10"
+                    aria-label="Telegram"
+                  >
+                    <MessengerIcon type="telegram" />
+                  </a>
+                </div>
+
+                <div className="h-9 w-px shrink-0 bg-border" aria-hidden />
+
+                <div className="min-w-0">
+                  <a
+                    href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+                    className="block whitespace-nowrap text-sm font-semibold leading-none text-text transition-colors hover:text-orange"
+                  >
+                    {siteConfig.phone}
+                  </a>
+                  <span className="mt-1 block text-[11px] leading-none text-muted">
+                    {siteConfig.phoneHours}
+                  </span>
+                </div>
+
+                <div className="hidden h-9 w-px shrink-0 bg-border xl:block" aria-hidden />
+
+                <div className="hidden min-w-0 xl:block">
+                  <p className="whitespace-nowrap text-sm font-semibold leading-none text-text">
+                    Саратов · Энгельс · Балаково
+                  </p>
+                  <p className="mt-1 text-[11px] leading-none text-muted">
+                    {siteConfig.address}
+                  </p>
+                </div>
               </div>
 
-              <div className="h-9 w-px bg-border" aria-hidden />
-
-              <div className="text-center">
-                <a
-                  href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
-                  className="block whitespace-nowrap text-sm font-semibold leading-none text-text transition-colors hover:text-orange"
-                >
-                  {siteConfig.phone}
-                </a>
-                <span className="mt-1 block text-[11px] leading-none text-muted">
-                  {siteConfig.phoneHours}
-                </span>
-              </div>
-
-              <div className="hidden h-9 w-px bg-border xl:block" aria-hidden />
-
-              <div className="hidden text-center xl:block">
-                <p className="whitespace-nowrap text-sm font-semibold leading-none text-text">
-                  Саратов · Энгельс · Балаково
-                </p>
-                <p className="mt-1 text-[11px] leading-none text-muted">
-                  {siteConfig.address}
-                </p>
+              <div className="shrink-0">
+                <HeaderClient
+                  navigation={navigation}
+                  phone={siteConfig.phone}
+                  phoneHours={siteConfig.phoneHours}
+                  whatsapp={siteConfig.whatsapp}
+                  telegram={siteConfig.telegram}
+                />
               </div>
             </div>
 
-            <div className="justify-self-end">
-              <HeaderClient
-                navigation={navigation}
-                phone={siteConfig.phone}
-                phoneHours={siteConfig.phoneHours}
-                whatsapp={siteConfig.whatsapp}
-                telegram={siteConfig.telegram}
-              />
+            <div className="flex h-11 items-center">
+              <NavMenu items={navigation} />
             </div>
           </div>
         </div>
       </div>
-
-      <div className="sticky top-0 z-50 hidden border-b border-border/60 bg-white/95 backdrop-blur-md lg:block">
-        <div className="container-main">
-          <div className="flex h-11 items-center justify-center">
-            <NavMenu items={navigation} />
-          </div>
-        </div>
-      </div>
-    </>
+    </header>
   );
 }

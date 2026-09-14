@@ -94,7 +94,7 @@ function NavLink({ item }: { item: NavItem }) {
 
 export function NavMenu({ items }: NavMenuProps) {
   return (
-    <nav className="flex items-center justify-center gap-1">
+    <nav className="flex items-center gap-1">
       {items.map((item) =>
         item.children ? (
           <NavDropdown key={item.href} item={item} />
