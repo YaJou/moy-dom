@@ -25,7 +25,6 @@ const HERO_INTERIOR = [
   "/images/design-kit/07-pre-finish-interior.png",
   "/images/design-kit/11-underfloor-heating.png",
   "/images/houses/balakovo-novonatalino-100/09.jpg",
-  "/images/houses/balakovo-novonatalino-100/10.jpg",
 ] as const;
 
 function pickHeroHouse(): House {
@@ -67,7 +66,7 @@ export function HomeHero() {
             <p className="mt-5 max-w-[450px] text-lg leading-7 text-muted">
               Готовые дома в Саратове, Энгельсе и Балаково
             </p>
-            <p className="price-lg mt-5 text-text">
+            <p className="hero-price mt-5 text-text">
               от {formatPrice(minPrice)}
             </p>
             <p className="mt-2 text-sm text-muted">
@@ -162,17 +161,15 @@ export function HomeHero() {
                 </div>
               </Link>
             </div>
-            <div className="hero-gallery-thumbs mt-3 flex gap-2">
+            <div className="hero-gallery-thumbs">
               {displayPhotos.map((src, i) => (
                 <button
                   key={src}
                   type="button"
                   onClick={() => setActiveIndex(i)}
                   className={cn(
-                    "relative h-14 w-[84px] shrink-0 overflow-hidden rounded-sm",
-                    activeIndex === i
-                      ? "ring-2 ring-orange ring-offset-1"
-                      : "opacity-80 hover:opacity-100"
+                    "hero-gallery-thumb",
+                    activeIndex === i && "is-active"
                   )}
                   aria-label={`Фото ${i + 1}`}
                 >
@@ -181,7 +178,7 @@ export function HomeHero() {
                     alt=""
                     fill
                     className="object-cover"
-                    sizes="84px"
+                    sizes="(max-width: 768px) 33vw, 230px"
                   />
                 </button>
               ))}
