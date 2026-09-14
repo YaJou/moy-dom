@@ -7,6 +7,7 @@
 | `natalino-mehanizatorov-105/` | 105 м², ул. Механизаторов | 7 | `/catalog/1` |
 | `engels-snt-novoe-troitskaya-100/` | 100 м², СНТ «Новое», ул. Троицкая | 16 | `/catalog/2` |
 | `natalino-stepnaya-87/` | 87 м², Степная ул. | 11 | `/catalog/3` |
+| `engels-snt-novoe-veselaya-116/` | 116 м², СНТ «Новое», ул. Весёлая | 7 | `/catalog/4` |
 | `engels-snt-novoe-231/` | 231 м², СНТ «Новое», Энгельс | 8 | `/catalog/5` |
 | `engels-snt-malinki-105-garage/` | 105 м² + гараж, СНТ «Малинки» | 8 | `/catalog/6` |
 | `engels-snt-malinki-pokrovskoye-87/` | 87 м², Покровское Заречье, Малинки | 5 | `/catalog/7` |
