@@ -1099,6 +1099,151 @@
     color: var(--orange-hover);
   }
 
+  /* Construction quality section */
+  .construction-section {
+    background-color: var(--surface);
+    padding-block: 48px;
+  }
+
+  .construction-grid {
+    display: grid;
+    gap: 32px;
+  }
+
+  @media (min-width: 1024px) {
+    .construction-grid {
+      grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+  }
+
+  .construction-desc {
+    margin-top: 16px;
+    max-width: 320px;
+    font-size: 16px;
+    line-height: 25px;
+    color: var(--muted);
+  }
+
+  .construction-tabs {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .construction-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 160ms ease;
+  }
+
+  .construction-tab.is-active {
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .construction-tab:hover {
+    color: var(--text);
+  }
+
+  .construction-tab-chevron {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--muted);
+  }
+
+  .construction-tab.is-active .construction-tab-chevron {
+    color: var(--orange);
+  }
+
+  .construction-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 28px;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 700;
+    color: var(--orange);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+    transition: color 160ms ease;
+  }
+
+  .construction-link:hover {
+    color: var(--orange-hover);
+  }
+
+  .construction-gallery {
+    display: grid;
+    gap: 16px;
+  }
+
+  @media (min-width: 640px) {
+    .construction-gallery {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+  }
+
+  .construction-card {
+    margin: 0;
+    opacity: 0.72;
+    transition: opacity 160ms ease, transform 160ms ease;
+  }
+
+  .construction-card.is-active {
+    opacity: 1;
+  }
+
+  .construction-card-btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .construction-card-photo {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 261 / 220;
+    overflow: hidden;
+    border-radius: var(--r-image);
+    background-color: var(--page);
+  }
+
+  .construction-card.is-active .construction-card-photo {
+    box-shadow: 0 0 0 2px var(--orange);
+  }
+
+  .construction-card-caption {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
   .hero-facts {
     font-size: 14px;
     line-height: 20px;

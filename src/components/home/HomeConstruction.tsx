@@ -1,76 +1,107 @@
-import { realHouses } from "@/data/houses";
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { IconArrow } from "./icons";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const stages = [
   {
+    id: "foundation",
+    tab: "Фундамент и стены",
     title: "Надёжный фундамент из железобетона",
-    image: "/images/houses/balakovo-novonatalino-100/09.jpg",
-    alt: "Фундамент объекта в Натальино",
+    image: "/images/design-kit/09-foundation.png",
+    alt: "Фундамент из железобетона",
   },
   {
+    id: "walls",
+    tab: "Утепление и кровля",
     title: "Качественная кладка стен из кирпича",
-    image: "/images/houses/balakovo-novonatalino-100/10.jpg",
-    alt: "Кладка стен объекта",
+    image: "/images/design-kit/10-brickwork.png",
+    alt: "Кладка стен из кирпича",
   },
   {
-    title: "Инженерные системы на объекте",
-    image: "/images/houses/balakovo-novonatalino-100/11.jpg",
-    alt: "Инженерные работы",
+    id: "systems",
+    tab: "Инженерные системы",
+    title: "Установленные тёплые полы",
+    image: "/images/design-kit/11-underfloor-heating.png",
+    alt: "Тёплые полы на объекте",
   },
-];
+] as const;
 
 export function HomeConstruction() {
-  const sample = realHouses.find((h) => h.slug === "balakovo-novonatalino-100");
+  const [activeId, setActiveId] = useState<(typeof stages)[number]["id"]>(
+    "foundation"
+  );
 
   return (
-    <section id="construction" className="bg-surface py-12">
+    <section id="construction" className="construction-section">
       <div className="container-main">
-        <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
-          <div>
-            <h2 className="h2-desktop text-text">
+        <div className="construction-grid">
+          <div className="construction-side">
+            <h2 className="h2-desktop font-extrabold text-text">
               Качество видно ещё до отделки
             </h2>
-            <p className="mt-4 text-base leading-[25px] text-text">
+            <p className="construction-desc">
               Показываем материалы и этапы строительства наших домов
-              {sample ? ` — на примере ${sample.district}` : ""}.
             </p>
-            <ul className="mt-6 space-y-3 text-sm text-text">
-              {["Фундамент и стены", "Утепление и кровля", "Инженерные системы"].map(
-                (item) => (
-                  <li key={item} className="flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-orange" />
-                    {item}
-                  </li>
-                )
-              )}
+
+            <ul className="construction-tabs" role="tablist">
+              {stages.map((stage) => (
+                <li key={stage.id}>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeId === stage.id}
+                    onClick={() => setActiveId(stage.id)}
+                    className={cn(
+                      "construction-tab",
+                      activeId === stage.id && "is-active"
+                    )}
+                  >
+                    <span className="construction-tab-chevron" aria-hidden>
+                      ›
+                    </span>
+                    {stage.tab}
+                  </button>
+                </li>
+              ))}
             </ul>
-            <Link
-              href="/built/"
-              className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-orange"
-            >
-              Как мы строим
-              <IconArrow className="h-4 w-4" />
+
+            <Link href="/built/" className="construction-link">
+              Как мы строим ↗
             </Link>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="construction-gallery">
             {stages.map((stage) => (
-              <figure key={stage.title}>
-                <div className="relative aspect-[261/220] overflow-hidden rounded-image">
-                  <Image
-                    src={stage.image}
-                    alt={stage.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 240px, 261px"
-                  />
-                </div>
-                <figcaption className="mt-3 text-sm text-muted">
-                  {stage.title}
-                </figcaption>
-              </figure>
+              <div
+                key={stage.id}
+                className={cn(
+                  "construction-card",
+                  activeId === stage.id && "is-active"
+                )}
+              >
+                <button
+                  type="button"
+                  className="construction-card-btn"
+                  onClick={() => setActiveId(stage.id)}
+                  aria-label={stage.title}
+                >
+                  <span className="construction-card-photo">
+                    <Image
+                      src={stage.image}
+                      alt={stage.alt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 280px"
+                    />
+                  </span>
+                  <span className="construction-card-caption">
+                    {stage.title}
+                  </span>
+                </button>
+              </div>
             ))}
           </div>
         </div>
