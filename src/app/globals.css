@@ -617,6 +617,22 @@
     color: #4a5650;
   }
 
+  .hero-gallery-main {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-gallery-main {
+      height: 456px;
+      aspect-ratio: auto;
+    }
+  }
+
+  .hero-gallery-thumbs {
+    min-height: 56px;
+  }
+
   /* Hero photo toggle — mockup: white active pill on translucent bar */
   .hero-photo-toggle {
     display: inline-flex;

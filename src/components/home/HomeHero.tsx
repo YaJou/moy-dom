@@ -21,7 +21,12 @@ const HERO_FACADE = [
   "/images/design-kit/03-hero-garden.png",
 ] as const;
 
-const HERO_INTERIOR = ["/images/design-kit/07-pre-finish-interior.png"] as const;
+const HERO_INTERIOR = [
+  "/images/design-kit/07-pre-finish-interior.png",
+  "/images/design-kit/11-underfloor-heating.png",
+  "/images/houses/balakovo-novonatalino-100/09.jpg",
+  "/images/houses/balakovo-novonatalino-100/10.jpg",
+] as const;
 
 function pickHeroHouse(): House {
   const withPhotos = realHouses.filter((h) => h.images.length >= 1);
@@ -35,19 +40,21 @@ export function HomeHero() {
   const heroHouse = useMemo(() => pickHeroHouse(), []);
   const { openViewing } = useViewingModal();
   const minPrice = getMinHousePrice();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [facadeIndex, setFacadeIndex] = useState(0);
+  const [interiorIndex, setInteriorIndex] = useState(0);
   const [showInterior, setShowInterior] = useState(false);
 
   const displayPhotos = showInterior ? HERO_INTERIOR : HERO_FACADE;
-  const activePhoto = displayPhotos[activeIndex] ?? HERO_FACADE[0];
-  const showThumbnails = displayPhotos.length > 1;
+  const activeIndex = showInterior ? interiorIndex : facadeIndex;
+  const setActiveIndex = showInterior ? setInteriorIndex : setFacadeIndex;
+  const activePhoto = displayPhotos[activeIndex] ?? displayPhotos[0];
 
   const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
 
   return (
     <section className="bg-page py-6 md:py-10">
       <div className="container-main">
-        <div className="grid items-center gap-6 lg:grid-cols-[480px_1fr] lg:gap-6">
+        <div className="grid items-start gap-6 lg:grid-cols-[480px_1fr] lg:gap-6">
           <div className="min-w-0">
             <p className="section-eyebrow">Дома с участком</p>
             <h1 className="h1-desktop mt-4 text-balance text-text">
@@ -95,15 +102,15 @@ export function HomeHero() {
             </ul>
           </div>
 
-          <div className="min-w-0">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-card lg:aspect-auto lg:h-[456px]">
+          <div className="hero-gallery min-w-0">
+            <div className="hero-gallery-main relative overflow-hidden rounded-card">
               <Image
+                key={activePhoto}
                 src={activePhoto}
                 alt={heroHouse.title}
-                width={696}
-                height={456}
-                priority
-                className="h-full w-full object-cover object-center"
+                fill
+                priority={!showInterior && activeIndex === 0}
+                className="object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 696px"
               />
               <div className="absolute left-3 top-3 sm:left-5 sm:top-5">
@@ -112,10 +119,7 @@ export function HomeHero() {
                     type="button"
                     role="tab"
                     aria-selected={!showInterior}
-                    onClick={() => {
-                      setShowInterior(false);
-                      setActiveIndex(0);
-                    }}
+                    onClick={() => setShowInterior(false)}
                     className={cn(
                       "hero-photo-toggle-btn",
                       !showInterior && "is-active"
@@ -127,10 +131,7 @@ export function HomeHero() {
                     type="button"
                     role="tab"
                     aria-selected={showInterior}
-                    onClick={() => {
-                      setShowInterior(true);
-                      setActiveIndex(0);
-                    }}
+                    onClick={() => setShowInterior(true)}
                     className={cn(
                       "hero-photo-toggle-btn",
                       showInterior && "is-active"
@@ -161,33 +162,30 @@ export function HomeHero() {
                 </div>
               </Link>
             </div>
-            {showThumbnails && (
-              <div className="mt-3 flex gap-2">
-                {displayPhotos.map((src, i) => (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => setActiveIndex(i)}
-                    className={cn(
-                      "relative h-14 w-[84px] shrink-0 overflow-hidden rounded-sm",
-                      activeIndex === i
-                        ? "ring-2 ring-orange ring-offset-1"
-                        : "opacity-80 hover:opacity-100"
-                    )}
-                    aria-label={`Фото ${i + 1}`}
-                  >
-                    <Image
-                      src={src}
-                      alt=""
-                      width={84}
-                      height={56}
-                      className="h-full w-full object-cover"
-                      sizes="84px"
-                    />
-                  </button>
-                ))}
-              </div>
-            )}
+            <div className="hero-gallery-thumbs mt-3 flex gap-2">
+              {displayPhotos.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  onClick={() => setActiveIndex(i)}
+                  className={cn(
+                    "relative h-14 w-[84px] shrink-0 overflow-hidden rounded-sm",
+                    activeIndex === i
+                      ? "ring-2 ring-orange ring-offset-1"
+                      : "opacity-80 hover:opacity-100"
+                  )}
+                  aria-label={`Фото ${i + 1}`}
+                >
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    className="object-cover"
+                    sizes="84px"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
