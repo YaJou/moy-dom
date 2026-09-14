@@ -25,14 +25,14 @@ export function HomeTrust() {
   }));
 
   return (
-    <section id="company" className="bg-surface py-8">
+    <section id="company" className="trust-section">
       <div className="container-main">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <h2 className="h2-desktop text-text">
+        <div className="trust-header">
+          <h2 className="h2-desktop font-extrabold text-text">
             За каждым домом — наша работа
           </h2>
           <div
-            className="flex gap-2 overflow-x-auto pb-1"
+            className="trust-tabs"
             role="tablist"
             aria-label="Разделы о компании"
           >
@@ -43,7 +43,10 @@ export function HomeTrust() {
                 role="tab"
                 aria-selected={tab === t.id}
                 onClick={() => setTab(t.id)}
-                className={cn(tab === t.id ? "chip-active" : "chip-inactive")}
+                className={cn(
+                  "trust-tab",
+                  tab === t.id && "is-active"
+                )}
               >
                 {t.label}
               </button>
@@ -53,26 +56,24 @@ export function HomeTrust() {
 
         <div className="mt-8" role="tabpanel">
           {tab === "built" && (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="trust-gallery">
               {builtItems.map((item) => (
                 <Link
                   key={item.id}
                   href={item.house ? `/catalog/${item.house.id}` : "/built/"}
-                  className="group overflow-hidden rounded-image"
+                  className="trust-card group"
                 >
-                  <div className="relative h-40 overflow-hidden">
+                  <div className="trust-card-photo">
                     <Image
                       src={item.image}
                       alt={item.alt}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-                      sizes="384px"
+                      sizes="(max-width: 768px) 100vw, 384px"
                     />
                   </div>
-                  <p className="mt-3 text-base font-bold text-text">
-                    Построенный дом
-                  </p>
-                  <p className="text-sm text-muted">
+                  <p className="trust-card-title">Построенный дом</p>
+                  <p className="trust-card-caption">
                     Фото и этапы строительства
                   </p>
                 </Link>
@@ -82,7 +83,7 @@ export function HomeTrust() {
 
           {tab === "about" && (
             <div className="grid gap-8 lg:grid-cols-2">
-              <div className="relative h-56 overflow-hidden rounded-image sm:h-72">
+              <div className="relative min-h-[280px] overflow-hidden rounded-image sm:min-h-[360px]">
                 <Image
                   src={aboutCompanyData.image}
                   alt="О компании Кров-Сервис"
@@ -92,7 +93,7 @@ export function HomeTrust() {
                 />
               </div>
               <div>
-                <p className="text-base leading-[25px] text-text">
+                <p className="text-base leading-[25px] font-medium text-text">
                   {aboutCompanyData.text}
                 </p>
                 <ul className="mt-4 space-y-2 text-sm text-muted">
@@ -105,7 +106,7 @@ export function HomeTrust() {
                 </ul>
                 <Link
                   href={aboutCompanyData.href}
-                  className="mt-6 inline-flex items-center gap-1 font-semibold text-orange"
+                  className="mt-6 inline-flex items-center gap-1 font-bold text-orange"
                 >
                   Подробнее о компании
                   <IconArrow className="h-4 w-4" />
@@ -116,7 +117,7 @@ export function HomeTrust() {
 
           {tab === "documents" && (
             <div className="rounded-panel border border-border bg-page p-6">
-              <p className="text-base text-text">
+              <p className="text-base font-medium text-text">
                 Реквизиты, политика обработки персональных данных и документы
                 компании доступны на отдельной странице.
               </p>
@@ -128,26 +129,24 @@ export function HomeTrust() {
           )}
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {homePurchaseSteps.map((step) => (
-            <div
-              key={step.step}
-              className="rounded-panel border border-border bg-page p-4"
-            >
-              <p className="text-sm font-bold text-orange">{step.step}</p>
-              <p className="mt-1 font-bold text-text">{step.title}</p>
-              <p className="mt-1 text-sm text-muted">{step.description}</p>
-            </div>
-          ))}
+        <div className="trust-footer">
+          <Link href="/about/" className="trust-footer-link">
+            Истории объектов, команда и документы компании →
+          </Link>
+          <div className="trust-steps">
+            {homePurchaseSteps.map((step, i) => (
+              <div key={step.step} className="trust-step">
+                {i > 0 && (
+                  <span className="trust-step-sep" aria-hidden>
+                    →
+                  </span>
+                )}
+                <span className="trust-step-num">{step.step}</span>
+                <span className="trust-step-title">{step.title}</span>
+              </div>
+            ))}
+          </div>
         </div>
-
-        <Link
-          href="/about/"
-          className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-muted hover:text-text"
-        >
-          Истории объектов, команда и документы компании
-          <IconArrow className="h-4 w-4" />
-        </Link>
       </div>
     </section>
   );
