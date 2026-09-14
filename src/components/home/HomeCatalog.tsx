@@ -35,26 +35,24 @@ export function HomeCatalog() {
       <div className="container-main">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <div className="flex items-center gap-2">
-              <h2 className="h2-desktop text-text">
+            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+              <h2 className="h2-desktop font-extrabold text-text">
                 Дома, которые можно посмотреть
               </h2>
-              <span
-                className="h-2 w-2 shrink-0 rounded-full bg-success"
-                title="в наличии"
-                aria-hidden
-              />
+              <span className="inline-flex items-center gap-1.5 text-sm text-muted">
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full bg-success"
+                  aria-hidden
+                />
+                В наличии
+              </span>
             </div>
             <p className="mt-3 text-base text-muted">
               Сравните расположение, планировку и комплектацию
             </p>
           </div>
-          <Link
-            href="/catalog/"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-text hover:text-orange"
-          >
-            Весь каталог
-            <IconArrow className="h-4 w-4" />
+          <Link href="/catalog/" className="catalog-all-link shrink-0">
+            Весь каталог ↗
           </Link>
         </div>
 
@@ -65,7 +63,8 @@ export function HomeCatalog() {
               type="button"
               onClick={() => setTab(t.id)}
               className={cn(
-                tab === t.id ? "chip-active" : "chip-inactive"
+                "catalog-tab",
+                tab === t.id ? "catalog-tab-active" : "catalog-tab-inactive"
               )}
             >
               {t.label}

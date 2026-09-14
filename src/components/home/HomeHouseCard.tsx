@@ -6,7 +6,6 @@ import { getHouseCover } from "@/lib/house-images";
 import { analytics } from "@/lib/analytics";
 import { formatPrice } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { DoorOpen, Maximize2, TreePine } from "lucide-react";
 import Link from "next/link";
 import { FavoriteButton } from "./FavoriteButton";
 import { IconMapPin } from "./icons";
@@ -16,10 +15,28 @@ interface HomeHouseCardProps {
   priority?: boolean;
 }
 
+function roomsLabel(n: number): string {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod100 >= 11 && mod100 <= 19) return `${n} комнат`;
+  if (mod10 === 1) return `${n} комната`;
+  if (mod10 >= 2 && mod10 <= 4) return `${n} комнаты`;
+  return `${n} комнат`;
+}
+
+function citySlug(city: string): string {
+  const c = city.toLowerCase();
+  if (c === "саратов") return "saratov";
+  if (c === "энгельс") return "engels";
+  return "balakovo";
+}
+
 export function HomeHouseCard({ house, priority = false }: HomeHouseCardProps) {
   const cover = getHouseCover(house);
-  const statusLabel =
-    house.readiness === "ready" ? "Готов" : "В продаже";
+  const statusLabel = house.readiness === "ready" ? "Готов" : "В продаже";
+  const shortTitle = `Дом ${house.area} м²`;
+  const landText =
+    Number.isInteger(house.land) ? `${house.land}` : String(house.land).replace(".", ",");
 
   return (
     <article className="overflow-hidden rounded-card border border-border bg-surface shadow-card transition-shadow duration-[160ms] hover:shadow-card-hover">
@@ -37,7 +54,7 @@ export function HomeHouseCard({ house, priority = false }: HomeHouseCardProps) {
             sizes="(max-width: 768px) 100vw, 384px"
           />
         </Link>
-        <span className="absolute left-4 top-4 rounded-sm bg-success px-2.5 py-1 text-xs font-semibold text-white">
+        <span className="status-badge absolute left-4 top-4">
           {statusLabel}
         </span>
         <FavoriteButton
@@ -48,48 +65,43 @@ export function HomeHouseCard({ house, priority = false }: HomeHouseCardProps) {
 
       <div className="p-5">
         <Link href={`/catalog/${house.id}`}>
-          <h3 className="card-title text-text">{house.title.replace(/^Дом /, "Дом ")}</h3>
+          <h3 className="card-title font-extrabold text-text">{shortTitle}</h3>
         </Link>
         <Link
-          href={`/catalog/${house.city.toLowerCase() === "саратов" ? "saratov" : house.city.toLowerCase() === "энгельс" ? "engels" : "balakovo"}/`}
+          href={`/catalog/${citySlug(house.city)}/`}
           className="mt-1.5 flex items-center gap-1 text-sm text-muted hover:text-text"
         >
-          <IconMapPin />
+          <IconMapPin className="h-4 w-4 text-forest" />
           {house.city}, {house.district}
         </Link>
-        <p className="price-lg mt-3 text-text">{formatPrice(house.price)}</p>
+        <p className="price-lg mt-3 font-extrabold text-text">
+          {formatPrice(house.price)}
+        </p>
 
-        <div className="mt-3 grid grid-cols-3 divide-x divide-border text-sm text-text">
-          <div className="flex flex-col items-center gap-1 px-1 text-center">
-            <Maximize2 className="h-4 w-4 text-muted" />
-            {house.area} м²
-          </div>
-          <div className="flex flex-col items-center gap-1 px-1 text-center">
-            <TreePine className="h-4 w-4 text-muted" />
-            {house.land} сот.
-          </div>
-          <div className="flex flex-col items-center gap-1 px-1 text-center">
-            <DoorOpen className="h-4 w-4 text-muted" />
-            {house.rooms} комн.
-          </div>
-        </div>
-
-        <Link
-          href={`/catalog/${house.id}#included`}
-          className="mt-3 inline-block text-sm font-medium text-text hover:text-orange"
-        >
-          Что входит в цену →
-        </Link>
+        <p className="mt-2 text-sm text-muted">
+          {house.area} м² · {landText} сот. · {roomsLabel(house.rooms)}
+        </p>
 
         <div className="mt-5 flex gap-2">
           <Link
             href={`/catalog/${house.id}`}
             className="btn-secondary h-11 flex-1 text-sm"
           >
-            Фото и описание
+            Фото и планировка
           </Link>
-          <CompareButton houseId={house.id} variant="icon" />
+          <CompareButton
+            houseId={house.id}
+            variant="icon"
+            className="!h-11 !w-11 shrink-0 !rounded-control border border-border !bg-surface !shadow-none"
+          />
         </div>
+
+        <Link
+          href={`/catalog/${house.id}#included`}
+          className="catalog-price-link mt-4 inline-block"
+        >
+          Что входит в цену →
+        </Link>
       </div>
     </article>
   );

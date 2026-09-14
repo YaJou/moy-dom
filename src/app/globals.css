@@ -525,6 +525,71 @@
     width: 100%;
   }
 
+  /* Catalog section — mockup */
+  .catalog-all-link {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 160ms ease;
+  }
+
+  .catalog-all-link:hover {
+    color: var(--forest-hover);
+  }
+
+  .catalog-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding-inline: 16px;
+    border-radius: var(--r-control);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease,
+      color 160ms ease;
+  }
+
+  .catalog-tab-active {
+    border: 1px solid var(--orange);
+    background-color: var(--orange);
+    color: #fff;
+  }
+
+  .catalog-tab-inactive {
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text);
+  }
+
+  .catalog-tab-inactive:hover {
+    border-color: rgba(244, 123, 32, 0.4);
+  }
+
+  .catalog-price-link {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: var(--forest);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 160ms ease;
+  }
+
+  .catalog-price-link:hover {
+    color: var(--forest-hover);
+  }
+
   /* Hero photo toggle — mockup: white active pill on translucent bar */
   .hero-photo-toggle {
     display: inline-flex;
