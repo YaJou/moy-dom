@@ -639,7 +639,7 @@
   .catalog-cta-leaf {
     width: 56px;
     height: 56px;
-    color: rgba(212, 222, 216, 0.55);
+    color: #fff;
   }
 
   @media (min-width: 768px) {

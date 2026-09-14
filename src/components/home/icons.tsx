@@ -14,7 +14,10 @@ export function IconMapPin({ className = "h-4 w-4" }: IconClassProps) {
   return <Icon name="map-pin" className={className} />;
 }
 
-function LeafGlyph({ className = "h-5 w-5" }: IconClassProps) {
+function LeafGlyph({
+  className = "h-5 w-5",
+  strokeWidth = 1.75,
+}: IconClassProps & { strokeWidth?: number }) {
   return (
     <svg
       className={className}
@@ -25,14 +28,14 @@ function LeafGlyph({ className = "h-5 w-5" }: IconClassProps) {
       <path
         d="M20.5 3.5C10 3 3 7 3 13a7 7 0 0 0 7 7c6 0 10-7 10.5-16.5Z"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M3 21 16 8"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -45,7 +48,7 @@ export function IconLeaf({ className = "h-5 w-5" }: IconClassProps) {
 }
 
 export function IconLeafOutline({ className = "h-14 w-14" }: IconClassProps) {
-  return <LeafGlyph className={className} />;
+  return <LeafGlyph className={className} strokeWidth={1.35} />;
 }
 
 export function IconPhoto({ className = "h-5 w-5" }: IconClassProps) {
