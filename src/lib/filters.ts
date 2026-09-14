@@ -36,9 +36,37 @@ function matchesArea(area: number, range: string): boolean {
   }
 }
 
+function isAnyCity(value: string): boolean {
+  return value === "Любой" || value === "Любой город";
+}
+
+function isAnyPrice(value: string): boolean {
+  return value === "Любая" || value === "Любой бюджет";
+}
+
+function isAnyRooms(value: string): boolean {
+  return value === "Любое" || value === "Любое количество";
+}
+
+function normalizeFilterValue(
+  key: keyof SearchFiltersState,
+  value: string
+): string {
+  switch (key) {
+    case "city":
+      return value === "Любой" ? "Любой город" : value;
+    case "price":
+      return value === "Любая" ? "Любой бюджет" : value;
+    case "rooms":
+      return value === "Любое" ? "Любое количество" : value;
+    default:
+      return value;
+  }
+}
+
 function matchesRooms(rooms: number, value: string): boolean {
   if (value === "5+") return rooms >= 5;
-  if (value === "Любое") return true;
+  if (isAnyRooms(value)) return true;
   return rooms === Number(value);
 }
 
@@ -59,8 +87,9 @@ export function filterHouses(
   filters: SearchFiltersState
 ): House[] {
   return houses.filter((house) => {
-    if (filters.city !== "Любой" && house.city !== filters.city) return false;
-    if (!matchesPrice(house.price, filters.price)) return false;
+    if (!isAnyCity(filters.city) && house.city !== filters.city) return false;
+    if (!isAnyPrice(filters.price) && !matchesPrice(house.price, filters.price))
+      return false;
     if (!matchesArea(house.area, filters.area)) return false;
     if (!matchesRooms(house.rooms, filters.rooms)) return false;
     if (!matchesReadiness(house.readiness, filters.readiness)) return false;
@@ -72,7 +101,7 @@ export function filterHouses(
 export function estimateCatalogCount(filters: SearchFiltersState): number {
   if (!hasActiveFilters(filters)) return catalogStats.totalHouses;
 
-  if (filters.city !== "Любой") {
+  if (!isAnyCity(filters.city)) {
     const cityCount = catalogStats.cityCounts[filters.city];
     if (cityCount) return Math.max(1, Math.round(cityCount * 0.6));
   }
@@ -101,7 +130,8 @@ export function parseSearchParams(
 ): SearchFiltersState {
   const get = (key: keyof SearchFiltersState) => {
     const value = params[key];
-    return typeof value === "string" ? value : DEFAULT_FILTERS[key];
+    if (typeof value !== "string") return DEFAULT_FILTERS[key];
+    return normalizeFilterValue(key, value);
   };
 
   return {

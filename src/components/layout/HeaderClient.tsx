@@ -31,7 +31,7 @@ export function HeaderClient({ navigation, telegram }: HeaderClientProps) {
         </a>
         <button
           type="button"
-          className="btn-compact hidden bg-orange text-text hover:bg-orange-hover sm:inline-flex"
+          className="btn-header-cta hidden sm:inline-flex"
           onClick={() => openViewing()}
         >
           Записаться на просмотр

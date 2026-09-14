@@ -60,10 +60,10 @@ export interface SearchFiltersState {
 }
 
 export const DEFAULT_FILTERS: SearchFiltersState = {
-  city: "Любой",
-  price: "Любая",
+  city: "Любой город",
+  price: "Любой бюджет",
   area: "Любая",
-  rooms: "Любое",
+  rooms: "Любое количество",
   readiness: "Любая",
   floors: "Любая",
   gas: "Любой",

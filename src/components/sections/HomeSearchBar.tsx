@@ -68,7 +68,7 @@ export function HomeSearchBar() {
   };
 
   const budgetOptions = [
-    "Любая",
+    "Любой бюджет",
     "до 5 000 000 ₽",
     "5 000 000 – 7 000 000 ₽",
     "7 000 000 – 10 000 000 ₽",
