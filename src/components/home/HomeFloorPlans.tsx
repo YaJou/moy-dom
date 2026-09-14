@@ -245,13 +245,15 @@ export function HomeFloorPlans() {
                   </ul>
                 ) : null}
 
-                <Link
-                  href={`/catalog/${house.id}`}
-                  className="floorplans-cta"
-                >
-                  Выбрать планировку
-                  <IconArrow className="h-5 w-5" />
-                </Link>
+                <div className="floorplans-side-actions">
+                  <Link
+                    href={`/catalog/${house.id}`}
+                    className="floorplans-cta"
+                  >
+                    Выбрать планировку
+                    <IconArrow className="h-5 w-5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

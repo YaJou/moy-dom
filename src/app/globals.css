@@ -1116,22 +1116,25 @@
     text-align: right;
   }
 
+  .floorplans-side-actions {
+    margin-top: auto;
+    padding-top: 24px;
+  }
+
   .floorplans-cta {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: auto;
-    padding-top: 24px;
-    height: auto;
-    min-height: 52px;
-    padding-inline: 28px;
+    width: 100%;
+    height: 52px;
+    padding: 0 28px;
     border: none;
     border-radius: var(--r-control);
     background-color: var(--orange);
     color: var(--text);
     font-size: 16px;
-    line-height: 24px;
+    line-height: 1;
     font-weight: 700;
     text-decoration: none;
     transition: background-color 160ms ease, box-shadow 160ms ease,
