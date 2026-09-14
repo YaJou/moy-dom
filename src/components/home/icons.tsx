@@ -23,23 +23,18 @@ function LeafGlyph({ className = "h-5 w-5" }: IconClassProps) {
       aria-hidden
     >
       <path
-        d="M5.5 16.5c-.8-3.8.8-8.2 4.2-11.2C13.2 2.2 18.8 2.8 19.8 5c1 2.2-1.6 7.8-5.5 11.2-3.6 3.2-7.2 2.8-8.8.3Z"
+        d="M20.5 3.5C10 3 3 7 3 13a7 7 0 0 0 7 7c6 0 10-7 10.5-16.5Z"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
-        d="M7.2 15.8 17.5 6.2"
+        d="M3 21 16 8"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
-      />
-      <path
-        d="M10 13.2 8.2 11.2M13.2 9.8 11.2 7.4M10.8 14.2 13.2 12.8M14 10.6 16.4 8.8"
-        stroke="currentColor"
-        strokeWidth="1.75"
-        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
