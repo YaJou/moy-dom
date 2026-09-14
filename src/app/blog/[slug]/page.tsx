@@ -1,5 +1,6 @@
 import { ArticleToc } from "@/components/blog/ArticleToc";
 import { BlogArticleBody } from "@/components/blog/BlogArticleBody";
+import { IpotekaArticle } from "@/components/blog/IpotekaArticle";
 import {
   OtdelkaRelatedHouses,
 } from "@/components/blog/OtdelkaInteractive";
@@ -254,6 +255,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
         path={getBlogArticleHref(slug)}
         image={article.image}
         datePublished={article.dateIso}
+        dateModified={article.updatedDateIso ?? article.dateIso}
       />
       <Breadcrumb
         items={[
@@ -262,7 +264,9 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
           { label: article.title },
         ]}
       />
-      {article.layout === "journal" ? (
+      {article.slug === "ipoteka" ? (
+        <IpotekaArticle article={article} />
+      ) : article.layout === "journal" ? (
         <JournalArticle article={article} />
       ) : (
         <DefaultArticle article={article} />

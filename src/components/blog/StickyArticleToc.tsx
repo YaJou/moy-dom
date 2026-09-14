@@ -23,12 +23,13 @@ export function StickyArticleToc({ items }: StickyArticleTocProps) {
       const box = boxRef.current;
       if (!slot || !box) return;
 
-      const layout = slot.closest(".ja-layout") as HTMLElement | null;
+      const layout = (slot.closest(".mp-layout") ||
+        slot.closest(".ja-layout")) as HTMLElement | null;
       if (!layout) return;
 
       const layoutRect = layout.getBoundingClientRect();
       const slotRect = slot.getBoundingClientRect();
-      const top = 88;
+      const top = 104;
       const boxH = box.offsetHeight;
       const bottomLimit = layoutRect.bottom - boxH - 24;
 

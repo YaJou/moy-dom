@@ -3668,6 +3668,630 @@
     font-weight: 600;
   }
 
+  /* ——— Mortgage journal article ——— */
+  .mp-page .ja-h2,
+  .mp-page .ja-h3,
+  .mp-page [id] {
+    scroll-margin-top: 104px;
+  }
+
+  .mp-hero {
+    max-width: 800px;
+  }
+
+  .mp-deck {
+    max-width: 800px;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--text);
+  }
+
+  @media (min-width: 768px) {
+    .mp-deck {
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
+
+  .mp-cover {
+    margin-top: 32px;
+  }
+
+  .mp-cover-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #fff;
+  }
+
+  @media (min-width: 768px) {
+    .mp-cover-frame {
+      aspect-ratio: auto;
+      height: 440px;
+      border-radius: 24px;
+    }
+  }
+
+  .mp-cover-img {
+    object-position: center 35%;
+  }
+
+  .mp-layout {
+    display: grid;
+    gap: 40px;
+    margin-top: 48px;
+    position: relative;
+  }
+
+  @media (min-width: 1024px) {
+    .mp-layout {
+      grid-template-columns: minmax(0, 760px) 280px;
+      column-gap: 64px;
+      row-gap: 56px;
+      max-width: 1104px;
+      margin-inline: auto;
+    }
+
+    .mp-main,
+    .mp-col {
+      grid-column: 1;
+    }
+
+    .mp-aside {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      align-self: start;
+    }
+
+    .mp-full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .mp-aside {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .mp-aside {
+      display: block;
+    }
+  }
+
+  .mp-aside-link {
+    margin: 20px 0 0;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .mp-aside-link a {
+    color: var(--forest);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .mp-aside-link a:hover {
+    text-decoration: underline;
+  }
+
+  .mp-section {
+    margin: 0;
+  }
+
+  .mp-orient {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .mp-orient-card {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface);
+  }
+
+  .mp-orient-card h3 {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mp-orient-card p {
+    margin: 8px 0 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--muted);
+  }
+
+  .mp-ways {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .mp-way {
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--surface);
+  }
+
+  .mp-way .ja-h3 {
+    margin-top: 0;
+  }
+
+  .mp-way .ja-p:last-child {
+    margin-bottom: 0;
+  }
+
+  .mp-figure {
+    margin: 0 0 20px;
+  }
+
+  .mp-figure-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .mp-full-lead {
+    max-width: 760px;
+  }
+
+  .mp-calc {
+    display: grid;
+    gap: 24px;
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 24px;
+    background: var(--forest);
+    color: var(--on-forest);
+  }
+
+  @media (min-width: 900px) {
+    .mp-calc {
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      padding: 32px;
+      align-items: start;
+    }
+  }
+
+  .mp-calc-controls {
+    display: grid;
+    gap: 18px;
+  }
+
+  .mp-field {
+    display: grid;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .mp-field-row {
+    display: grid;
+    gap: 12px;
+  }
+
+  @media (min-width: 560px) {
+    .mp-field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .mp-field-hint {
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .mp-input {
+    height: 48px;
+    width: 100%;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .mp-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .mp-input option {
+    color: var(--text);
+  }
+
+  .mp-range {
+    width: 100%;
+    accent-color: var(--orange);
+  }
+
+  .mp-calc-result {
+    padding: 24px;
+    border-radius: 20px;
+    background: #fff;
+    color: var(--text);
+    box-shadow: 0 8px 28px rgba(32, 37, 34, 0.045);
+  }
+
+  .mp-calc-result-label {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted);
+  }
+
+  .mp-calc-result-value {
+    margin: 8px 0 0;
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+  }
+
+  .mp-calc-result-value span {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .mp-calc-result-empty {
+    margin: 10px 0 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    color: var(--forest);
+  }
+
+  .mp-calc-stats {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0 0;
+  }
+
+  .mp-calc-stats dt {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .mp-calc-stats dd {
+    margin: 2px 0 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .mp-calc-note {
+    margin: 16px 0 0;
+    font-size: 13px;
+    line-height: 19px;
+    color: var(--muted);
+  }
+
+  .mp-btn-primary,
+  .mp-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background 160ms ease, border-color 160ms ease;
+  }
+
+  .mp-btn-primary {
+    margin-top: 16px;
+    background: var(--orange);
+    color: var(--text);
+  }
+
+  .mp-btn-primary:hover {
+    background: #e56f14;
+  }
+
+  .mp-btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .mp-btn-secondary {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  .mp-btn-secondary:hover {
+    border-color: var(--forest);
+    color: var(--forest);
+  }
+
+  .mp-steps {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+  }
+
+  .mp-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 14px;
+    padding-bottom: 24px;
+  }
+
+  .mp-step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 17px;
+    top: 36px;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .mp-step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: var(--forest);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .mp-step h3 {
+    margin: 4px 0 0;
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mp-step p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--text);
+  }
+
+  .mp-note {
+    color: var(--muted);
+  }
+
+  .mp-doc-grid {
+    display: grid;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  @media (min-width: 720px) {
+    .mp-doc-grid {
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+  }
+
+  .mp-doc-panel {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+  }
+
+  .mp-doc-panel .ja-h3 {
+    margin-top: 0;
+  }
+
+  .mp-doc-panel ul {
+    margin: 12px 0 0;
+    padding-left: 18px;
+    font-size: 15px;
+    line-height: 24px;
+    color: var(--text);
+  }
+
+  .mp-doc-panel li + li {
+    margin-top: 8px;
+  }
+
+  .mp-docs-cta {
+    display: grid;
+    gap: 12px;
+    margin-top: 8px;
+    max-width: 420px;
+  }
+
+  .mp-docs-cta .mp-field {
+    color: var(--text);
+  }
+
+  .mp-docs-cta .mp-input {
+    background: #fff;
+    border-color: var(--border);
+    color: var(--text);
+  }
+
+  .mp-table-wrap {
+    margin: 20px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mp-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+  }
+
+  .mp-table th,
+  .mp-table td {
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 14px;
+    line-height: 21px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mp-table th {
+    background: var(--page);
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mp-table td {
+    color: var(--text);
+  }
+
+  .mp-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .mp-peach {
+    margin-top: 8px;
+  }
+
+  .mp-viewing {
+    margin-top: 8px;
+    padding: 28px 24px;
+    border-radius: 24px;
+    background: var(--orange-soft);
+  }
+
+  @media (min-width: 768px) {
+    .mp-viewing {
+      padding: 32px;
+    }
+  }
+
+  .mp-viewing .ja-h2 {
+    margin-top: 0;
+  }
+
+  .mp-viewing p {
+    margin: 12px 0 0;
+    max-width: 640px;
+    font-size: 17px;
+    line-height: 28px;
+    color: var(--text);
+  }
+
+  .mp-viewing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .mp-viewing-actions .mp-btn-primary,
+  .mp-viewing-actions .mp-btn-secondary {
+    margin-top: 0;
+  }
+
+  .mp-faq {
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .mp-faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+  }
+
+  .mp-faq-item summary {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    cursor: pointer;
+    list-style: none;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .mp-faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mp-faq-plus {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 22px;
+    transition: transform 160ms ease;
+  }
+
+  .mp-faq-item[open] .mp-faq-plus {
+    transform: rotate(45deg);
+  }
+
+  .mp-faq-item p {
+    margin: 12px 0 0;
+    padding-right: 28px;
+    font-size: 16px;
+    line-height: 27px;
+    color: var(--text);
+  }
+
+  .mp-sources {
+    margin-top: 16px;
+    max-width: 760px;
+  }
+
+  .mp-catalog {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 767px) {
+    .mp-page .ja-h1 {
+      font-size: 32px;
+      line-height: 38px;
+    }
+
+    .mp-page .ja-h2 {
+      font-size: 26px;
+      line-height: 33px;
+    }
+
+    .mp-page .ja-p,
+    .mp-step p,
+    .mp-faq-item p {
+      font-size: 16px;
+      line-height: 27px;
+    }
+  }
+
   .status-badge {
     display: inline-flex;
     align-items: center;

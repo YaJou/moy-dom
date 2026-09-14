@@ -1,4 +1,4 @@
-import { ipotekaBlocks } from "@/data/blog/articles/short";
+import { ipotekaBlocks } from "@/data/blog/articles/ipoteka";
 import { otdelkaBlocks } from "@/data/blog/articles/otdelka";
 import { prichinyBlocks } from "@/data/blog/articles/prichiny";
 import { uchastokBlocks } from "@/data/blog/articles/uchastok";
@@ -88,15 +88,27 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     slug: "ipoteka",
-    title: "Ипотека на готовый дом: пошаговая инструкция",
+    title: "Ипотека на готовый дом: от выбора до получения ключей",
     description:
-      "Как оформить ипотеку на готовый частный дом в Энгельсе, Саратове и Балаково: семейная ипотека, документы, банки, одобрение.",
+      "С чего начать покупку дома с участком: как сравнить условия, подготовить документы и разобраться с расходами до сделки",
     date: "3 марта 2026",
     dateIso: "2026-03-03",
+    updatedDate: "15 сентября 2026",
+    updatedDateIso: "2026-09-15",
     category: "mortgage",
+    categoryLabel: "Покупка дома",
     popular: true,
-    readTime: "12 мин",
-    image: "/images/blog/blog-2.jpg",
+    readTime: "8 мин",
+    image: "/images/blog/mortgage/01-mortgage-house-hero.png",
+    coverCaption: "Иллюстрация к материалу",
+    layout: "journal",
+    author: {
+      name: "Кров-Сервис",
+      role: "Отдел продаж и сопровождения объектов",
+      experience:
+        "Помогаем с информацией по домам, комплектацией и организацией просмотра. Решение по кредиту принимает банк.",
+      href: "/about/",
+    },
     relatedSlugs: ["uchastok", "otdelka", "prichiny"],
     blocks: ipotekaBlocks,
   },
