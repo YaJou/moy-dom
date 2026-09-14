@@ -1,6 +1,5 @@
 "use client";
 
-import { NavMenu } from "@/components/layout/NavMenu";
 import { Button } from "@/components/ui/button";
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
 import type { NavItem } from "@/data/site";
@@ -43,11 +42,7 @@ export function HeaderClient({
 
   return (
     <>
-      <div className="hidden min-w-0 flex-1 items-center justify-center px-2 lg:flex xl:px-4">
-        <NavMenu items={navigation} />
-      </div>
-
-      <div className="hidden shrink-0 items-center gap-2.5 lg:flex xl:gap-3">
+      <div className="hidden items-center gap-3 lg:flex xl:gap-4">
         <div className="flex items-center gap-1.5">
           <a
             href={whatsapp}
@@ -69,16 +64,16 @@ export function HeaderClient({
           </a>
         </div>
 
-        <div className="hidden h-9 w-px bg-border xl:block" aria-hidden />
+        <div className="h-9 w-px bg-border" aria-hidden />
 
-        <div className="min-w-0 text-right">
+        <div className="text-right">
           <a
             href={`tel:${phone.replace(/\D/g, "")}`}
             className="block whitespace-nowrap text-sm font-semibold leading-none text-text transition-colors hover:text-orange"
           >
             {phone}
           </a>
-          <span className="mt-1 hidden text-[11px] leading-none text-muted 2xl:block">
+          <span className="mt-1 block text-[11px] leading-none text-muted">
             {phoneHours}
           </span>
         </div>
@@ -86,7 +81,7 @@ export function HeaderClient({
         <Button
           size="sm"
           variant="outline"
-          className="hidden h-9 rounded-full px-3.5 text-[13px] 2xl:inline-flex"
+          className="h-9 rounded-full px-3.5 text-[13px]"
           onClick={() => openViewing()}
         >
           Подобрать дом
@@ -100,15 +95,23 @@ export function HeaderClient({
         </Button>
       </div>
 
-      <button
-        type="button"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-page lg:hidden"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
-        aria-expanded={isOpen}
-      >
-        {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-      </button>
+      <div className="flex items-center gap-2 lg:hidden">
+        <a
+          href={`tel:${phone.replace(/\D/g, "")}`}
+          className="hidden whitespace-nowrap text-sm font-semibold text-text sm:block"
+        >
+          {phone}
+        </a>
+        <button
+          type="button"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-page"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Закрыть меню" : "Открыть меню"}
+          aria-expanded={isOpen}
+        >
+          {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
+      </div>
 
       {isOpen && (
         <div className="absolute left-0 right-0 top-full border-b border-border bg-white p-3 shadow-card lg:hidden">

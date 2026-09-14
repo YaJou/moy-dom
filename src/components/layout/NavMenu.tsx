@@ -12,17 +12,9 @@ interface NavMenuProps {
 }
 
 const linkClass =
-  "inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-lg px-2.5 text-[13px] font-medium text-text transition-colors hover:bg-page hover:text-orange xl:px-3";
+  "inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-lg px-3 text-[13px] font-medium text-text transition-colors hover:bg-page hover:text-orange xl:px-3.5 xl:text-sm";
 
 function NavLabel({ item }: { item: NavItem }) {
-  if (item.shortLabel) {
-    return (
-      <>
-        <span className="2xl:hidden">{item.shortLabel}</span>
-        <span className="hidden 2xl:inline">{item.label}</span>
-      </>
-    );
-  }
   return <>{item.label}</>;
 }
 
@@ -102,7 +94,7 @@ function NavLink({ item }: { item: NavItem }) {
 
 export function NavMenu({ items }: NavMenuProps) {
   return (
-    <nav className="hidden items-center gap-0.5 lg:flex">
+    <nav className="flex items-center justify-center gap-1">
       {items.map((item) =>
         item.children ? (
           <NavDropdown key={item.href} item={item} />
