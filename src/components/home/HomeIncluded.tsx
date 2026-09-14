@@ -3,7 +3,13 @@ import { realHouses } from "@/data/houses";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Icon, IconClipboard, IconFaucet, IconHouse } from "./icons";
+import {
+  Icon,
+  IconChevronDown,
+  IconClipboard,
+  IconFaucet,
+  IconHouse,
+} from "./icons";
 
 const includedIcons: Record<string, ReactNode> = {
   house: <IconHouse className="h-6 w-6" />,
@@ -38,13 +44,25 @@ export function HomeIncluded() {
 
           <div className="included-list">
             {includedItems.map((item) => (
-              <div key={item.title} className="included-row">
-                <span className="included-row-icon">
-                  {includedIcons[item.icon]}
-                </span>
-                <p className="included-row-title">{item.title}</p>
-                <p className="included-row-desc">{item.description}</p>
-              </div>
+              <details key={item.title} className="included-item group">
+                <summary className="included-row">
+                  <span className="included-row-icon">
+                    {includedIcons[item.icon]}
+                  </span>
+                  <p className="included-row-title">{item.title}</p>
+                  <p className="included-row-desc">{item.description}</p>
+                  <span className="included-row-chevron" aria-hidden>
+                    <IconChevronDown className="h-4 w-4" />
+                  </span>
+                </summary>
+                <div className="included-row-body">
+                  <ul>
+                    {item.details.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
+              </details>
             ))}
             <Link
               href={`/catalog/${sampleHouse.id}#included`}
