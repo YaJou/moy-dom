@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Контакты",
-  description: `Контакты ${siteConfig.name}: телефон ${siteConfig.phone}, адрес ${siteConfig.address}. Запись на просмотр дома в Саратове, Энгельсе и Балаково.`,
+  description: `Контакты ${siteConfig.name}: телефон ${siteConfig.phone}, адрес ${siteConfig.address}. Запись на просмотр дома в Энгельсе, Саратове и Балаково.`,
   path: "/contacts/",
 });
 

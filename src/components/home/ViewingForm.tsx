@@ -34,7 +34,7 @@ type ContactMethod = "phone" | "telegram";
 export function ViewingForm({
   id,
   className,
-  defaultCity = "Балаково",
+  defaultCity = "Энгельс",
   context,
   compact = false,
   onSuccess,
@@ -144,7 +144,7 @@ export function ViewingForm({
             id={`${formId}-city`}
             value={city}
             onChange={setCity}
-            options={["Саратов", "Энгельс", "Балаково"]}
+            options={["Энгельс", "Саратов", "Балаково"]}
             aria-label="Город"
           />
         </div>

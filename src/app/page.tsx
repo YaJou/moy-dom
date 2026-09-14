@@ -22,7 +22,7 @@ import { siteConfig } from "@/data/site";
 import { absoluteUrl } from "@/lib/seo";
 
 const homeTitle =
-  "Готовые дома в Саратове, Энгельсе, Балаково — Кров-Сервис";
+  "Готовые дома в Энгельсе, Саратове, Балаково — Кров-Сервис";
 
 export default function HomePage() {
   const citations = homeCitability.sources.map((s) => ({

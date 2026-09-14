@@ -54,13 +54,13 @@ export default function NotFound() {
 
         <ul className="mt-10 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-gray">
           <li>
-            <Link href="/catalog/saratov/" className="hover:text-primary">
-              Дома в Саратове
+            <Link href="/catalog/engels/" className="hover:text-primary">
+              Дома в Энгельсе
             </Link>
           </li>
           <li>
-            <Link href="/catalog/engels/" className="hover:text-primary">
-              Дома в Энгельсе
+            <Link href="/catalog/saratov/" className="hover:text-primary">
+              Дома в Саратове
             </Link>
           </li>
           <li>

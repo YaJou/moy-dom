@@ -22,21 +22,22 @@ import {
 import { useViewingModal } from "./ViewingModalProvider";
 
 const HERO_FACADE = [
-  "/images/design-kit/01-hero-house.png",
-  "/images/design-kit/02-hero-side.png",
-  "/images/design-kit/03-hero-garden.png",
+  "/images/houses/engels-snt-novoe-veselaya-116/02.jpg",
+  "/images/houses/engels-snt-novoe-veselaya-116/03.jpg",
+  "/images/houses/engels-snt-malinki-pokrovskoye-87/02.jpg",
 ] as const;
 
 const HERO_INTERIOR = [
-  "/images/design-kit/07-pre-finish-interior.png",
-  "/images/design-kit/11-underfloor-heating.png",
-  "/images/houses/balakovo-novonatalino-100/09.jpg",
+  "/images/houses/engels-snt-novoe-veselaya-116/04.jpg",
+  "/images/houses/engels-snt-novoe-veselaya-116/05.jpg",
+  "/images/houses/engels-snt-malinki-pokrovskoye-87/03.jpg",
 ] as const;
 
 function pickHeroHouse(): House {
   const withPhotos = realHouses.filter((h) => h.images.length >= 1);
   return (
-    withPhotos.find((h) => h.slug === "natalino-stepnaya-87") ??
+    withPhotos.find((h) => h.slug === "engels-snt-novoe-veselaya-116") ??
+    withPhotos.find((h) => h.city === "Энгельс") ??
     withPhotos[0]
   );
 }
@@ -104,7 +105,7 @@ export function HomeHero() {
                 <span className="text-forest">Новая жизнь.</span>
               </h1>
               <p className="mt-5 max-w-[450px] text-lg leading-7 text-muted">
-                Готовые дома в Саратове, Энгельсе и Балаково
+                Готовые дома в Энгельсе, Саратове и Балаково
               </p>
               <p className="hero-price mt-5 text-text">
                 от {formatPrice(minPrice)}

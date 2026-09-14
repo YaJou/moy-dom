@@ -6,7 +6,7 @@ export const siteConfig = {
   name: "Кров-Сервис",
   tagline: "Готовые частные дома",
   description:
-    "Купите готовый дом в Саратове, Энгельсе или Балаково от застройщика. Участок, коммуникации, ипотека — всё включено. Более 200 построенных домов",
+    "Купите готовый дом в Энгельсе, Саратове или Балаково от застройщика. Участок, коммуникации, ипотека — всё включено. Более 200 построенных домов",
   url: "https://dom-krovservice64.ru",
   phone: "+7 (919) 822-35-34",
   phoneHours: "Ежедневно с 8:00 до 17:00",
@@ -36,8 +36,8 @@ export const navigation: NavItem[] = [
     href: "/catalog/",
     children: [
       { label: "Все дома", href: "/catalog/" },
-      { label: "Саратов", href: "/catalog/saratov/" },
       { label: "Энгельс", href: "/catalog/engels/" },
+      { label: "Саратов", href: "/catalog/saratov/" },
       { label: "Балаково", href: "/catalog/balakovo/" },
       { label: "Одноэтажные", href: "/catalog/?floors=1%20%D1%8D%D1%82%D0%B0%D0%B6" },
       { label: "Двухэтажные", href: "/catalog/?floors=2%20%D1%8D%D1%82%D0%B0%D0%B6%D0%B0" },
@@ -70,7 +70,7 @@ export const navigation: NavItem[] = [
 
 export const heroData = {
   title: "Готовые частные дома",
-  titleCities: "в Саратове, Энгельсе и Балаково",
+  titleCities: "в Энгельсе, Саратове и Балаково",
   priceFrom: "От 6 490 000 ₽",
   subtitle:
     "с участком, газом и предчистовой отделкой",
@@ -81,7 +81,7 @@ export const heroData = {
 };
 
 export const searchFilters = {
-  cities: ["Любой город", "Саратов", "Энгельс", "Балаково"],
+  cities: ["Любой город", "Энгельс", "Саратов", "Балаково"],
   priceRanges: [
     "Любой бюджет",
     "до 5 000 000 ₽",
@@ -151,15 +151,6 @@ export const featuresData = [
 
 export const citiesData = [
   {
-    id: 1,
-    name: "Саратов",
-    housesCount: 18,
-    projectsCount: 24,
-    priceFrom: 6_500_000,
-    image: "/images/saratov.jpg",
-    href: "/catalog/saratov",
-  },
-  {
     id: 2,
     name: "Энгельс",
     housesCount: 14,
@@ -167,6 +158,15 @@ export const citiesData = [
     priceFrom: 6_500_000,
     image: "/images/engels.jpg",
     href: "/catalog/engels",
+  },
+  {
+    id: 1,
+    name: "Саратов",
+    housesCount: 18,
+    projectsCount: 24,
+    priceFrom: 6_500_000,
+    image: "/images/saratov.jpg",
+    href: "/catalog/saratov",
   },
   {
     id: 3,
@@ -188,14 +188,14 @@ export const statsData = [
 
 export const galleryData = [
   {
-    id: 1,
-    image: "/images/gallery/gallery-1.jpg",
-    alt: "Построенный дом в Саратове",
-  },
-  {
     id: 2,
     image: "/images/gallery/gallery-2.jpg",
     alt: "Современный коттедж в Энгельсе",
+  },
+  {
+    id: 1,
+    image: "/images/gallery/gallery-1.jpg",
+    alt: "Построенный дом в Саратове",
   },
   {
     id: 3,
@@ -344,8 +344,8 @@ export const faqData = [
 export const footerLinks = {
   catalog: [
     { label: "Все дома", href: "/catalog/" },
-    { label: "Саратов", href: "/catalog/saratov/" },
     { label: "Энгельс", href: "/catalog/engels/" },
+    { label: "Саратов", href: "/catalog/saratov/" },
     { label: "Балаково", href: "/catalog/balakovo/" },
   ],
   info: [
@@ -370,8 +370,8 @@ export const socialLinks = [
 export const quickFilters = [
   { label: "До 6 млн", href: "/catalog?price=до+5+000+000+₽" },
   { label: "3 комнаты", href: "/catalog?rooms=3" },
-  { label: "Саратов", href: "/catalog/saratov" },
   { label: "Энгельс", href: "/catalog/engels" },
+  { label: "Саратов", href: "/catalog/saratov" },
   { label: "Готов к заселению", href: "/catalog?readiness=Готов+к+заселению" },
   { label: "От 150 м²", href: "/catalog?area=150+–+200+м²" },
 ];
@@ -525,15 +525,6 @@ export const miniFaqData = [
 
 export const localSeoData = [
   {
-    id: 1,
-    city: "Саратов",
-    title: "Готовые дома в Саратове",
-    description:
-      "Более 45 готовых домов с участком в Саратове и области. Газ, предчистовая отделка, ипотека от 15%. Заселение сразу после покупки.",
-    href: "/catalog/saratov/",
-    housesCount: 45,
-  },
-  {
     id: 2,
     city: "Энгельс",
     title: "Готовые дома в Энгельсе",
@@ -541,6 +532,15 @@ export const localSeoData = [
       "28 домов в Энгельсе — тихие районы, развитая инфраструктура, 15 минут до Саратова. Участок и коммуникации включены.",
     href: "/catalog/engels/",
     housesCount: 28,
+  },
+  {
+    id: 1,
+    city: "Саратов",
+    title: "Готовые дома в Саратове",
+    description:
+      "Более 45 готовых домов с участком в Саратове и области. Газ, предчистовая отделка, ипотека от 15%. Заселение сразу после покупки.",
+    href: "/catalog/saratov/",
+    housesCount: 45,
   },
   {
     id: 3,
@@ -572,7 +572,7 @@ export const alertsData = {
     "Только объекты в выбранном городе. Без спама, звонков и лишних рассылок.",
   vkGroupUrl: "https://vk.com/dom_krovservice64",
   vkGroupName: "dom_krovservice64",
-  cities: ["Саратов", "Энгельс", "Балаково"],
+  cities: ["Энгельс", "Саратов", "Балаково"],
   channels: [
     { id: "sms", label: "SMS" },
     { id: "whatsapp", label: "WhatsApp" },

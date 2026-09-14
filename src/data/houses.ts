@@ -1,4 +1,5 @@
 import type { House } from "@/types/house";
+import { sortByCityPriority } from "@/lib/cities";
 
 function imgs(folder: string, count: number): string[] {
   return Array.from({ length: count }, (_, i) => {
@@ -26,7 +27,7 @@ const baseSpecs = {
   distanceToCenter: "10 км",
 };
 
-export const realHouses: House[] = [
+export const realHousesUnsorted: House[] = [
   {
     id: 1,
     slug: "natalino-mehanizatorov-105",
@@ -260,6 +261,9 @@ export const realHouses: House[] = [
     builder: "Кров-Сервис",
   },
 ];
+
+/** Дома: сначала Энгельс, затем Саратов и Балаково. */
+export const realHouses: House[] = sortByCityPriority(realHousesUnsorted);
 
 export function getHouseById(id: number): House | undefined {
   return realHouses.find((h) => h.id === id);

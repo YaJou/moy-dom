@@ -19,7 +19,7 @@ export const houseAmenityBadges = [
 ];
 
 export const seoIntroData = {
-  title: "Готовые дома в Саратове, Энгельсе и Балаково от застройщика",
+  title: "Готовые дома в Энгельсе, Саратове и Балаково от застройщика",
   paragraphs: [
     "Мы строим и продаём одноэтажные и двухэтажные частные дома с подключённым газом, электричеством, тёплыми полами и предчистовой отделкой. Большинство объектов продаются вместе с земельным участком — после покупки не нужно искать землю и подключать коммуникации.",
     "В каталоге — дома от 87 до 116 м²: от компактных для молодой семьи до просторных вариантов с террасой. Каждый объект с фотографиями, планировкой, характеристиками и информацией о комплектации.",
@@ -81,16 +81,16 @@ export const blogTabs = [
 ];
 
 export const footerCities = [
-  { label: "Саратов", href: "/catalog/saratov/" },
   { label: "Энгельс", href: "/catalog/engels/" },
+  { label: "Саратов", href: "/catalog/saratov/" },
   { label: "Балаково", href: "/catalog/balakovo/" },
 ];
 
 export const footerCategories = [
   { label: "Одноэтажные", href: "/catalog/?floors=1%20%D1%8D%D1%82%D0%B0%D0%B6" },
   { label: "Двухэтажные", href: "/catalog/?floors=2%20%D1%8D%D1%82%D0%B0%D0%B6%D0%B0" },
-  { label: "Саратов", href: "/catalog/saratov/" },
   { label: "Энгельс", href: "/catalog/engels/" },
+  { label: "Саратов", href: "/catalog/saratov/" },
   { label: "Балаково", href: "/catalog/balakovo/" },
   { label: "Все дома", href: "/catalog/" },
 ];

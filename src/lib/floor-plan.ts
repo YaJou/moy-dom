@@ -1,5 +1,6 @@
 import { getHouseDetail } from "@/data/house-detail";
 import { realHouses } from "@/data/houses";
+import { sortByCityPriority } from "@/lib/cities";
 import type { House } from "@/types/house";
 
 /** Houses where 01.jpg is a real floor plan (see README in each folder). */
@@ -14,7 +15,9 @@ export function getFloorPlanImage(houseId: number): string | null {
 }
 
 export function getHousesWithFloorPlans(): House[] {
-  return realHouses.filter((h) => FLOOR_PLAN_BY_ID[h.id]);
+  return sortByCityPriority(
+    realHouses.filter((h) => FLOOR_PLAN_BY_ID[h.id])
+  );
 }
 
 function parseFirstNumber(text: string | undefined | null): number | null {

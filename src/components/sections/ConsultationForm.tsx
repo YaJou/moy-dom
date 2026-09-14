@@ -15,7 +15,7 @@ interface ConsultationFormProps {
 }
 
 export function ConsultationForm({
-  defaultCity = "Саратов",
+  defaultCity = "Энгельс",
 }: ConsultationFormProps = {}) {
   const [submitted, setSubmitted] = useState(false);
   const [consentPd, setConsentPd] = useState(false);
@@ -136,7 +136,7 @@ export function ConsultationForm({
                     variant="field"
                     value={form.city}
                     onChange={(city) => setForm({ ...form, city })}
-                    options={["Саратов", "Энгельс", "Балаково"]}
+                    options={["Энгельс", "Саратов", "Балаково"]}
                     aria-label="Город"
                   />
                 </div>

@@ -7,7 +7,7 @@ import { CatalogPageClient } from "./CatalogPageClient";
 export const metadata: Metadata = buildPageMetadata({
   title: "Каталог готовых домов",
   description:
-    "Каталог готовых частных домов в Саратове, Энгельсе и Балаково. Фильтр по цене, площади, количеству комнат и готовности. Ипотека и рассрочка.",
+    "Каталог готовых частных домов в Энгельсе, Саратове и Балаково. Фильтр по цене, площади, количеству комнат и готовности. Ипотека и рассрочка.",
   path: "/catalog/",
 });
 
@@ -24,7 +24,7 @@ export default function CatalogPage() {
         <div className="container-main">
           <h1 className="section-title">Каталог домов</h1>
           <p className="mt-2 text-sm text-gray sm:text-base">
-            Готовые частные дома в Саратове, Энгельсе и Балаково — с участком,
+            Готовые частные дома в Энгельсе, Саратове и Балаково — с участком,
             коммуникациями, ипотекой и рассрочкой.
           </p>
         </div>

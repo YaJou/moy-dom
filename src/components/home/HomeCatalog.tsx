@@ -1,6 +1,7 @@
 "use client";
 
 import { realHouses } from "@/data/houses";
+import { citySortIndex } from "@/lib/cities";
 import { cn } from "@/lib/utils";
 import { DEFAULT_FILTERS } from "@/types/house";
 import Link from "next/link";
@@ -16,7 +17,11 @@ const tabs = [
 ] as const;
 
 function getCatalogHouses(tab: (typeof tabs)[number]["id"]) {
-  const base = [...realHouses].sort((a, b) => a.price - b.price);
+  const base = [...realHouses].sort((a, b) => {
+    const d = citySortIndex(a.city) - citySortIndex(b.city);
+    if (d !== 0) return d;
+    return a.price - b.price;
+  });
   if (tab === "new") return base.filter((h) => h.badge === "new");
   if (tab === "garage") {
     return base.filter((h) => h.specs.parking.toLowerCase().includes("гараж"));

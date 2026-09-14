@@ -1,5 +1,6 @@
 "use client";
 
+import { CITY_ORDER } from "@/lib/cities";
 import { YandexHousesMap } from "@/components/sections/YandexHousesMap";
 import { realHouses } from "@/data/houses";
 import { formatPrice, cn } from "@/lib/utils";
@@ -9,7 +10,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { IconArrow } from "./icons";
 
-const cities = ["Саратов", "Энгельс", "Балаково"] as const;
+const cities = CITY_ORDER;
 
 function getLocationCards(city: string): { house: House; label: string }[] {
   const inCity = realHouses.filter((h) => h.city === city);
@@ -24,7 +25,7 @@ function getLocationCards(city: string): { house: House; label: string }[] {
 }
 
 export function HomeLocations() {
-  const [city, setCity] = useState<(typeof cities)[number]>("Балаково");
+  const [city, setCity] = useState<(typeof cities)[number]>("Энгельс");
   const [selected, setSelected] = useState<House | null>(null);
 
   const cityHouses = useMemo(

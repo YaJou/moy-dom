@@ -1,5 +1,6 @@
 "use client";
 
+import { CITY_ORDER } from "@/lib/cities";
 import { housesData } from "@/data/site";
 import { YandexHousesMap } from "@/components/sections/YandexHousesMap";
 import { HouseImage } from "@/components/ui/HouseImage";
@@ -9,7 +10,7 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
-const cityTabs = ["Саратов", "Энгельс", "Балаково"] as const;
+const cityTabs = CITY_ORDER;
 
 type CityTab = (typeof cityTabs)[number];
 
@@ -23,9 +24,9 @@ export function MapSection({
   showCityFilters = true,
 }: MapSectionProps = {}) {
   const defaultCity: CityTab =
-    initialCity && cityTabs.includes(initialCity as CityTab)
+    initialCity && (cityTabs as readonly string[]).includes(initialCity)
       ? (initialCity as CityTab)
-      : "Балаково";
+      : "Энгельс";
 
   const [activeCity, setActiveCity] = useState<CityTab>(defaultCity);
   const [selected, setSelected] = useState<House | null>(null);

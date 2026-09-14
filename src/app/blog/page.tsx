@@ -26,7 +26,7 @@ export default function BlogPage() {
           <h1 className="section-title">Полезные статьи</h1>
           <p className="mt-3 max-w-2xl text-sm text-gray sm:text-base">
             Разбираем выбор участка, ипотеку, отделку и покупку готового дома в
-            Саратове, Энгельсе и Балаково.
+            Энгельсе, Саратове и Балаково.
           </p>
 
           <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-2 lg:gap-7 xl:grid-cols-2">

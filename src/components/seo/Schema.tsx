@@ -44,8 +44,8 @@ export function OrganizationSchema() {
       longitude: 46.1268,
     },
     areaServed: [
-      { "@type": "City", name: "Саратов" },
       { "@type": "City", name: "Энгельс" },
+      { "@type": "City", name: "Саратов" },
       { "@type": "City", name: "Балаково" },
     ],
     priceRange: "₽₽₽",

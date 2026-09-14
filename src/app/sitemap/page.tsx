@@ -30,8 +30,8 @@ const sections = [
   {
     title: "Города",
     links: [
-      { label: "Дома в Саратове", href: "/catalog/saratov/" },
       { label: "Дома в Энгельсе", href: "/catalog/engels/" },
+      { label: "Дома в Саратове", href: "/catalog/saratov/" },
       { label: "Дома в Балаково", href: "/catalog/balakovo/" },
     ],
   },

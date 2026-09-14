@@ -96,7 +96,7 @@ export function Header() {
 
                 <div className="hidden min-w-0 xl:block">
                   <p className="whitespace-nowrap text-sm font-semibold leading-none text-text">
-                    Саратов · Энгельс · Балаково
+                    Энгельс · Саратов · Балаково
                   </p>
                   <p className="mt-1 text-[11px] leading-none text-muted">
                     {siteConfig.address}

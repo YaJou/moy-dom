@@ -73,7 +73,7 @@ export function Hero({
               )}
             </h1>
             <p className="mt-5 max-w-[450px] text-lg leading-7 text-muted">
-              {subtitle ?? "Готовые дома в Саратове, Энгельсе и Балаково"}
+              {subtitle ?? "Готовые дома в Энгельсе, Саратове и Балаково"}
             </p>
             <p className="mt-5 text-[28px] font-extrabold leading-9 tabular-nums text-text">
               от {formatPrice(minPrice)}

@@ -1,5 +1,6 @@
 import { catalogStats } from "@/data/homepage";
 import { realHouses } from "@/data/houses";
+import { citySortIndex } from "@/lib/cities";
 import {
   DEFAULT_FILTERS,
   type House,
@@ -86,16 +87,22 @@ export function filterHouses(
   houses: House[],
   filters: SearchFiltersState
 ): House[] {
-  return houses.filter((house) => {
-    if (!isAnyCity(filters.city) && house.city !== filters.city) return false;
-    if (!isAnyPrice(filters.price) && !matchesPrice(house.price, filters.price))
-      return false;
-    if (!matchesArea(house.area, filters.area)) return false;
-    if (!matchesRooms(house.rooms, filters.rooms)) return false;
-    if (!matchesReadiness(house.readiness, filters.readiness)) return false;
-    if (!matchesFloors(house.specs.floors, filters.floors)) return false;
-    return true;
-  });
+  return houses
+    .filter((house) => {
+      if (!isAnyCity(filters.city) && house.city !== filters.city) return false;
+      if (!isAnyPrice(filters.price) && !matchesPrice(house.price, filters.price))
+        return false;
+      if (!matchesArea(house.area, filters.area)) return false;
+      if (!matchesRooms(house.rooms, filters.rooms)) return false;
+      if (!matchesReadiness(house.readiness, filters.readiness)) return false;
+      if (!matchesFloors(house.specs.floors, filters.floors)) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      const d = citySortIndex(a.city) - citySortIndex(b.city);
+      if (d !== 0) return d;
+      return a.price - b.price;
+    });
 }
 
 export function estimateCatalogCount(filters: SearchFiltersState): number {
