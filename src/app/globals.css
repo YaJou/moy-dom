@@ -3610,11 +3610,41 @@
     background: #fff;
   }
 
-  .hp-build-stage img {
+  .hp-build-stage img,
+  .hp-build-placeholder {
     width: 120px;
     height: 80px;
-    object-fit: cover;
     border-radius: 12px;
+    object-fit: cover;
+  }
+
+  .hp-build-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed #cfd6d0;
+    background: var(--page);
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  .hp-build-stage.is-placeholder {
+    background: #fff;
+  }
+
+  .hp-build-badge {
+    display: inline-flex;
+    margin-top: 8px;
+    height: 24px;
+    align-items: center;
+    padding-inline: 8px;
+    border-radius: var(--r-sm);
+    background: var(--orange-soft);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 700;
   }
 
   .hp-build-stage h3 {
