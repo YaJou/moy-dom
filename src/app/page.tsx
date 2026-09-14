@@ -1,16 +1,15 @@
-import dynamic from "next/dynamic";
-import { Hero } from "@/components/sections/Hero";
-import { SearchBar } from "@/components/sections/SearchBar";
-import { SeoIntro } from "@/components/sections/SeoIntro";
-import { KeyFacts } from "@/components/sections/KeyFacts";
-import { NewHouses } from "@/components/sections/NewHouses";
-import { PopularHouses } from "@/components/sections/PopularHouses";
-import { Features } from "@/components/sections/Features";
-import { HowToBuy } from "@/components/sections/HowToBuy";
-import { MortgageCalculator } from "@/components/sections/MortgageCalculator";
-import { AboutCompany } from "@/components/sections/AboutCompany";
-import { Cities } from "@/components/sections/Cities";
-import { StatsSection } from "@/components/sections/StatsSection";
+import { HomeHero } from "@/components/home/HomeHero";
+import { HomeFilter } from "@/components/home/HomeFilter";
+import { HomeCatalog } from "@/components/home/HomeCatalog";
+import { HomeIncluded } from "@/components/home/HomeIncluded";
+import { HomeFloorPlans } from "@/components/home/HomeFloorPlans";
+import { HomeLocations } from "@/components/home/HomeLocations";
+import { HomeConstruction } from "@/components/home/HomeConstruction";
+import { HomeMortgage } from "@/components/home/HomeMortgage";
+import { HomeTrust } from "@/components/home/HomeTrust";
+import { HomeFAQ } from "@/components/home/HomeFAQ";
+import { HomeViewingSection } from "@/components/home/HomeViewingSection";
+import { HomeArticles } from "@/components/home/HomeArticles";
 import { PageCitability } from "@/components/seo/PageCitability";
 import {
   BreadcrumbJsonLd,
@@ -18,54 +17,23 @@ import {
   HomePageSchema,
 } from "@/components/seo/Schema";
 import { homeCitability } from "@/data/geo";
-import { faqData, siteConfig } from "@/data/site";
+import { homeFaqItems } from "@/data/home-nav";
+import { siteConfig } from "@/data/site";
 import { absoluteUrl } from "@/lib/seo";
-import { MapSection } from "@/components/sections/MapSection";
 
 const homeTitle =
   "Готовые дома в Саратове, Энгельсе, Балаково — Кров-Сервис";
-
-const Gallery = dynamic(() =>
-  import("@/components/sections/Gallery").then((mod) => mod.Gallery)
-);
-const VideoSection = dynamic(() =>
-  import("@/components/sections/VideoSection").then((mod) => mod.VideoSection)
-);
-const Reviews = dynamic(() =>
-  import("@/components/sections/Reviews").then((mod) => mod.Reviews)
-);
-const HouseVsApartment = dynamic(() =>
-  import("@/components/sections/HouseVsApartment").then((mod) => mod.HouseVsApartment)
-);
-const IncludedPrice = dynamic(() =>
-  import("@/components/sections/IncludedPrice").then((mod) => mod.IncludedPrice)
-);
-const LocalSEO = dynamic(() =>
-  import("@/components/sections/LocalSEO").then((mod) => mod.LocalSEO)
-);
-const Blog = dynamic(() =>
-  import("@/components/sections/Blog").then((mod) => mod.Blog)
-);
-const Partners = dynamic(() =>
-  import("@/components/sections/Partners").then((mod) => mod.Partners)
-);
-const Certificates = dynamic(() =>
-  import("@/components/sections/Certificates").then((mod) => mod.Certificates)
-);
-const FAQ = dynamic(() =>
-  import("@/components/sections/FAQ").then((mod) => mod.FAQ)
-);
-const ConsultationForm = dynamic(() =>
-  import("@/components/sections/ConsultationForm").then((mod) => mod.ConsultationForm)
-);
-const Newsletter = dynamic(() =>
-  import("@/components/sections/Newsletter").then((mod) => mod.Newsletter)
-);
 
 export default function HomePage() {
   const citations = homeCitability.sources.map((s) => ({
     name: s.label,
     url: s.external ? s.href : absoluteUrl(s.href),
+  }));
+
+  const faqForSchema = homeFaqItems.map((item, index) => ({
+    id: index + 1,
+    question: item.question,
+    answer: item.answer,
   }));
 
   return (
@@ -78,34 +46,19 @@ export default function HomePage() {
         citations={citations}
       />
       <BreadcrumbJsonLd items={[{ label: "Главная", href: "/" }]} />
-      <FaqPageSchema items={faqData} />
-      <Hero />
-      <SearchBar />
-      <SeoIntro />
-      <KeyFacts />
-      <NewHouses />
-      <PopularHouses />
-      <Features />
-      <VideoSection />
-      <HowToBuy />
-      <MortgageCalculator />
-      <AboutCompany />
-      <Certificates />
-      <Cities />
-      <MapSection />
-      <StatsSection />
-      <Gallery />
-      <div id="reviews">
-        <Reviews />
-      </div>
-      <HouseVsApartment />
-      <IncludedPrice />
-      <LocalSEO />
-      <Blog />
-      <Partners />
-      <FAQ />
-      <ConsultationForm />
-      <Newsletter />
+      <FaqPageSchema items={faqForSchema} />
+      <HomeHero />
+      <HomeFilter />
+      <HomeCatalog />
+      <HomeIncluded />
+      <HomeFloorPlans />
+      <HomeLocations />
+      <HomeConstruction />
+      <HomeMortgage />
+      <HomeTrust />
+      <HomeFAQ />
+      <HomeViewingSection />
+      <HomeArticles />
       <PageCitability />
     </>
   );

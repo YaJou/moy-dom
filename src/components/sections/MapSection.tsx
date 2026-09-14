@@ -2,12 +2,16 @@
 
 import { housesData } from "@/data/site";
 import { YandexHousesMap } from "@/components/sections/YandexHousesMap";
-import { Button } from "@/components/ui/button";
+import { HouseImage } from "@/components/ui/HouseImage";
 import { formatPrice } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { ExternalLink, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+
+const cityTabs = ["Саратов", "Энгельс", "Балаково"] as const;
+
+type CityTab = (typeof cityTabs)[number];
 
 interface MapSectionProps {
   initialCity?: string | null;
@@ -18,105 +22,116 @@ export function MapSection({
   initialCity = null,
   showCityFilters = true,
 }: MapSectionProps = {}) {
-  const [activeCity, setActiveCity] = useState<string | null>(initialCity);
+  const defaultCity: CityTab =
+    initialCity && cityTabs.includes(initialCity as CityTab)
+      ? (initialCity as CityTab)
+      : "Балаково";
+
+  const [activeCity, setActiveCity] = useState<CityTab>(defaultCity);
   const [selected, setSelected] = useState<House | null>(null);
 
   const markers = housesData.filter((h) => h.lat && h.lng);
-  const cities = ["Все", "Саратов", "Энгельс", "Балаково"];
 
-  const filtered =
-    activeCity && activeCity !== "Все"
-      ? markers.filter((h) => h.city === activeCity)
-      : markers;
+  const filtered = useMemo(
+    () => markers.filter((h) => h.city === activeCity),
+    [activeCity, markers]
+  );
+
+  const locationCards = useMemo(() => {
+    const districts = new Map<string, House>();
+    for (const house of filtered) {
+      if (!districts.has(house.district)) {
+        districts.set(house.district, house);
+      }
+    }
+    return Array.from(districts.values()).slice(0, 2);
+  }, [filtered]);
 
   return (
-    <section className="section-padding bg-white">
+    <section id="locations" className="bg-page py-10 md:py-12">
       <div className="container-main">
-        <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+        <h2 className="section-title">Выберите место для жизни</h2>
+
+        {showCityFilters && (
+          <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
+            {cityTabs.map((city) => (
+              <button
+                key={city}
+                type="button"
+                onClick={() => {
+                  setActiveCity(city);
+                  setSelected(null);
+                }}
+                className={`chip shrink-0 ${
+                  activeCity === city ? "chip-active" : "chip-inactive"
+                }`}
+              >
+                {city}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.8fr_1fr] lg:gap-6">
           <div>
-            <h2 className="section-title">Карта объектов</h2>
-            <p className="mt-2 text-sm text-gray">
-              {filtered.length} домов — выберите город или объект в списке
+            <div className="h-[260px] overflow-hidden rounded-panel lg:h-[280px]">
+              {filtered.length > 0 ? (
+                <YandexHousesMap houses={filtered} focusHouse={selected} />
+              ) : (
+                <div className="flex h-full items-center justify-center bg-surface">
+                  <p className="text-sm text-muted">
+                    В этом городе пока нет объектов в каталоге.{" "}
+                    <Link href="/catalog/" className="text-orange underline">
+                      Смотреть все дома
+                    </Link>
+                  </p>
+                </div>
+              )}
+            </div>
+            <p className="mt-3 text-sm text-muted">
+              Подъезд, магазины и инфраструктура — на странице локации
             </p>
           </div>
-          {showCityFilters && (
-            <div className="flex flex-wrap gap-2">
-              {cities.map((city) => (
-                <button
-                  key={city}
-                  type="button"
-                  onClick={() => {
-                    setActiveCity(city === "Все" ? null : city);
-                    setSelected(null);
-                  }}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                    (city === "Все" && !activeCity) || activeCity === city
-                      ? "bg-primary text-white"
-                      : "border border-border bg-background text-dark hover:border-primary"
-                  }`}
-                >
-                  {city}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
 
-        <div className="grid gap-5 lg:grid-cols-3 lg:gap-7">
-          <div className="overflow-hidden rounded-card border border-border lg:col-span-2">
-            {filtered.length > 0 ? (
-              <YandexHousesMap houses={filtered} focusHouse={selected} />
-            ) : (
-              <div className="flex min-h-[360px] items-center justify-center bg-background sm:min-h-[440px]">
-                <p className="text-sm text-gray">Нет объектов в этом городе</p>
-              </div>
-            )}
-          </div>
-
-          <div className="max-h-[440px] space-y-2 overflow-y-auto rounded-card border border-border bg-background p-3">
-            {filtered.length === 0 ? (
-              <p className="p-4 text-center text-sm text-gray">
-                Нет объектов в этом городе
-              </p>
-            ) : (
-              filtered.map((house) => (
+          <div className="flex flex-col gap-4">
+            {locationCards.length > 0 ? (
+              locationCards.map((house) => (
                 <div
                   key={house.id}
-                  className={`rounded-xl bg-white p-3 transition-colors ${
-                    selected?.id === house.id ? "ring-2 ring-primary" : ""
+                  className={`flex h-32 gap-4 rounded-panel border bg-surface p-3 transition-shadow ${
+                    selected?.id === house.id
+                      ? "border-orange shadow-card"
+                      : "border-border"
                   }`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => setSelected(house)}
-                    className="flex w-full items-start gap-3 text-left hover:opacity-80"
-                  >
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-dark">
-                        {house.title}
-                      </p>
-                      <p className="text-xs text-gray">
-                        {house.city} · {house.district}
-                      </p>
-                      <p className="mt-1 text-sm font-bold text-dark">
-                        {formatPrice(house.price)}
-                      </p>
-                    </div>
-                  </button>
-                  <Button
-                    asChild
-                    size="sm"
-                    variant="outline"
-                    className="mt-2 w-full rounded-lg text-xs"
-                  >
-                    <Link href={`/catalog/${house.id}`}>
-                      Перейти к объекту
-                      <ExternalLink className="h-3 w-3" />
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-control">
+                    <HouseImage
+                      src={house.image}
+                      alt={house.district}
+                      fill
+                      objectFit="cover"
+                      sizes="96px"
+                    />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-center">
+                    <p className="text-base font-bold leading-6 text-text">
+                      {house.district}
+                    </p>
+                    <p className="text-sm text-muted">
+                      {house.city} · от {formatPrice(house.price)}
+                    </p>
+                    <Link
+                      href={`/catalog/${house.id}`}
+                      className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-text hover:text-orange"
+                    >
+                      Смотреть дома
+                      <ArrowRight className="h-4 w-4" strokeWidth={1.75} />
                     </Link>
-                  </Button>
+                  </div>
                 </div>
               ))
+            ) : (
+              <p className="text-sm text-muted">Нет локаций в выбранном городе</p>
             )}
           </div>
         </div>

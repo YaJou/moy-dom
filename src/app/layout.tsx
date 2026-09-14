@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { AppProviders } from "@/components/layout/AppProviders";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -14,11 +14,11 @@ import { siteConfig } from "@/data/site";
 import { yandexMetrikaEarlyScript } from "@/lib/yandex-metrika";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
-  weight: ["400", "600", "700"],
+  weight: ["400", "600", "700", "800"],
   preload: true,
 });
 
@@ -114,7 +114,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className={inter.variable}>
+    <html lang="ru" className={manrope.variable}>
       <head>
         <script
           dangerouslySetInnerHTML={{ __html: yandexMetrikaEarlyScript }}

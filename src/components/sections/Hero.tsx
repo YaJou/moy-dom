@@ -1,13 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { getMinHousePrice } from "@/data/houses";
-import { heroBenefits } from "@/data/homepage";
-import { heroData } from "@/data/site";
-import { formatPrice } from "@/lib/utils";
-import { Check } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
-export interface HeroProps {
+import { Button } from "@/components/ui/button";
+import { HouseImage } from "@/components/ui/HouseImage";
+import { getMinHousePrice, realHouses } from "@/data/houses";
+import { analytics } from "@/lib/analytics";
+import { formatPrice } from "@/lib/utils";
+import type { House } from "@/types/house";
+import { ArrowRight, Camera, MapPin, Trees } from "lucide-react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
+
+const HERO_HOUSE =
+  realHouses.find((h) => h.slug === "natalino-stepnaya-87") ?? realHouses[0];
+
+function getHeroPhotos(house: House): string[] {
+  const photos = house.images.filter((img) => !img.endsWith("/01.jpg"));
+  return photos.length >= 2 ? photos.slice(0, 4) : [house.image];
+}
+
+interface HeroProps {
   title?: string;
   titleCities?: string;
   subtitle?: string;
@@ -19,69 +30,154 @@ export interface HeroProps {
 }
 
 export function Hero({
-  title = heroData.title,
-  titleCities = heroData.titleCities,
-  subtitle = heroData.subtitle,
+  title,
+  titleCities,
+  subtitle,
   priceFrom,
-  primaryHref = "/catalog",
-  secondaryHref = "/#consultation",
-  image = heroData.image,
-  imageAlt = heroData.imageAlt,
+  primaryHref = "/#homes",
+  secondaryHref = "/#viewing",
+  image,
+  imageAlt,
 }: HeroProps = {}) {
-  const priceLabel = `От ${formatPrice(priceFrom ?? getMinHousePrice())}`;
+  const isCityVariant = Boolean(title);
+  const photos = useMemo(() => getHeroPhotos(HERO_HOUSE), []);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activePhoto = image ?? photos[activeIndex] ?? HERO_HOUSE.image;
+  const minPrice = priceFrom ?? getMinHousePrice();
 
   return (
-    <section className="relative overflow-hidden">
-      <div className="relative h-[500px] sm:h-[560px] md:h-[640px] lg:h-[700px]">
-        <Image
-          src={image}
-          alt={imageAlt}
-          fill
-          priority
-          fetchPriority="high"
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-transparent" />
-
-        <div className="container-main relative flex h-full items-start pt-8 sm:items-center sm:pt-0">
-          <div className="hero-content max-w-2xl">
-            <h1 className="text-balance text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-[52px] lg:leading-[1.12]">
-              {title}
-              <span className="mt-1 block text-2xl font-semibold text-white/95 sm:text-3xl md:text-4xl lg:text-[40px]">
-                {titleCities}
-              </span>
+    <section className="bg-page py-6 md:py-10">
+      <div className="container-main">
+        <div className="grid items-center gap-6 lg:grid-cols-[480px_1fr] lg:gap-6">
+          <div>
+            <p className="eyebrow">Дома с участком</p>
+            <h1 className="mt-4 text-[38px] font-extrabold leading-[42px] tracking-[-1.2px] text-text md:text-[44px] md:leading-[49px] lg:text-[56px] lg:leading-[60px] lg:tracking-[-2px]">
+              {isCityVariant ? (
+                <>
+                  {title}
+                  {titleCities && (
+                    <>
+                      <br />
+                      <span className="text-forest">{titleCities}</span>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  Свой дом.
+                  <br />
+                  Свой участок.
+                  <br />
+                  <span className="text-forest">Новая жизнь.</span>
+                </>
+              )}
             </h1>
-            <p className="mt-4 text-2xl font-bold text-primary-light sm:text-3xl">
-              {priceLabel}
+            <p className="mt-5 max-w-[450px] text-lg leading-7 text-muted">
+              {subtitle ?? "Готовые дома в Саратове, Энгельсе и Балаково"}
             </p>
-            <p className="mt-2 max-w-xl text-base text-white/85 sm:text-lg">
-              {subtitle}
+            <p className="mt-5 text-[28px] font-extrabold leading-9 tabular-nums text-text">
+              от {formatPrice(minPrice)}
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:gap-4">
-              <Button asChild size="lg" className="rounded-xl">
-                <Link href={primaryHref}>{heroData.primaryButton}</Link>
+            <p className="mt-2 text-sm leading-5 text-muted">
+              Комплектация — в карточке каждого дома
+            </p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-3">
+              <Button asChild size="lg">
+                <Link href={primaryHref}>
+                  Смотреть дома
+                  <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+                </Link>
               </Button>
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="rounded-xl border-white/40 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20"
-              >
-                <Link href={secondaryHref}>{heroData.secondaryButton}</Link>
+              <Button asChild variant="outline" size="lg">
+                <Link
+                  href={secondaryHref}
+                  onClick={() => analytics.viewingFormOpen("hero")}
+                >
+                  Записаться на просмотр
+                </Link>
               </Button>
             </div>
-            <ul className="mt-6 hidden flex-wrap gap-x-4 gap-y-2 sm:flex sm:mt-8">
-              {heroBenefits.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center gap-1.5 text-xs text-white/90 sm:text-sm"
-                >
-                  <Check className="h-3.5 w-3.5 shrink-0 text-primary-light" />
-                  {item}
-                </li>
-              ))}
+            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-muted">
+              <li className="flex items-center gap-2">
+                <Trees className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+                С участком
+              </li>
+              <li className="flex items-center gap-2">
+                <Camera className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+                Фото и описание
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="h-5 w-5 shrink-0" strokeWidth={1.75} />
+                Просмотр дома
+              </li>
             </ul>
+          </div>
+
+          <div>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-card lg:aspect-auto lg:h-[456px]">
+              <HouseImage
+                src={activePhoto}
+                alt={imageAlt ?? HERO_HOUSE.title}
+                fill
+                priority
+                objectFit="cover"
+                sizes="(max-width: 1024px) 100vw, 696px"
+              />
+              <div className="absolute left-3 top-3 flex gap-2 sm:left-5 sm:top-5">
+                <span className="rounded-sm bg-surface/95 px-2.5 py-1 text-xs font-semibold text-text">
+                  Фасад
+                </span>
+              </div>
+              {!isCityVariant && (
+                <Link
+                  href={`/catalog/${HERO_HOUSE.id}`}
+                  className="absolute bottom-3 left-3 max-w-[calc(100%-24px)] rounded-panel bg-white/94 p-4 shadow-float backdrop-blur-[12px] transition-transform duration-160 hover:-translate-y-0.5 sm:bottom-5 sm:left-5 sm:w-[310px]"
+                  onClick={() =>
+                    analytics.selectItem(HERO_HOUSE.id, HERO_HOUSE.title)
+                  }
+                >
+                  <p className="text-base font-bold text-text">
+                    Дом {HERO_HOUSE.area} м²
+                  </p>
+                  <p className="mt-1 text-sm text-muted">
+                    {HERO_HOUSE.city}, {HERO_HOUSE.district}
+                  </p>
+                  <div className="mt-2 flex items-center justify-between gap-3">
+                    <p className="text-xl font-extrabold tabular-nums text-text">
+                      {formatPrice(HERO_HOUSE.price)}
+                    </p>
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange text-text">
+                      <ArrowRight className="h-5 w-5" strokeWidth={1.75} />
+                    </span>
+                  </div>
+                </Link>
+              )}
+            </div>
+            {!image && photos.length > 1 && (
+              <div className="mt-3 flex gap-2">
+                {photos.slice(0, 3).map((photo, index) => (
+                  <button
+                    key={photo}
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    className={`relative h-11 w-16 overflow-hidden rounded-sm sm:h-14 sm:w-[84px] ${
+                      activeIndex === index
+                        ? "ring-2 ring-orange ring-offset-1"
+                        : "opacity-80 hover:opacity-100"
+                    }`}
+                    aria-label={`Фото ${index + 1}`}
+                  >
+                    <HouseImage
+                      src={photo}
+                      alt=""
+                      fill
+                      objectFit="cover"
+                      sizes="84px"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

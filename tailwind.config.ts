@@ -9,32 +9,55 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: "#F58220",
-          hover: "#E76A00",
-          light: "#FFF4EA",
+        page: "#F7F8FA",
+        surface: "#FFFFFF",
+        text: "#202522",
+        muted: "#68716B",
+        border: "#E3E7E3",
+        orange: {
+          DEFAULT: "#F47B20",
+          hover: "#E86D13",
+          soft: "#FFF0E3",
         },
-        dark: "#222222",
+        forest: {
+          DEFAULT: "#203C32",
+          hover: "#172E26",
+        },
+        "on-forest": "#FFFFFF",
+        "muted-on-forest": "#D4DED8",
+        success: "#2D6A49",
+        error: "#B42318",
+        primary: {
+          DEFAULT: "#F47B20",
+          hover: "#E86D13",
+          light: "#FFF0E3",
+        },
+        dark: "#202522",
         gray: {
-          DEFAULT: "#6B7280",
+          DEFAULT: "#68716B",
           light: "#9CA3AF",
         },
-        background: "#FAFAFA",
-        border: "#E8E8E8",
-        footer: "#1A1A1A",
+        background: "#F7F8FA",
+        footer: "#203C32",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-manrope)", "Arial", "sans-serif"],
       },
       maxWidth: {
-        container: "1440px",
+        container: "1200px",
       },
       borderRadius: {
-        card: "18px",
+        sm: "8px",
+        control: "12px",
+        image: "18px",
+        panel: "20px",
+        card: "24px",
+        pill: "999px",
       },
       boxShadow: {
-        card: "0 12px 40px rgba(0,0,0,0.08)",
-        cardHover: "0 16px 48px rgba(0,0,0,0.12)",
+        card: "0 8px 28px rgba(32,37,34,.045)",
+        "card-hover": "0 14px 36px rgba(32,37,34,.09)",
+        float: "0 8px 30px rgba(15,30,22,.12)",
       },
       keyframes: {
         "accordion-down": {
@@ -49,9 +72,6 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-      },
-      spacing: {
-        section: "80px",
       },
     },
   },
