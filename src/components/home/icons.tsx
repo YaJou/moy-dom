@@ -207,6 +207,53 @@ export function IconBed({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
+export function IconSofa({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <path
+        d="M4 10V8.5C4 7.11929 5.11929 6 6.5 6H13.5C14.8807 6 16 7.11929 16 8.5V10"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M3 10.5C3 9.67157 3.67157 9 4.5 9H15.5C16.3284 9 17 9.67157 17 10.5V13.5C17 14.3284 16.3284 15 15.5 15H4.5C3.67157 15 3 14.3284 3 13.5V10.5Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 15V16.5M15 15V16.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function IconStorage({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <rect
+        x="3.5"
+        y="3.5"
+        width="13"
+        height="13"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <path
+        d="M3.5 8.5H16.5M3.5 13H16.5M10 8.5V16.5"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function IconTelegram({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 20 20" fill="currentColor" aria-hidden>
