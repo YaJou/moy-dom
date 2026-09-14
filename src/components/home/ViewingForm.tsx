@@ -4,6 +4,7 @@ import {
   ConsentCheckbox,
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
+import { Select } from "@/components/ui/Select";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -139,16 +140,13 @@ export function ViewingForm({
           <label htmlFor={`${formId}-city`} className="viewing-form-label">
             Город
           </label>
-          <select
+          <Select
             id={`${formId}-city`}
             value={city}
-            onChange={(e) => setCity(e.target.value)}
-            className="viewing-form-input viewing-form-select"
-          >
-            <option>Саратов</option>
-            <option>Энгельс</option>
-            <option>Балаково</option>
-          </select>
+            onChange={setCity}
+            options={["Саратов", "Энгельс", "Балаково"]}
+            aria-label="Город"
+          />
         </div>
 
         <div className="viewing-form-field">

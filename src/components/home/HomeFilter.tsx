@@ -1,5 +1,6 @@
 "use client";
 
+import { Select } from "@/components/ui/Select";
 import { searchFilters } from "@/data/site";
 import { buildSearchParams, estimateCatalogCount } from "@/lib/filters";
 import { analytics } from "@/lib/analytics";
@@ -8,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import {
   IconBed,
-  IconChevronDown,
   IconFilter,
   IconMapPin,
   IconRuble,
@@ -36,21 +36,14 @@ function FilterField({
   return (
     <div>
       <label className="field-label">{label}</label>
-      <div className="filter-select-wrap">
-        {icon && <span className="filter-select-icon">{icon}</span>}
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={icon ? "filter-select" : "filter-select filter-select-no-icon"}
-        >
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <IconChevronDown className="filter-select-chevron h-5 w-5" />
-      </div>
+      <Select
+        variant="filter"
+        value={value}
+        onChange={onChange}
+        options={options}
+        leadingIcon={icon}
+        aria-label={label}
+      />
     </div>
   );
 }

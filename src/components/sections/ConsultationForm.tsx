@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/Select";
 import {
   ConsentCheckbox,
   PrivacyPolicyLink,
@@ -130,16 +131,14 @@ export function ConsultationForm({
                   <label className="mb-1.5 block text-sm font-medium text-dark">
                     Город
                   </label>
-                  <select
+                  <Select
                     name="city"
+                    variant="field"
                     value={form.city}
-                    onChange={(e) => setForm({ ...form, city: e.target.value })}
-                    className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                  >
-                    <option>Саратов</option>
-                    <option>Энгельс</option>
-                    <option>Балаково</option>
-                  </select>
+                    onChange={(city) => setForm({ ...form, city })}
+                    options={["Саратов", "Энгельс", "Балаково"]}
+                    aria-label="Город"
+                  />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-dark">

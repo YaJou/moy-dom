@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/Select";
 import { searchFilters } from "@/data/site";
 import {
   buildSearchParams,
@@ -9,7 +10,7 @@ import {
 } from "@/lib/filters";
 import { cn } from "@/lib/utils";
 import { DEFAULT_FILTERS, type SearchFiltersState } from "@/types/house";
-import { ChevronDown, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
@@ -26,25 +27,18 @@ function FilterSelect({
   onChange: (v: string) => void;
   className?: string;
 }) {
-  const isActive = value !== options[0];
   return (
-    <div className={cn("relative min-w-0", className)}>
-      <label className="mb-1.5 block text-xs font-medium text-gray sm:text-sm">{label}</label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={cn(
-            "w-full appearance-none rounded-xl border bg-white py-2.5 pl-3 pr-8 text-sm font-medium focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 sm:py-3 sm:pl-4",
-            isActive ? "border-primary text-primary" : "border-border text-dark"
-          )}
-        >
-          {options.map((o) => (
-            <option key={o} value={o}>{o}</option>
-          ))}
-        </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray" />
-      </div>
+    <div className={cn("min-w-0", className)}>
+      <label className="mb-1.5 block text-xs font-medium text-gray sm:text-sm">
+        {label}
+      </label>
+      <Select
+        variant="field"
+        value={value}
+        onChange={onChange}
+        options={options}
+        aria-label={label}
+      />
     </div>
   );
 }

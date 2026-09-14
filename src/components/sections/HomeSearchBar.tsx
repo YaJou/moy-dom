@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Select } from "@/components/ui/Select";
 import { searchFilters } from "@/data/site";
 import {
   buildSearchParams,
@@ -9,7 +10,7 @@ import {
 } from "@/lib/filters";
 import { analytics } from "@/lib/analytics";
 import { DEFAULT_FILTERS, type SearchFiltersState } from "@/types/house";
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { SlidersHorizontal, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -27,20 +28,13 @@ function FilterSelect({
   return (
     <div className="min-w-0">
       <label className="field-label">{label}</label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="field-input appearance-none pr-10"
-        >
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted" />
-      </div>
+      <Select
+        variant="field"
+        value={value}
+        onChange={onChange}
+        options={options}
+        aria-label={label}
+      />
     </div>
   );
 }
