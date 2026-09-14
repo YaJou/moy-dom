@@ -142,21 +142,21 @@ export function HomeHero() {
               </div>
               <Link
                 href={`/catalog/${heroHouse.id}`}
-                className="absolute bottom-3 left-3 w-[min(310px,calc(100%-24px))] rounded-panel bg-white/95 p-[18px] shadow-float backdrop-blur-[12px] sm:bottom-5 sm:left-5"
+                className="hero-float-card"
                 onClick={() =>
                   analytics.selectItem(heroHouse.id, heroHouse.title)
                 }
               >
-                <p className="font-bold text-text">{shortTitle}</p>
-                <p className="mt-1 flex items-center gap-1 text-sm text-muted">
+                <p className="hero-float-title">{shortTitle}</p>
+                <p className="hero-float-place">
                   {heroHouse.city}, {heroHouse.district}
                 </p>
-                <div className="mt-2 flex items-center justify-between gap-3">
-                  <p className="price-lg text-xl leading-8 text-text">
+                <div className="hero-float-row">
+                  <p className="hero-float-price">
                     {formatPrice(heroHouse.price)}
                   </p>
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-orange text-text">
-                    <IconArrow className="h-5 w-5" />
+                  <span className="hero-float-arrow">
+                    <IconArrow className="h-4 w-4 sm:h-5 sm:w-5" />
                   </span>
                 </div>
               </Link>
