@@ -175,10 +175,14 @@ export function ViewingForm({
 
       <div className="viewing-form-meta">
         <div
-          className="viewing-method-toggle"
+          className={cn(
+            "viewing-method-toggle",
+            method === "telegram" && "is-telegram"
+          )}
           role="group"
           aria-label="Способ связи"
         >
+          <span className="viewing-method-thumb" aria-hidden />
           <button
             type="button"
             className={cn(
