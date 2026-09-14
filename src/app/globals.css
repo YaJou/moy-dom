@@ -2961,7 +2961,7 @@
     .ja-layout {
       grid-template-columns: minmax(0, 760px) 280px;
       gap: 56px;
-      align-items: start;
+      align-items: stretch;
       justify-content: space-between;
     }
   }
@@ -2973,7 +2973,6 @@
   @media (min-width: 1024px) {
     .ja-aside {
       display: block;
-      align-self: start;
       width: 280px;
     }
 
