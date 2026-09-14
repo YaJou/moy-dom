@@ -968,6 +968,137 @@
     transform: translateY(-1px);
   }
 
+  /* Locations section */
+  .locations-section {
+    background-color: var(--page);
+    padding-block: 40px;
+  }
+
+  .locations-body {
+    display: grid;
+    gap: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    .locations-body {
+      grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+  }
+
+  .locations-map,
+  .locations-side {
+    min-height: 0;
+  }
+
+  .locations-map-inner {
+    width: 100%;
+    height: 320px;
+  }
+
+  .locations-side {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .locations-infra-link {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 160ms ease;
+  }
+
+  .locations-infra-link:hover {
+    color: var(--forest-hover);
+  }
+
+  .locations-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 320px;
+  }
+
+  .locations-card {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+    min-height: 148px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-panel);
+    background-color: var(--surface);
+    transition: box-shadow 160ms ease;
+  }
+
+  .locations-card.is-selected {
+    box-shadow: 0 0 0 2px var(--orange);
+  }
+
+  .locations-card-photo {
+    position: relative;
+    width: 42%;
+    max-width: 180px;
+    min-width: 132px;
+    align-self: stretch;
+    overflow: hidden;
+    border-radius: var(--r-control);
+    background-color: var(--page);
+  }
+
+  .locations-card-body {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    padding-block: 4px;
+  }
+
+  .locations-card-title {
+    margin: 0;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+  }
+
+  .locations-card-meta {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--muted);
+  }
+
+  .locations-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    color: var(--orange);
+    cursor: pointer;
+  }
+
+  .locations-card-cta:hover {
+    color: var(--orange-hover);
+  }
+
   .hero-facts {
     font-size: 14px;
     line-height: 20px;

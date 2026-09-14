@@ -41,9 +41,11 @@ export function HomeLocations() {
         : "/catalog/balakovo/";
 
   return (
-    <section id="locations" className="bg-page py-10">
+    <section id="locations" className="locations-section">
       <div className="container-main">
-        <h2 className="h2-desktop text-text">Выберите место для жизни</h2>
+        <h2 className="h2-desktop font-extrabold text-text">
+          Выберите место для жизни
+        </h2>
 
         <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
           {cities.map((c) => (
@@ -54,25 +56,31 @@ export function HomeLocations() {
                 setCity(c);
                 setSelected(null);
               }}
-              className={cn(city === c ? "chip-active" : "chip-inactive")}
+              className={cn(
+                "catalog-tab",
+                city === c ? "catalog-tab-active" : "catalog-tab-inactive"
+              )}
             >
               {c}
             </button>
           ))}
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[760px_1fr] lg:gap-6">
-          <div className="min-w-0 overflow-hidden rounded-panel">
+        <div className="locations-body mt-6">
+          <div className="locations-map">
             {cityHouses.length > 0 ? (
-              <div className="h-[260px] lg:h-[280px]">
+              <div className="locations-map-inner overflow-hidden rounded-panel">
                 <YandexHousesMap houses={cityHouses} focusHouse={selected} />
               </div>
             ) : (
-              <div className="flex h-[260px] items-center justify-center rounded-panel border border-border bg-surface lg:h-[280px]">
+              <div className="locations-map-inner flex items-center justify-center rounded-panel border border-border bg-surface">
                 <div className="max-w-sm px-6 text-center">
                   <p className="text-muted">
                     В каталоге пока нет объектов в {city}. Смотрите{" "}
-                    <Link href={catalogHref} className="font-semibold text-orange">
+                    <Link
+                      href={catalogHref}
+                      className="font-semibold text-orange"
+                    >
                       страницу локации
                     </Link>{" "}
                     или другие города.
@@ -80,63 +88,66 @@ export function HomeLocations() {
                 </div>
               </div>
             )}
-            <p className="mt-3 text-sm text-muted">
-              Подъезд, магазины и инфраструктура —{" "}
-              <Link href={catalogHref} className="font-medium text-text hover:text-orange">
-                на странице локации →
-              </Link>
-            </p>
           </div>
 
-          <div className="flex flex-col gap-4">
-            {cards.length === 0 ? (
-              <div className="rounded-panel border border-border bg-surface p-6 text-sm text-muted">
-                Нет карточек для этого города.{" "}
-                <Link href={catalogHref} className="font-semibold text-orange">
-                  Смотреть каталог →
-                </Link>
-              </div>
-            ) : (
-              cards.map(({ label, house }) => (
-                <div
-                  key={label}
-                  className={cn(
-                    "flex h-32 gap-4 rounded-panel border border-border bg-surface p-3 transition-shadow",
-                    selected?.id === house.id && "ring-2 ring-orange"
-                  )}
-                >
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-control">
-                    <Image
-                      src={house.image}
-                      alt={house.title}
-                      fill
-                      className="object-cover"
-                      sizes="96px"
-                    />
-                  </div>
-                  <div className="flex min-w-0 flex-1 flex-col justify-center">
-                    <p className="text-base font-bold text-text">{label}</p>
-                    <p className="text-sm text-muted">
-                      Дома в {house.city} · от {formatPrice(house.price)}
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setSelected(house)}
-                      className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-orange"
-                    >
-                      Смотреть дома
-                      <IconArrow className="h-4 w-4" />
-                    </button>
-                    <Link
-                      href={`/catalog/${house.id}`}
-                      className="sr-only"
-                    >
-                      {house.title}
-                    </Link>
-                  </div>
+          <div className="locations-side">
+            <Link href={catalogHref} className="locations-infra-link">
+              Подъезд, магазины и инфраструктура — на странице локации →
+            </Link>
+
+            <div className="locations-cards">
+              {cards.length === 0 ? (
+                <div className="rounded-panel border border-border bg-surface p-6 text-sm text-muted">
+                  Нет карточек для этого города.{" "}
+                  <Link
+                    href={catalogHref}
+                    className="font-semibold text-orange"
+                  >
+                    Смотреть каталог →
+                  </Link>
                 </div>
-              ))
-            )}
+              ) : (
+                cards.map(({ label, house }) => (
+                  <div
+                    key={label}
+                    className={cn(
+                      "locations-card",
+                      selected?.id === house.id && "is-selected"
+                    )}
+                  >
+                    <div className="locations-card-photo">
+                      <Image
+                        src={house.image}
+                        alt={house.title}
+                        fill
+                        className="object-cover"
+                        sizes="180px"
+                      />
+                    </div>
+                    <div className="locations-card-body">
+                      <p className="locations-card-title">{label}</p>
+                      <p className="locations-card-meta">
+                        Дома в {house.city} · от {formatPrice(house.price)}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setSelected(house)}
+                        className="locations-card-cta"
+                      >
+                        Смотреть дома
+                        <IconArrow className="h-4 w-4" />
+                      </button>
+                      <Link
+                        href={`/catalog/${house.id}`}
+                        className="sr-only"
+                      >
+                        {house.title}
+                      </Link>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
