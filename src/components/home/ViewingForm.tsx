@@ -134,10 +134,10 @@ export function ViewingForm({
       onSubmit={handleSubmit}
       className={cn("viewing-form-card", className)}
     >
-      <div className="viewing-form-row">
-        <div>
-          <label htmlFor={`${formId}-city`} className="sr-only">
-            Выберите город
+      <div className="viewing-form-fields">
+        <div className="viewing-form-field">
+          <label htmlFor={`${formId}-city`} className="viewing-form-label">
+            Город
           </label>
           <select
             id={`${formId}-city`}
@@ -150,8 +150,9 @@ export function ViewingForm({
             <option>Балаково</option>
           </select>
         </div>
-        <div>
-          <label htmlFor={`${formId}-contact`} className="sr-only">
+
+        <div className="viewing-form-field">
+          <label htmlFor={`${formId}-contact`} className="viewing-form-label">
             {method === "phone" ? "Телефон" : "Telegram"}
           </label>
           <input
@@ -164,13 +165,13 @@ export function ViewingForm({
             }}
             className={cn("viewing-form-input", error && "is-error")}
             placeholder={
-              method === "phone" ? "Телефон или Telegram" : "@username"
+              method === "phone" ? "+7 (___) ___-__-__" : "@username"
             }
             autoComplete={method === "phone" ? "tel" : "off"}
           />
+          {error && <p className="viewing-form-error">{error}</p>}
         </div>
       </div>
-      {error && <p className="viewing-form-error">{error}</p>}
 
       <div className="viewing-form-meta">
         <div
@@ -232,24 +233,37 @@ export function ViewingForm({
               Добавить комментарий
             </button>
           ) : (
-            <div className="mt-3 space-y-3">
-              <input
-                id={`${formId}-name`}
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="viewing-form-input"
-                placeholder="Имя (необязательно)"
-                autoComplete="name"
-              />
-              <textarea
-                id={`${formId}-comment`}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                rows={3}
-                className="viewing-form-input viewing-form-textarea"
-                placeholder="Комментарий (необязательно)"
-              />
+            <div className="viewing-form-fields viewing-form-fields-extra">
+              <div className="viewing-form-field">
+                <label htmlFor={`${formId}-name`} className="viewing-form-label">
+                  Имя
+                </label>
+                <input
+                  id={`${formId}-name`}
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="viewing-form-input"
+                  placeholder="Необязательно"
+                  autoComplete="name"
+                />
+              </div>
+              <div className="viewing-form-field">
+                <label
+                  htmlFor={`${formId}-comment`}
+                  className="viewing-form-label"
+                >
+                  Комментарий
+                </label>
+                <textarea
+                  id={`${formId}-comment`}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  rows={3}
+                  className="viewing-form-input viewing-form-textarea"
+                  placeholder="Необязательно"
+                />
+              </div>
             </div>
           )}
         </>

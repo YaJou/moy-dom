@@ -3,11 +3,8 @@ import { IconCheck, IconPhone } from "./icons";
 import { ViewingForm, ViewingFormTelegramLink } from "./ViewingForm";
 
 const BENEFITS = [
-  "Ответим за 10 минут",
-  "Без навязчивых звонков",
-  "Консультация бесплатна",
-  "Помощь с ипотекой",
-  "Организация просмотра",
+  "Подберём удобное время",
+  "Покажем дом и участок",
 ] as const;
 
 export function HomeViewingSection() {
@@ -18,12 +15,8 @@ export function HomeViewingSection() {
           <div className="viewing-copy">
             <h2 className="viewing-title">Посмотрите дом вживую</h2>
             <p className="viewing-subtitle">
-              Оставьте заявку — менеджер свяжется с вами в течение 15 минут,
-              ответит на вопросы и подберёт подходящие варианты домов.
-            </p>
-            <p className="viewing-call-note">
-              Это просто короткий звонок: без обязательств, без спама и без
-              давления — только ответы на ваши вопросы.
+              Оставьте заявку — договоримся о времени просмотра. Короткий звонок,
+              без обязательств.
             </p>
 
             <ul className="viewing-benefits">
@@ -44,7 +37,7 @@ export function HomeViewingSection() {
               </span>
               <span>
                 <span className="viewing-phone-cta-label">
-                  Или просто позвоните — и всё
+                  Или позвоните сами
                 </span>
                 <span className="viewing-phone-cta-number">
                   {siteConfig.phone}
