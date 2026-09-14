@@ -59,11 +59,11 @@ function NavDropdown({ item }: { item: NavItem }) {
       <AnimatePresence>
         {open && item.children && (
           <motion.div
-            initial={{ opacity: 0, y: 6 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 6 }}
-            transition={{ duration: 0.15 }}
-            className="absolute left-1/2 top-[calc(100%+8px)] z-50 min-w-[200px] -translate-x-1/2"
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.12 }}
+            className="absolute left-0 top-[calc(100%-2px)] z-50 min-w-[200px]"
           >
             <div className="overflow-hidden rounded-2xl border border-border bg-white py-1.5 shadow-card">
               {item.children.map((child) => (
