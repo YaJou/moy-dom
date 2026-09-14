@@ -1963,11 +1963,19 @@
     color: var(--text);
   }
 
+  .viewing-contacts {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
   .viewing-phone-cta {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 22px;
+    max-width: 100%;
     padding: 12px 14px;
     border-radius: var(--r-control);
     border: 1px solid rgba(32, 37, 34, 0.08);
@@ -2015,9 +2023,10 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    margin-top: 18px;
-    font-size: 16px;
-    line-height: 24px;
+    margin-top: 0;
+    padding: 4px 0;
+    font-size: 15px;
+    line-height: 22px;
     font-weight: 600;
     color: var(--text);
     text-decoration: none;
@@ -2032,11 +2041,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: #0088cc;
     color: #fff;
+    flex-shrink: 0;
   }
 
   .viewing-form-card {

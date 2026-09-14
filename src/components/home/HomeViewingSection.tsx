@@ -28,24 +28,26 @@ export function HomeViewingSection() {
               ))}
             </ul>
 
-            <a
-              href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
-              className="viewing-phone-cta"
-            >
-              <span className="viewing-phone-cta-icon">
-                <IconPhone className="h-4 w-4" />
-              </span>
-              <span>
-                <span className="viewing-phone-cta-label">
-                  Или позвоните сами
+            <div className="viewing-contacts">
+              <a
+                href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+                className="viewing-phone-cta"
+              >
+                <span className="viewing-phone-cta-icon">
+                  <IconPhone className="h-4 w-4" />
                 </span>
-                <span className="viewing-phone-cta-number">
-                  {siteConfig.phone}
+                <span>
+                  <span className="viewing-phone-cta-label">
+                    Или позвоните сами
+                  </span>
+                  <span className="viewing-phone-cta-number">
+                    {siteConfig.phone}
+                  </span>
                 </span>
-              </span>
-            </a>
+              </a>
 
-            <ViewingFormTelegramLink />
+              <ViewingFormTelegramLink />
+            </div>
           </div>
           <ViewingForm id="viewing-form" />
         </div>
