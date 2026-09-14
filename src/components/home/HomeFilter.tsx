@@ -1,17 +1,13 @@
 "use client";
 
 import { searchFilters } from "@/data/site";
-import {
-  buildSearchParams,
-  estimateCatalogCount,
-  pluralizeHouses,
-} from "@/lib/filters";
+import { buildSearchParams, estimateCatalogCount } from "@/lib/filters";
 import { analytics } from "@/lib/analytics";
-import { cn } from "@/lib/utils";
 import { DEFAULT_FILTERS, type SearchFiltersState } from "@/types/house";
-import { SlidersHorizontal } from "lucide-react";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
+import { IconBed, IconMapPin, IconRuble } from "./icons";
 
 const quickFilters = [
   { label: "До 8 млн", patch: { price: "7 000 000 – 10 000 000 ₽" as const } },
@@ -21,11 +17,13 @@ const quickFilters = [
 
 function FilterField({
   label,
+  icon,
   options,
   value,
   onChange,
 }: {
   label: string;
+  icon?: ReactNode;
   options: string[];
   value: string;
   onChange: (v: string) => void;
@@ -33,17 +31,21 @@ function FilterField({
   return (
     <div>
       <label className="field-label">{label}</label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="field-input"
-      >
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
+      <div className="filter-select-wrap">
+        {icon && <span className="filter-select-icon">{icon}</span>}
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={icon ? "filter-select" : "filter-select filter-select-no-icon"}
+        >
+          {options.map((o) => (
+            <option key={o} value={o}>
+              {o}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="filter-select-chevron h-5 w-5" aria-hidden />
+      </div>
     </div>
   );
 }
@@ -70,34 +72,32 @@ export function HomeFilter() {
 
   return (
     <div className="container-main mb-8">
-      <form
-        onSubmit={handleSearch}
-        className="rounded-panel border border-border bg-surface p-5"
-      >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_208px]">
+      <form onSubmit={handleSearch} className="filter-panel">
+        <div className="filter-grid">
           <FilterField
             label="Город"
+            icon={<IconMapPin className="h-5 w-5" />}
             options={searchFilters.cities}
             value={filters.city}
             onChange={update("city")}
           />
           <FilterField
             label="Бюджет"
+            icon={<IconRuble className="h-5 w-5" />}
             options={searchFilters.priceRanges}
             value={filters.price}
             onChange={update("price")}
           />
           <FilterField
-            label="Комнаты"
+            label="Спальни"
+            icon={<IconBed className="h-5 w-5" />}
             options={searchFilters.rooms}
             value={filters.rooms}
             onChange={update("rooms")}
           />
           <div className="flex items-end">
-            <button type="submit" className="btn-primary h-12 w-full">
-              {count > 0
-                ? `Показать ${count} ${pluralizeHouses(count)}`
-                : "Показать дома"}
+            <button type="submit" className="btn-primary filter-submit">
+              Показать дома
             </button>
           </div>
         </div>
@@ -131,21 +131,22 @@ export function HomeFilter() {
           </div>
         )}
 
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="filter-toolbar">
           <button
             type="button"
             onClick={() => setExpanded(!expanded)}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-text"
+            className="filter-all-params"
           >
             <SlidersHorizontal className="h-5 w-5" />
             Все параметры
           </button>
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 sm:flex-wrap sm:overflow-visible">
+          <span className="filter-divider" aria-hidden />
+          <div className="filter-quick-chips">
             {quickFilters.map((qf) => (
               <button
                 key={qf.label}
                 type="button"
-                className="chip-inactive shrink-0"
+                className="filter-quick-chip"
                 onClick={() =>
                   setFilters((p) => ({ ...p, ...qf.patch }))
                 }

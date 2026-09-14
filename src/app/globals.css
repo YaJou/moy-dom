@@ -386,6 +386,145 @@
     padding-left: 44px;
   }
 
+  /* Home filter — mockup */
+  .filter-panel {
+    border-radius: var(--r-panel);
+    border: 1px solid var(--border);
+    background-color: var(--surface);
+    padding: 20px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .filter-grid {
+    display: grid;
+    gap: 16px;
+    align-items: end;
+  }
+
+  @media (min-width: 1024px) {
+    .filter-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) 208px;
+    }
+  }
+
+  .filter-select-wrap {
+    position: relative;
+  }
+
+  .filter-select-icon {
+    pointer-events: none;
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text);
+  }
+
+  .filter-select-chevron {
+    pointer-events: none;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+  }
+
+  .filter-select {
+    display: block;
+    width: 100%;
+    height: 48px;
+    padding: 0 40px 0 44px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-control);
+    background-color: var(--surface);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 25px;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .filter-select:focus {
+    border-color: var(--forest);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(32, 60, 50, 0.12);
+  }
+
+  .filter-select-no-icon {
+    padding-left: 14px;
+  }
+
+  .filter-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .filter-all-params {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    color: var(--forest);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .filter-all-params:hover {
+    color: var(--forest-hover);
+  }
+
+  .filter-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--border);
+    flex-shrink: 0;
+  }
+
+  .filter-quick-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-quick-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    padding-inline: 14px;
+    border: none;
+    border-radius: var(--r-pill);
+    background-color: #f2f4f3;
+    color: #68716b;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 160ms ease;
+  }
+
+  .filter-quick-chip:hover {
+    background-color: #e8ecea;
+  }
+
+  .filter-submit {
+    height: 48px;
+    width: 100%;
+  }
+
   /* Hero photo toggle — mockup: white active pill on translucent bar */
   .hero-photo-toggle {
     display: inline-flex;
