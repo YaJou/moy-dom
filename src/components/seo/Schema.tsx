@@ -28,7 +28,7 @@ export function OrganizationSchema() {
     image: absoluteUrl("/og-image.jpg"),
     logo: {
       "@type": "ImageObject",
-      url: absoluteUrl("/icon.svg"),
+      url: absoluteUrl("/images/krovservice-logo.png"),
     },
     address: {
       "@type": "PostalAddress",
@@ -218,7 +218,7 @@ export function ArticleSchema({
       name: siteConfig.name,
       logo: {
         "@type": "ImageObject",
-        url: absoluteUrl("/icon.svg"),
+        url: absoluteUrl("/images/krovservice-logo.png"),
       },
     },
     mainEntityOfPage: {

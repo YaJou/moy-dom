@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { navigation, siteConfig } from "@/data/site";
 import { HeaderClient } from "./HeaderClient";
@@ -26,33 +27,16 @@ export function Header() {
           <div className="grid h-14 grid-cols-[1fr_auto] items-center gap-3 sm:h-16 lg:grid-cols-[1fr_auto_1fr] lg:gap-6">
             <Link
               href="/"
-              className="flex min-w-0 items-center gap-2.5 justify-self-start"
+              className="flex min-w-0 items-center justify-self-start"
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-orange-soft sm:h-10 sm:w-10">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className="text-orange"
-                  aria-hidden
-                >
-                  <path
-                    d="M3 10.5L12 3L21 10.5V20C21 20.5523 20.5523 21 20 21H15V14H9V21H4C3.44772 21 3 20.5523 3 20V10.5Z"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-              <div className="min-w-0">
-                <div className="text-sm font-bold leading-none text-text sm:text-base">
-                  {siteConfig.name}
-                </div>
-                <div className="mt-1 hidden text-[11px] leading-none text-muted sm:block">
-                  {siteConfig.tagline}
-                </div>
-              </div>
+              <Image
+                src="/images/krovservice-logo.png"
+                alt={siteConfig.name}
+                width={280}
+                height={56}
+                className="h-9 w-auto max-w-[min(100%,200px)] object-contain object-left sm:h-11 sm:max-w-[240px] lg:max-w-[280px]"
+                priority
+              />
             </Link>
 
             <div className="hidden items-center gap-4 justify-self-center lg:flex xl:gap-5">
