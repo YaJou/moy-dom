@@ -3604,68 +3604,12 @@
     margin-top: 24px;
   }
 
-  .ja-related-articles {
-    margin-top: 56px;
-  }
-
-  .ja-related-articles-grid {
-    display: grid;
-    gap: 18px;
+  .ja-related-articles .articles-grid {
     margin-top: 24px;
   }
 
-  @media (min-width: 768px) {
-    .ja-related-articles-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  .ja-related-card {
-    display: block;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: var(--r-card);
-    background: #fff;
-    text-decoration: none;
-    color: inherit;
-    transition: box-shadow 160ms ease;
-  }
-
-  .ja-related-card:hover {
-    box-shadow: var(--shadow-hover);
-  }
-
-  .ja-related-card-photo {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    background: var(--page);
-  }
-
-  .ja-related-card h3 {
-    margin: 14px 16px 0;
-    font-size: 16px;
-    line-height: 22px;
-    font-weight: 800;
-    color: var(--text);
-  }
-
-  .ja-related-card p {
-    margin: 8px 16px 0;
-    font-size: 14px;
-    line-height: 21px;
-    color: var(--muted);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .ja-related-card span {
-    display: block;
-    margin: 12px 16px 16px;
-    font-size: 13px;
-    color: var(--forest);
-    font-weight: 600;
+  .ja-related-articles .article-card {
+    height: 100%;
   }
 
   /* ——— Mortgage journal article ——— */

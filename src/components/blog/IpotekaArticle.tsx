@@ -2,6 +2,7 @@
 
 import { HomeHouseCard } from "@/components/home/HomeHouseCard";
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
+import { BlogRelatedArticles } from "@/components/blog/BlogRelatedArticles";
 import { StickyArticleToc } from "@/components/blog/StickyArticleToc";
 import { ArticleToc } from "@/components/blog/ArticleToc";
 import { IpotekaCalculator } from "@/components/blog/IpotekaCalculator";
@@ -15,14 +16,9 @@ import {
   IPOTEKA_STEPS,
   IPOTEKA_TOC,
 } from "@/data/blog/articles/ipoteka";
-import {
-  getBlogArticle,
-  getBlogArticleHref,
-  type BlogArticle,
-} from "@/data/blog";
+import { type BlogArticle } from "@/data/blog";
 import { realHouses } from "@/data/houses";
 import { siteConfig } from "@/data/site";
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -42,42 +38,6 @@ function AuthorCard({ article }: { article: BlogArticle }) {
         </Link>
         <p className="ja-author-role">{author.role}</p>
         <p className="ja-author-exp">{author.experience}</p>
-      </div>
-    </aside>
-  );
-}
-
-function RelatedArticles({ article }: { article: BlogArticle }) {
-  const related = article.relatedSlugs
-    .map((s) => getBlogArticle(s))
-    .filter(Boolean) as BlogArticle[];
-
-  if (!related.length) return null;
-
-  return (
-    <aside className="ja-related-articles">
-      <h2 className="ja-h2">Читайте также</h2>
-      <div className="ja-related-articles-grid">
-        {related.map((item) => (
-          <Link
-            key={item.slug}
-            href={getBlogArticleHref(item.slug)}
-            className="ja-related-card"
-          >
-            <div className="ja-related-card-photo">
-              <Image
-                src={item.image}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="360px"
-              />
-            </div>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-            <span>{item.readTime}</span>
-          </Link>
-        ))}
       </div>
     </aside>
   );
@@ -529,7 +489,7 @@ export function IpotekaArticle({ article }: { article: BlogArticle }) {
         </div>
 
         <CatalogHouses />
-        <RelatedArticles article={article} />
+        <BlogRelatedArticles article={article} />
       </div>
     </article>
   );

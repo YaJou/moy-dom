@@ -1,5 +1,6 @@
 import { ArticleToc } from "@/components/blog/ArticleToc";
 import { BlogArticleBody } from "@/components/blog/BlogArticleBody";
+import { BlogRelatedArticles } from "@/components/blog/BlogRelatedArticles";
 import { IpotekaArticle } from "@/components/blog/IpotekaArticle";
 import {
   OtdelkaRelatedHouses,
@@ -16,7 +17,6 @@ import {
 } from "@/data/blog";
 import { buildPageMetadata } from "@/lib/seo";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -43,42 +43,6 @@ export async function generateMetadata({
     type: "article",
     publishedTime: article.dateIso,
   });
-}
-
-function RelatedArticleCards({ article }: { article: BlogArticle }) {
-  const related = article.relatedSlugs
-    .map((s) => getBlogArticle(s))
-    .filter(Boolean) as BlogArticle[];
-
-  if (!related.length) return null;
-
-  return (
-    <aside className="ja-related-articles">
-      <h2 className="ja-h2">Читайте также</h2>
-      <div className="ja-related-articles-grid">
-        {related.map((item) => (
-          <Link
-            key={item.slug}
-            href={getBlogArticleHref(item.slug)}
-            className="ja-related-card"
-          >
-            <div className="ja-related-card-photo">
-              <Image
-                src={item.image}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="360px"
-              />
-            </div>
-            <h3>{item.title}</h3>
-            <p>{item.description}</p>
-            <span>{item.readTime}</span>
-          </Link>
-        ))}
-      </div>
-    </aside>
-  );
 }
 
 function AuthorCard({ article }: { article: BlogArticle }) {
@@ -152,7 +116,7 @@ function JournalArticle({ article }: { article: BlogArticle }) {
             <BlogArticleBody blocks={article.blocks} variant="journal" />
             <AuthorCard article={article} />
             {article.slug === "otdelka" ? <OtdelkaRelatedHouses /> : null}
-            <RelatedArticleCards article={article} />
+            <BlogRelatedArticles article={article} />
           </div>
           <aside className="ja-aside">
             <StickyArticleToc items={toc} />
