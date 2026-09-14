@@ -4264,6 +4264,10 @@
     color: var(--text);
   }
 
+  .mp-catalog-section {
+    margin-top: 64px;
+  }
+
   .mp-sources {
     margin-top: 16px;
     max-width: 760px;

@@ -85,18 +85,35 @@ function RelatedArticles({ article }: { article: BlogArticle }) {
 
 function CatalogHouses() {
   const houses = useMemo(() => realHouses.slice(0, 3), []);
+
   return (
-    <section className="ja-related-houses mp-catalog">
-      <h2 className="ja-h2">Дома, которые можно посмотреть</h2>
-      <p className="ja-lead">
-        Актуальные объекты из каталога: цена, площадь, участок и фото — как на
-        сайте. Подробности комплектации — в карточке дома.
-      </p>
-      <div className="ja-related-houses-grid">
-        {houses.map((house) => (
-          <div key={house.id} className="ja-related-house">
-            <HomeHouseCard house={house} />
+    <section className="mp-catalog-section">
+      <div className="catalog-header">
+        <div className="catalog-header-top">
+          <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-1">
+            <h2 className="h2-desktop font-extrabold text-text">
+              Дома, которые можно посмотреть
+            </h2>
+            <span className="inline-flex items-center gap-1.5 text-sm text-muted">
+              <span
+                className="h-2 w-2 shrink-0 rounded-full bg-success"
+                aria-hidden
+              />
+              В наличии
+            </span>
           </div>
+          <Link href="/catalog/" className="catalog-all-link shrink-0">
+            Весь каталог ↗
+          </Link>
+        </div>
+        <p className="mt-3 text-base text-muted">
+          Сравните расположение, планировку и комплектацию
+        </p>
+      </div>
+
+      <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
+        {houses.map((house, i) => (
+          <HomeHouseCard key={house.id} house={house} priority={i === 0} />
         ))}
       </div>
     </section>
@@ -509,12 +526,10 @@ export function IpotekaArticle({ article }: { article: BlogArticle }) {
               является финансовой рекомендацией.
             </p>
           </div>
-
-          <div className="mp-full">
-            <CatalogHouses />
-            <RelatedArticles article={article} />
-          </div>
         </div>
+
+        <CatalogHouses />
+        <RelatedArticles article={article} />
       </div>
     </article>
   );
