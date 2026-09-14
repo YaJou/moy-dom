@@ -260,7 +260,7 @@ export function HomeHero() {
         lightbox &&
         createPortal(
           <div
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/95"
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/40 backdrop-blur-md"
             onClick={() => setLightbox(false)}
             role="dialog"
             aria-modal="true"
@@ -269,7 +269,7 @@ export function HomeHero() {
             <button
               type="button"
               onClick={() => setLightbox(false)}
-              className="absolute right-3 top-3 z-20 flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-white/25 sm:right-5 sm:top-5 sm:px-4"
+              className="absolute right-3 top-3 z-20 flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-2.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:right-5 sm:top-5 sm:px-4"
               aria-label="Закрыть"
             >
               <X className="h-5 w-5 text-white" strokeWidth={2.5} />
@@ -284,7 +284,7 @@ export function HomeHero() {
                     e.stopPropagation();
                     goTo(activeIndex - 1);
                   }}
-                  className="absolute left-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25 sm:left-5 sm:h-14 sm:w-14"
+                  className="absolute left-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:left-5 sm:h-14 sm:w-14"
                   aria-label="Предыдущее фото"
                 >
                   <ChevronLeft className="h-7 w-7 text-white" strokeWidth={2.25} />
@@ -295,7 +295,7 @@ export function HomeHero() {
                     e.stopPropagation();
                     goTo(activeIndex + 1);
                   }}
-                  className="absolute right-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25 sm:right-5 sm:h-14 sm:w-14"
+                  className="absolute right-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:right-5 sm:h-14 sm:w-14"
                   aria-label="Следующее фото"
                 >
                   <ChevronRight className="h-7 w-7 text-white" strokeWidth={2.25} />
@@ -304,46 +304,45 @@ export function HomeHero() {
             )}
 
             <div
-              className="relative h-[min(92dvh,100%)] w-[min(96vw,1400px)]"
+              className="flex w-[70vw] max-w-[1100px] flex-col items-center gap-3"
               onClick={(e) => e.stopPropagation()}
             >
-              <Image
-                key={`lightbox-${activePhoto}`}
-                src={activePhoto}
-                alt={`${heroHouse.title} — фото ${activeIndex + 1}`}
-                fill
-                className="object-contain"
-                sizes="100vw"
-                priority
-              />
-            </div>
+              <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
+                <Image
+                  key={`lightbox-${activePhoto}`}
+                  src={activePhoto}
+                  alt={`${heroHouse.title} — фото ${activeIndex + 1}`}
+                  fill
+                  className="object-contain"
+                  sizes="70vw"
+                  priority
+                />
+              </div>
 
-            <div
-              className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 sm:bottom-6"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {displayPhotos.map((src, i) => (
-                <button
-                  key={`lb-thumb-${src}`}
-                  type="button"
-                  onClick={() => setActiveIndex(i)}
-                  className={cn(
-                    "relative h-12 w-16 overflow-hidden rounded-md border-2 transition-opacity sm:h-14 sm:w-20",
-                    activeIndex === i
-                      ? "border-white opacity-100"
-                      : "border-transparent opacity-55 hover:opacity-100"
-                  )}
-                  aria-label={`Показать фото ${i + 1}`}
-                >
-                  <Image
-                    src={src}
-                    alt=""
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                  />
-                </button>
-              ))}
+              <div className="flex items-center gap-2">
+                {displayPhotos.map((src, i) => (
+                  <button
+                    key={`lb-thumb-${src}`}
+                    type="button"
+                    onClick={() => setActiveIndex(i)}
+                    className={cn(
+                      "relative h-11 w-14 overflow-hidden rounded-md border-2 shadow-md transition-opacity sm:h-12 sm:w-16",
+                      activeIndex === i
+                        ? "border-white opacity-100"
+                        : "border-white/30 opacity-70 hover:opacity-100"
+                    )}
+                    aria-label={`Показать фото ${i + 1}`}
+                  >
+                    <Image
+                      src={src}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="64px"
+                    />
+                  </button>
+                ))}
+              </div>
             </div>
           </div>,
           document.body
