@@ -1,8 +1,14 @@
-import { CompareButton } from "@/components/house/CompareButton";
-import { formatPrice } from "@/lib/utils";
+"use client";
+
+import { useViewingModal } from "@/components/home/ViewingModalProvider";
+import { IconPhone } from "@/components/home/icons";
 import { siteConfig } from "@/data/site";
+import {
+  getReadinessLabel,
+  priceIncludesSummary,
+} from "@/lib/house-page";
+import { formatPrice } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { HouseTrustBlock } from "@/components/house/HouseTrustBlock";
 import Link from "next/link";
 
 interface HousePriceCardProps {
@@ -10,47 +16,110 @@ interface HousePriceCardProps {
 }
 
 export function HousePriceCard({ house }: HousePriceCardProps) {
+  const { openViewing } = useViewingModal();
+  const params = [
+    { label: "Дом", value: `${house.area} м²` },
+    { label: "Участок", value: `${house.land} сот.` },
+    {
+      label: "Этажность",
+      value: house.specs.floors === 1 ? "1 этаж" : `${house.specs.floors} этажа`,
+    },
+    {
+      label: "Комнаты",
+      value: `${house.rooms} · ${house.specs.bathroom}`,
+    },
+  ];
+
   return (
-    <div className="rounded-card border border-border bg-white p-5 shadow-card sm:p-6">
-      <p className="text-3xl font-bold text-dark sm:text-4xl">
-        {formatPrice(house.price)}
-      </p>
-      <p className="mt-1 text-sm text-gray">
-        {house.area} м² · {house.land} сот. · {house.rooms} комн.
-      </p>
+    <div className="hp-price-card">
+      <p className="hp-price-value">{formatPrice(house.price)}</p>
+      <p className="hp-price-includes">{priceIncludesSummary(house)}</p>
 
-      <ul className="mt-5 space-y-2">
-        {house.highlights.map((item) => (
-          <li
-            key={item}
-            className="flex items-center gap-2 text-sm text-dark before:h-1.5 before:w-1.5 before:shrink-0 before:rounded-full before:bg-primary"
-          >
-            {item}
-          </li>
+      <dl className="hp-price-params">
+        {params.map((item) => (
+          <div key={item.label} className="hp-price-param">
+            <dt>{item.label}</dt>
+            <dd>{item.value}</dd>
+          </div>
         ))}
-      </ul>
+      </dl>
 
-      <div className="mt-6 flex flex-col gap-3">
-        <a
-          href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
-          className="flex h-12 items-center justify-center rounded-xl bg-primary text-sm font-semibold text-white transition-colors hover:bg-primary-hover"
-        >
-          Позвонить
-        </a>
-        <Link
-          href="/#consultation"
-          className="flex h-12 items-center justify-center rounded-xl border border-border text-sm font-semibold text-dark transition-colors hover:border-primary hover:text-primary"
-        >
-          Заказать просмотр
-        </Link>
-        <CompareButton houseId={house.id} />
+      <div className="hp-price-status">
+        <span className="hp-price-status-pill">{getReadinessLabel(house)}</span>
+        <p>
+          Отделка: {house.specs.repair}. {house.specs.water},{" "}
+          {house.specs.sewage}. Газ: {house.specs.gas}.
+        </p>
       </div>
 
-      <HouseTrustBlock />
+      <div className="hp-price-actions">
+        <button
+          type="button"
+          className="hp-btn-primary"
+          onClick={() =>
+            openViewing({
+              houseId: house.id,
+              houseUrl: `/catalog/${house.id}`,
+              city: house.city,
+            })
+          }
+        >
+          Записаться на просмотр
+        </button>
+        <button
+          type="button"
+          className="hp-btn-secondary"
+          onClick={() =>
+            openViewing({
+              houseId: house.id,
+              houseUrl: `/catalog/${house.id}`,
+              city: house.city,
+            })
+          }
+        >
+          Задать вопрос об этом доме
+        </button>
+      </div>
 
-      <p className="mt-4 text-center text-xs text-gray">
-        Застройщик: {house.builder}
-      </p>
+      <a
+        href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+        className="hp-price-manager"
+      >
+        <span className="hp-price-manager-icon">
+          <IconPhone className="h-4 w-4" />
+        </span>
+        <span>
+          <span className="hp-price-manager-label">Менеджер по объекту</span>
+          <span className="hp-price-manager-phone">{siteConfig.phone}</span>
+        </span>
+      </a>
+
+      <p className="hp-price-builder">Застройщик: {house.builder}</p>
+    </div>
+  );
+}
+
+export function HouseMobileAsk({ house }: { house: House }) {
+  const { openViewing } = useViewingModal();
+  return (
+    <div className="hp-mobile-ask lg:hidden">
+      <p className="hp-price-value">{formatPrice(house.price)}</p>
+      <button
+        type="button"
+        className="hp-btn-primary"
+        onClick={() =>
+          openViewing({
+            houseId: house.id,
+            houseUrl: `/catalog/${house.id}`,
+            city: house.city,
+          })
+        }
+      >
+        Записаться на просмотр
+      </button>
+      <Link href={`tel:${siteConfig.phone.replace(/\D/g, "")}`} className="hp-link">
+        {siteConfig.phone}
+      </Link>
     </div>
   );
 }

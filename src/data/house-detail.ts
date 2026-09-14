@@ -1,4 +1,5 @@
 import type { House } from "@/types/house";
+import { getFloorPlanImage } from "@/lib/floor-plan";
 
 export interface FloorPlanRoom {
   name: string;
@@ -25,9 +26,34 @@ export interface HouseFaqItem {
   answer: string;
 }
 
+export interface KeyFeature {
+  title: string;
+  description: string;
+}
+
+export interface CompletenessTabData {
+  id: string;
+  label: string;
+  image: string | null;
+  rows: { label: string; value: string }[];
+}
+
+export interface HouseDocumentItem {
+  title: string;
+  note: string;
+}
+
+export interface ConstructionStage {
+  title: string;
+  caption: string;
+  image: string;
+  date?: string;
+}
+
 export interface HouseDetailContent {
   floorPlanImage: string | null;
   floorPlanRooms: FloorPlanRoom[];
+  floorPlanNote?: string;
   whyChoose: string[];
   targetAudience: TargetAudienceCard[];
   technicalTable: TechnicalSpecRow[];
@@ -40,6 +66,11 @@ export interface HouseDetailContent {
   videoUrl?: string;
   seoParagraphs: string[];
   mortgageBenefits: string[];
+  keyFeatures?: KeyFeature[];
+  completenessTabs?: CompletenessTabData[];
+  remainingWork?: string[];
+  documents?: HouseDocumentItem[];
+  constructionStages?: ConstructionStage[];
 }
 
 const defaultInfrastructure: InfrastructureItem[] = [
@@ -324,6 +355,8 @@ const houseOverrides: Record<number, Partial<HouseDetailContent>> = {
       { name: "Тех. помещение", description: "3,1 м²" },
       { name: "Терраса", description: "8,8 м²" },
     ],
+    floorPlanNote:
+      "Кухня-гостиная с выходом на террасу; спальни в тихой части дома; техпомещение отделено от жилых комнат.",
     whyChoose: [
       "Кухня-гостиная 33 м² с выходом на террасу",
       "Две просторные спальни ~16 м²",
@@ -378,30 +411,36 @@ const houseOverrides: Record<number, Partial<HouseDetailContent>> = {
 
 export function getHouseDetail(house: House): HouseDetailContent {
   const override = houseOverrides[house.id] ?? {};
-  const floorPlanImage = house.images[0] ?? null;
+  const floorPlanImage = getFloorPlanImage(house.id);
 
   return {
     floorPlanImage,
     floorPlanRooms: override.floorPlanRooms ?? [],
+    floorPlanNote: override.floorPlanNote,
     whyChoose: override.whyChoose ?? house.highlights,
     targetAudience: override.targetAudience ?? [
       { title: "Молодая семья", description: "Достаточно места для комфортной жизни" },
       { title: "Постоянное проживание", description: "Инфраструктура посёлка рядом" },
     ],
     technicalTable: override.technicalTable ?? buildTechnicalTable(house),
-    infrastructure: defaultInfrastructure,
+    infrastructure: override.infrastructure ?? defaultInfrastructure,
     district: override.district ?? {
       title: `Район — ${house.district}`,
       paragraphs: [
-        `${house.district} — спокойный посёлок в Балаковском районе с активной застройкой частными домами. Здесь уже живут семьи с детьми, работают магазин, аптека, школа и детский сад.`,
-        `До центра ${house.city} около ${house.specs.distanceToCenter}. Асфальтированные дороги обеспечивают нормальный подъезд круглый год. Общественный транспорт ходит регулярно — до остановки несколько минут пешком.`,
-        `Район подходит для постоянного проживания: есть вся базовая инфраструктура, тихие улицы, зелёные дворы. Рядом лес и река — для прогулок и отдыха на природе.`,
+        `${house.district} — спокойный посёлок с активной застройкой частными домами.`,
+        `До центра ${house.city} около ${house.specs.distanceToCenter}.`,
+        `Рядом базовая инфраструктура: магазины, остановка, спокойные улицы.`,
       ],
     },
     faq: override.faq ?? defaultFaq,
     videoUrl: override.videoUrl,
     seoParagraphs: override.seoParagraphs ?? [house.description, house.shortDescription],
     mortgageBenefits: override.mortgageBenefits ?? defaultMortgageBenefits,
+    keyFeatures: override.keyFeatures,
+    completenessTabs: override.completenessTabs,
+    remainingWork: override.remainingWork,
+    documents: override.documents,
+    constructionStages: override.constructionStages,
   };
 }
 

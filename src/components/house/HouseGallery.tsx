@@ -1,27 +1,42 @@
 "use client";
 
+import { FavoriteButton } from "@/components/home/FavoriteButton";
+import { CompareButton } from "@/components/house/CompareButton";
 import { HouseImage } from "@/components/ui/HouseImage";
-import { cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon";
 import {
-  getHouseGallery,
-  isFloorPlan,
-  isProjectVisualization,
-} from "@/lib/house-images";
+  getHouseGalleryCategories,
+  type GalleryCategoryId,
+} from "@/lib/house-page";
+import { cn } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { ChevronLeft, ChevronRight, X, ZoomIn } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface HouseGalleryProps {
   house: House;
 }
 
 export function HouseGallery({ house }: HouseGalleryProps) {
-  const images = getHouseGallery(house);
+  const categories = useMemo(() => getHouseGalleryCategories(house), [house]);
+  const [categoryId, setCategoryId] = useState<GalleryCategoryId>("all");
+  const activeCategory =
+    categories.find((c) => c.id === categoryId) ?? categories[0];
+  const images = activeCategory?.images ?? [];
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    setActive(0);
+  }, [categoryId]);
 
   const goTo = useCallback(
     (index: number) => {
+      if (!images.length) return;
       setActive((index + images.length) % images.length);
     },
     [images.length]
@@ -42,15 +57,34 @@ export function HouseGallery({ house }: HouseGalleryProps) {
     };
   }, [lightbox, active, goTo]);
 
+  if (!images.length) return null;
   const currentSrc = images[active];
 
   return (
     <>
-      <div>
+      <div className="hp-gallery">
+        <div className="hp-gallery-tabs" role="tablist" aria-label="Категории фото">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              type="button"
+              role="tab"
+              aria-selected={cat.id === activeCategory?.id}
+              className={cn(
+                "hp-gallery-tab",
+                cat.id === activeCategory?.id && "is-active"
+              )}
+              onClick={() => setCategoryId(cat.id)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
         <button
           type="button"
+          className="hp-gallery-main"
           onClick={() => setLightbox(true)}
-          className="group relative flex aspect-[16/10] w-full cursor-zoom-in items-center justify-center overflow-hidden rounded-card bg-[#f0f0f0]"
           aria-label="Увеличить фото"
         >
           <HouseImage
@@ -58,121 +92,124 @@ export function HouseGallery({ house }: HouseGalleryProps) {
             alt={`${house.title} — фото ${active + 1}`}
             fill
             objectFit="contain"
-            sizes="(max-width: 1024px) 100vw, 66vw"
+            sizes="(max-width: 1024px) 100vw, 808px"
             priority
           />
-          {isFloorPlan(currentSrc) ? (
-            <span className="absolute left-4 top-4 rounded-lg bg-primary px-3 py-1.5 text-xs font-medium text-white">
-              Планировка
-            </span>
-          ) : isProjectVisualization(currentSrc) ? (
-            <span className="absolute left-4 top-4 rounded-lg bg-black/60 px-3 py-1.5 text-xs font-medium text-white">
-              Визуализация проекта
-            </span>
-          ) : null}
-          <span className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-lg bg-black/50 px-3 py-1.5 text-xs font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
-            <ZoomIn className="h-3.5 w-3.5" />
+          <span className="hp-gallery-zoom">
+            <Icon name="maximize" className="h-4 w-4" />
             Увеличить
           </span>
-          {images.length > 1 && (
-            <span className="absolute bottom-4 left-4 rounded-lg bg-black/50 px-2.5 py-1 text-xs text-white">
-              {active + 1} / {images.length}
-            </span>
-          )}
+          <span className="hp-gallery-counter">
+            {active + 1} / {images.length}
+          </span>
         </button>
 
-        {images.length > 1 && (
-          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {images.length > 1 ? (
+          <div className="hp-gallery-thumbs">
             {images.map((img, index) => (
               <button
                 key={`${img}-${index}`}
                 type="button"
-                onClick={() => setActive(index)}
                 className={cn(
-                  "relative flex h-16 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl border-2 bg-[#f0f0f0] transition-colors sm:h-20 sm:w-28",
-                  active === index ? "border-primary" : "border-transparent"
+                  "hp-gallery-thumb",
+                  active === index && "is-active"
                 )}
+                onClick={() => setActive(index)}
+                aria-label={`Фото ${index + 1}`}
               >
                 <HouseImage
                   src={img}
-                  alt={`Миниатюра ${index + 1}`}
+                  alt=""
                   fill
                   objectFit="contain"
-                  sizes="112px"
+                  sizes="88px"
                 />
-                {isFloorPlan(img) && (
-                  <span className="absolute bottom-0 left-0 right-0 bg-primary/90 py-0.5 text-center text-[10px] font-medium text-white">
-                    План
-                  </span>
-                )}
               </button>
             ))}
           </div>
-        )}
+        ) : null}
       </div>
 
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
-          onClick={() => setLightbox(false)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Просмотр фото"
-        >
-          <button
-            type="button"
-            onClick={() => setLightbox(false)}
-            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20"
-            aria-label="Закрыть"
-          >
-            <X className="h-5 w-5" />
-          </button>
-
-          {images.length > 1 && (
-            <>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goTo(active - 1);
-                }}
-                className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:left-4 sm:h-12 sm:w-12"
-                aria-label="Предыдущее фото"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  goTo(active + 1);
-                }}
-                className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:right-4 sm:h-12 sm:w-12"
-                aria-label="Следующее фото"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
-            </>
-          )}
-
+      {mounted &&
+        lightbox &&
+        createPortal(
           <div
-            className="relative h-[80vh] w-full max-w-5xl"
-            onClick={(e) => e.stopPropagation()}
+            className="hp-lightbox"
+            onClick={() => setLightbox(false)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Просмотр фото"
           >
-            <HouseImage
-              src={currentSrc}
-              alt={`${house.title} — фото ${active + 1}`}
-              fill
-              objectFit="contain"
-              sizes="100vw"
-            />
-          </div>
-
-          <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-sm text-white/80">
-            {active + 1} из {images.length}
-          </p>
-        </div>
-      )}
+            <button
+              type="button"
+              className="hp-lightbox-close"
+              onClick={() => setLightbox(false)}
+              aria-label="Закрыть"
+            >
+              <Icon name="close" className="h-5 w-5" />
+              Закрыть
+            </button>
+            {images.length > 1 ? (
+              <>
+                <button
+                  type="button"
+                  className="hp-lightbox-nav is-prev"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(active - 1);
+                  }}
+                  aria-label="Предыдущее"
+                >
+                  <Icon name="chevron-left" className="h-6 w-6" />
+                </button>
+                <button
+                  type="button"
+                  className="hp-lightbox-nav is-next"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(active + 1);
+                  }}
+                  aria-label="Следующее"
+                >
+                  <Icon name="chevron-right" className="h-6 w-6" />
+                </button>
+              </>
+            ) : null}
+            <div
+              className="hp-lightbox-frame"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <AnimatePresence initial={false} mode="wait">
+                <motion.div
+                  key={currentSrc}
+                  className="absolute inset-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <HouseImage
+                    src={currentSrc}
+                    alt={`${house.title} — фото ${active + 1}`}
+                    fill
+                    objectFit="contain"
+                    sizes="92vw"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>,
+          document.body
+        )}
     </>
+  );
+}
+
+export function HouseHeroActions({ houseId }: { houseId: number }) {
+  return (
+    <div className="hp-hero-actions">
+      <FavoriteButton houseId={houseId} />
+      <CompareButton houseId={houseId} variant="icon" className="hp-compare-icon" />
+    </div>
   );
 }
