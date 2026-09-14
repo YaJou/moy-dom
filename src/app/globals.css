@@ -889,8 +889,8 @@
   }
 
   .floorplans-panel {
-    min-height: 460px;
-    padding: 24px;
+    min-height: 520px;
+    padding: 20px;
     border: 1px solid var(--border);
     border-radius: var(--r-card);
     background-color: var(--surface);
@@ -898,7 +898,13 @@
 
   @media (min-width: 640px) {
     .floorplans-panel {
-      padding: 32px;
+      padding: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .floorplans-panel {
+      min-height: 640px;
     }
   }
 
@@ -909,21 +915,76 @@
 
   @media (min-width: 1024px) {
     .floorplans-grid {
-      grid-template-columns: 3fr 2fr;
-      gap: 32px;
-      align-items: start;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
+      gap: 28px;
+      align-items: stretch;
     }
+  }
+
+  .floorplans-visual {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .floorplans-image-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
   }
 
   .floorplans-image {
+    position: relative;
+    display: block;
     width: 100%;
-    height: 280px;
+    height: min(72vh, 620px);
+    min-height: 400px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--r-image);
+    background-color: #fff;
+    cursor: zoom-in;
+    padding: 0;
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 1024px) {
     .floorplans-image {
-      height: 360px;
+      height: 100%;
+      min-height: 560px;
     }
+  }
+
+  .floorplans-image-img {
+    object-fit: contain;
+    object-position: center;
+    /* Подрезаем белые поля чертежа */
+    transform: scale(1.22);
+    transform-origin: center;
+  }
+
+  .floorplans-zoom {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding-inline: 16px;
+    border: none;
+    border-radius: var(--r-control);
+    background: var(--forest);
+    color: var(--on-forest);
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: var(--shadow-float);
+    cursor: pointer;
+    transition: background-color 160ms ease, transform 160ms ease;
+  }
+
+  .floorplans-zoom:hover {
+    background: var(--forest-hover);
+    transform: translateY(-1px);
   }
 
   .floorplans-empty {
@@ -931,7 +992,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 280px;
+    min-height: 400px;
+    height: min(72vh, 620px);
     padding: 24px;
     text-align: center;
     border: 1px dashed var(--border);
@@ -939,22 +1001,29 @@
     background-color: var(--page);
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 1024px) {
     .floorplans-empty {
-      height: 360px;
+      min-height: 560px;
+      height: 100%;
     }
   }
 
-  .floorplans-caption {
-    margin-top: 16px;
-    text-align: center;
-    font-size: 14px;
-    line-height: 20px;
+  .floorplans-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .floorplans-side-kicker {
+    margin: 0;
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
     color: var(--muted);
   }
 
   .floorplans-side-title {
-    margin: 0;
+    margin: 8px 0 0;
     font-size: 22px;
     line-height: 30px;
     font-weight: 700;
@@ -963,46 +1032,88 @@
 
   @media (min-width: 768px) {
     .floorplans-side-title {
-      font-size: 28px;
-      line-height: 36px;
+      font-size: 26px;
+      line-height: 34px;
     }
   }
 
-  .floorplans-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 20px;
+  .floorplans-side-price {
+    margin: 10px 0 0;
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 800;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
   }
 
-  .floorplans-feature {
-    display: inline-flex;
+  .floorplans-params {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .floorplans-param {
+    display: flex;
     align-items: center;
-    gap: 8px;
-    min-height: 48px;
-    padding: 10px 14px;
+    gap: 12px;
+    min-height: 56px;
+    padding: 12px 14px;
     border: 1px solid var(--border);
     border-radius: var(--r-control);
-    background-color: var(--surface);
+    background: var(--page);
   }
 
-  .floorplans-feature-icon {
+  .floorplans-param-icon {
     display: flex;
-    color: var(--text);
+    color: var(--forest);
   }
 
-  .floorplans-feature-label {
-    font-size: 13px;
-    line-height: 18px;
-    font-weight: 600;
-    color: var(--text);
+  .floorplans-param-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
   }
 
-  .floorplans-desc {
-    margin-top: 20px;
-    font-size: 15px;
-    line-height: 24px;
+  .floorplans-param-label {
+    font-size: 12px;
+    line-height: 16px;
     color: var(--muted);
+  }
+
+  .floorplans-param-value {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .floorplans-rooms {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .floorplans-rooms li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .floorplans-rooms li > span:first-child {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .floorplans-rooms li > span:last-child {
+    color: var(--muted);
+    text-align: right;
   }
 
   .floorplans-cta {
@@ -1010,8 +1121,10 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 24px;
-    height: 52px;
+    margin-top: auto;
+    padding-top: 24px;
+    height: auto;
+    min-height: 52px;
     padding-inline: 28px;
     border: none;
     border-radius: var(--r-control);
