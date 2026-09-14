@@ -66,6 +66,26 @@ export function IconLeaf({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
+export function IconLeafOutline({ className = "h-14 w-14" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 56 56" fill="none" aria-hidden>
+      <path
+        d="M46 10C34 10 24 16 16 28C24 24 32 23 40 27C36 36 28 44 14 50C28 42 38 32 46 10Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18 48C26 36 34 24 42 14"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 export function IconPhoto({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>

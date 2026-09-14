@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { DEFAULT_FILTERS } from "@/types/house";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { IconArrow } from "./icons";
+import { IconArrow, IconLeafOutline } from "./icons";
 import { HomeHouseCard } from "./HomeHouseCard";
 import { useViewingModal } from "./ViewingModalProvider";
 
@@ -90,18 +90,21 @@ export function HomeCatalog() {
           </div>
         )}
 
-        <div className="mt-6 flex min-h-[96px] flex-col items-start justify-between gap-5 rounded-panel bg-forest p-6 sm:flex-row sm:items-center">
-          <div>
-            <p className="card-title text-white">
-              Не знаете, какой дом выбрать?
-            </p>
-            <p className="mt-1 text-sm text-muted-on-forest">
-              Подберём варианты под ваш бюджет
-            </p>
+        <div className="catalog-cta-panel">
+          <div className="catalog-cta-content">
+            <IconLeafOutline className="catalog-cta-leaf shrink-0" />
+            <div>
+              <p className="catalog-cta-title">
+                Не знаете, какой дом выбрать?
+              </p>
+              <p className="catalog-cta-subtitle">
+                Подберём варианты под ваш бюджет
+              </p>
+            </div>
           </div>
           <button
             type="button"
-            className="btn-primary w-full sm:w-auto"
+            className="catalog-cta-btn"
             onClick={() =>
               openViewing({
                 filters: JSON.stringify(DEFAULT_FILTERS),
@@ -109,7 +112,7 @@ export function HomeCatalog() {
             }
           >
             Подобрать дом
-            <IconArrow />
+            <IconArrow className="h-5 w-5" />
           </button>
         </div>
       </div>
