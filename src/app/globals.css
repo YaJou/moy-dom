@@ -1759,18 +1759,93 @@
 
   .viewing-subtitle {
     margin: 16px 0 0;
-    max-width: 420px;
+    max-width: 460px;
     font-size: 18px;
     line-height: 28px;
     font-weight: 400;
     color: var(--muted);
   }
 
+  .viewing-call-note {
+    margin: 12px 0 0;
+    max-width: 460px;
+    font-size: 15px;
+    line-height: 22px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .viewing-benefits {
+    display: grid;
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .viewing-benefits li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .viewing-phone-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 22px;
+    padding: 12px 14px;
+    border-radius: var(--r-control);
+    border: 1px solid rgba(32, 37, 34, 0.08);
+    background: #fff;
+    text-decoration: none;
+    transition:
+      border-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .viewing-phone-cta:hover {
+    border-color: rgba(244, 123, 32, 0.35);
+    box-shadow: var(--shadow-card);
+  }
+
+  .viewing-phone-cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--orange-soft);
+    color: var(--orange);
+    flex-shrink: 0;
+  }
+
+  .viewing-phone-cta-label {
+    display: block;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--muted);
+  }
+
+  .viewing-phone-cta-number {
+    display: block;
+    margin-top: 2px;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
   .viewing-telegram-link {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    margin-top: 28px;
+    margin-top: 18px;
     font-size: 16px;
     line-height: 24px;
     font-weight: 600;

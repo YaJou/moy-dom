@@ -6,7 +6,7 @@ import {
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
-import { CheckCircle2, Send } from "lucide-react";
+import { CheckCircle2, Phone, Send } from "lucide-react";
 import { useState } from "react";
 
 interface ConsultationFormProps {
@@ -39,9 +39,13 @@ export function ConsultationForm({
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <div>
             <h2 className="section-title">Получить консультацию</h2>
-            <p className="mt-3 text-sm leading-relaxed text-gray sm:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
               Оставьте заявку — менеджер свяжется с вами в течение 15 минут,
               ответит на вопросы и подберёт подходящие варианты домов.
+            </p>
+            <p className="mt-3 text-sm font-semibold text-text">
+              Это просто короткий звонок: без обязательств, без спама и без
+              давления — только ответы на ваши вопросы.
             </p>
             <ul className="mt-6 space-y-3">
               {[
@@ -51,21 +55,28 @@ export function ConsultationForm({
                 "Помощь с ипотекой",
                 "Организация просмотра",
               ].map((item) => (
-                <li key={item} className="flex items-center gap-2 text-sm text-dark">
-                  <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                <li key={item} className="flex items-center gap-2 text-sm text-text">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-orange" />
                   {item}
                 </li>
               ))}
             </ul>
-            <p className="mt-6 text-sm text-gray">
-              Или позвоните:{" "}
-              <a
-                href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
-                className="font-semibold text-primary hover:underline"
-              >
-                {siteConfig.phone}
-              </a>
-            </p>
+            <a
+              href={`tel:${siteConfig.phone.replace(/\D/g, "")}`}
+              className="mt-6 inline-flex items-center gap-3 rounded-control border border-border bg-page px-3.5 py-3 transition-colors hover:border-orange/40"
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-soft text-orange">
+                <Phone className="h-4 w-4" />
+              </span>
+              <span>
+                <span className="block text-xs text-muted">
+                  Или просто позвоните — и всё
+                </span>
+                <span className="mt-0.5 block text-sm font-bold text-text">
+                  {siteConfig.phone}
+                </span>
+              </span>
+            </a>
           </div>
 
           <div className="rounded-card border border-border bg-background p-5 shadow-card sm:p-6 lg:p-8">
