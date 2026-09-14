@@ -2973,12 +2973,29 @@
   @media (min-width: 1024px) {
     .ja-aside {
       display: block;
+      position: relative;
       width: 280px;
+    }
+
+    .ja-aside-slot {
+      width: 100%;
+      min-height: 1px;
+    }
+
+    .ja-aside-sticky,
+    .ja-aside-fixed {
+      width: 100%;
     }
 
     .ja-aside-sticky {
       position: sticky;
       top: 88px;
+      max-height: calc(100vh - 104px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+    }
+
+    .ja-aside-fixed {
       max-height: calc(100vh - 104px);
       overflow-y: auto;
       overscroll-behavior: contain;

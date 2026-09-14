@@ -3,6 +3,7 @@ import { BlogArticleBody } from "@/components/blog/BlogArticleBody";
 import {
   OtdelkaRelatedHouses,
 } from "@/components/blog/OtdelkaInteractive";
+import { StickyArticleToc } from "@/components/blog/StickyArticleToc";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { Breadcrumb } from "@/components/seo/Breadcrumb";
 import { ArticleSchema } from "@/components/seo/Schema";
@@ -153,9 +154,7 @@ function JournalArticle({ article }: { article: BlogArticle }) {
             <RelatedArticleCards article={article} />
           </div>
           <aside className="ja-aside">
-            <div className="ja-aside-sticky">
-              <ArticleToc items={toc} mode="desktop" />
-            </div>
+            <StickyArticleToc items={toc} />
           </aside>
         </div>
       </div>
