@@ -11,12 +11,15 @@ interface NavMenuProps {
   items: NavItem[];
 }
 
+const linkClass =
+  "inline-flex h-9 shrink-0 items-center gap-1 whitespace-nowrap rounded-lg px-2.5 text-[13px] font-medium text-text transition-colors hover:bg-page hover:text-orange xl:px-3";
+
 function NavLabel({ item }: { item: NavItem }) {
   if (item.shortLabel) {
     return (
       <>
-        <span className="xl:hidden">{item.shortLabel}</span>
-        <span className="hidden xl:inline">{item.label}</span>
+        <span className="2xl:hidden">{item.shortLabel}</span>
+        <span className="hidden 2xl:inline">{item.label}</span>
       </>
     );
   }
@@ -48,17 +51,15 @@ function NavDropdown({ item }: { item: NavItem }) {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-full px-2 py-1.5 text-[12px] font-medium transition-colors lg:px-2.5 xl:px-3 xl:text-[13px]",
-          open
-            ? "bg-white text-primary shadow-sm"
-            : "text-dark hover:bg-white/70 hover:text-primary"
+          linkClass,
+          open && "bg-page text-orange"
         )}
       >
         <NavLabel item={item} />
         <ChevronDown
           className={cn(
-            "h-3.5 w-3.5 shrink-0 text-gray transition-transform duration-200",
-            open && "rotate-180 text-primary"
+            "h-3.5 w-3.5 shrink-0 text-muted transition-transform duration-200",
+            open && "rotate-180 text-orange"
           )}
         />
       </button>
@@ -70,7 +71,7 @@ function NavDropdown({ item }: { item: NavItem }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 6 }}
             transition={{ duration: 0.15 }}
-            className="absolute left-1/2 top-[calc(100%+6px)] z-50 min-w-[200px] -translate-x-1/2"
+            className="absolute left-1/2 top-[calc(100%+8px)] z-50 min-w-[200px] -translate-x-1/2"
           >
             <div className="overflow-hidden rounded-2xl border border-border bg-white py-1.5 shadow-card">
               {item.children.map((child) => (
@@ -78,7 +79,7 @@ function NavDropdown({ item }: { item: NavItem }) {
                   key={child.href}
                   href={child.href}
                   onClick={() => setOpen(false)}
-                  className="block whitespace-nowrap px-4 py-2 text-[13px] font-medium text-dark transition-colors hover:bg-primary-light hover:text-primary"
+                  className="block whitespace-nowrap px-4 py-2.5 text-[13px] font-medium text-text transition-colors hover:bg-orange-soft hover:text-orange"
                 >
                   {child.label}
                 </Link>
@@ -93,10 +94,7 @@ function NavDropdown({ item }: { item: NavItem }) {
 
 function NavLink({ item }: { item: NavItem }) {
   return (
-    <Link
-      href={item.href}
-      className="shrink-0 whitespace-nowrap rounded-full px-2 py-1.5 text-[12px] font-medium text-dark transition-colors hover:bg-white/70 hover:text-primary lg:px-2.5 xl:px-3 xl:text-[13px]"
-    >
+    <Link href={item.href} className={linkClass}>
       <NavLabel item={item} />
     </Link>
   );
@@ -104,7 +102,7 @@ function NavLink({ item }: { item: NavItem }) {
 
 export function NavMenu({ items }: NavMenuProps) {
   return (
-    <nav className="hidden shrink-0 flex-nowrap items-center rounded-full border border-border/70 bg-background px-0.5 py-0.5 lg:flex">
+    <nav className="hidden items-center gap-0.5 lg:flex">
       {items.map((item) =>
         item.children ? (
           <NavDropdown key={item.href} item={item} />

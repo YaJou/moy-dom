@@ -43,12 +43,12 @@ export function HeaderClient({
 
   return (
     <>
-      <div className="hidden min-w-0 flex-1 justify-center lg:flex">
+      <div className="hidden min-w-0 flex-1 items-center justify-center px-2 lg:flex xl:px-4">
         <NavMenu items={navigation} />
       </div>
 
-      <div className="hidden shrink-0 items-center gap-1.5 lg:flex xl:gap-3">
-        <div className="flex items-center gap-1">
+      <div className="hidden shrink-0 items-center gap-2.5 lg:flex xl:gap-3">
+        <div className="flex items-center gap-1.5">
           <a
             href={whatsapp}
             target="_blank"
@@ -68,28 +68,32 @@ export function HeaderClient({
             <MessengerIcon type="telegram" />
           </a>
         </div>
-        <div className="text-right">
+
+        <div className="hidden h-9 w-px bg-border xl:block" aria-hidden />
+
+        <div className="min-w-0 text-right">
           <a
             href={`tel:${phone.replace(/\D/g, "")}`}
-            className="block text-sm font-semibold leading-tight text-text transition-colors hover:text-orange"
+            className="block whitespace-nowrap text-sm font-semibold leading-none text-text transition-colors hover:text-orange"
           >
             {phone}
           </a>
-          <span className="hidden text-[11px] text-muted xl:block">
+          <span className="mt-1 hidden text-[11px] leading-none text-muted 2xl:block">
             {phoneHours}
           </span>
         </div>
+
         <Button
           size="sm"
           variant="outline"
-          className="hidden h-9 rounded-full px-3 text-[12px] xl:inline-flex xl:px-4 xl:text-[13px]"
+          className="hidden h-9 rounded-full px-3.5 text-[13px] 2xl:inline-flex"
           onClick={() => openViewing()}
         >
           Подобрать дом
         </Button>
         <Button
           size="sm"
-          className="h-9 rounded-full px-3 text-[12px] xl:px-4 xl:text-[13px]"
+          className="h-9 rounded-full px-3.5 text-[13px]"
           onClick={() => openViewing()}
         >
           Обратный звонок

@@ -6,9 +6,9 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-white/95 backdrop-blur-md">
       <div className="container-main relative">
-        <div className="flex h-14 items-center justify-between gap-3 sm:h-16 lg:gap-6">
+        <div className="flex h-14 items-center gap-3 sm:h-16 lg:gap-4">
           <Link href="/" className="flex shrink-0 items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-soft sm:h-10 sm:w-10">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-soft">
               <svg
                 width="20"
                 height="20"
@@ -25,11 +25,13 @@ export function Header() {
                 />
               </svg>
             </div>
-            <div className="hidden sm:block">
-              <div className="text-sm font-bold leading-tight text-text lg:text-base">
+            <div className="hidden min-w-0 sm:block">
+              <div className="text-sm font-bold leading-none text-text">
                 {siteConfig.name}
               </div>
-              <div className="text-[11px] text-muted">{siteConfig.tagline}</div>
+              <div className="mt-1 max-w-[160px] truncate text-[11px] leading-none text-muted xl:max-w-none">
+                {siteConfig.tagline}
+              </div>
             </div>
           </Link>
 
