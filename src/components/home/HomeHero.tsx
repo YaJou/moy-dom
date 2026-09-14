@@ -1,15 +1,27 @@
 "use client";
 
 import { realHouses, getMinHousePrice } from "@/data/houses";
-import { getHouseCover } from "@/lib/house-images";
 import { analytics } from "@/lib/analytics";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House } from "@/types/house";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { IconArrow, IconCamera, IconEye, IconLeaf } from "./icons";
+import {
+  IconArrow,
+  IconLeaf,
+  IconMapPin,
+  IconPhoto,
+} from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
+
+const HERO_FACADE = [
+  "/images/design-kit/01-hero-house.png",
+  "/images/design-kit/02-hero-side.png",
+  "/images/design-kit/03-hero-garden.png",
+] as const;
+
+const HERO_INTERIOR = ["/images/design-kit/07-pre-finish-interior.png"] as const;
 
 function pickHeroHouse(): House {
   const withPhotos = realHouses.filter((h) => h.images.length >= 1);
@@ -23,19 +35,14 @@ export function HomeHero() {
   const heroHouse = useMemo(() => pickHeroHouse(), []);
   const { openViewing } = useViewingModal();
   const minPrice = getMinHousePrice();
-  const photos = heroHouse.images.slice(0, 4);
   const [activeIndex, setActiveIndex] = useState(0);
   const [showInterior, setShowInterior] = useState(false);
 
-  const exteriorPhotos = photos;
-  const interiorPhotos = heroHouse.images.filter((img) =>
-    /0[89]|1[0-6]/.test(img.split("/").pop() ?? "")
-  );
-  const hasInterior = interiorPhotos.length > 0;
-  const displayPhotos = showInterior && hasInterior ? interiorPhotos : exteriorPhotos;
-  const activePhoto = displayPhotos[activeIndex] ?? getHouseCover(heroHouse);
+  const displayPhotos = showInterior ? HERO_INTERIOR : HERO_FACADE;
+  const activePhoto = displayPhotos[activeIndex] ?? HERO_FACADE[0];
+  const showThumbnails = displayPhotos.length > 1;
 
-  const shortTitle = `Дом ${heroHouse.area} м²`;
+  const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
 
   return (
     <section className="bg-page py-6 md:py-10">
@@ -72,17 +79,17 @@ export function HomeHero() {
                 Записаться на просмотр
               </button>
             </div>
-            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-text">
+            <ul className="hero-facts mt-6 flex flex-wrap gap-x-7 gap-y-3">
               <li className="flex items-center gap-2">
-                <IconLeaf className="text-forest" />
+                <IconLeaf className="h-[18px] w-[18px] shrink-0" />
                 С участком
               </li>
               <li className="flex items-center gap-2">
-                <IconCamera className="text-forest" />
-                Фото и описание
+                <IconPhoto className="h-[18px] w-[18px] shrink-0" />
+                Фото и планировки
               </li>
               <li className="flex items-center gap-2">
-                <IconEye className="text-forest" />
+                <IconMapPin className="h-[18px] w-[18px] shrink-0" />
                 Просмотр дома
               </li>
             </ul>
@@ -93,41 +100,46 @@ export function HomeHero() {
               <Image
                 src={activePhoto}
                 alt={heroHouse.title}
-                fill
+                width={696}
+                height={456}
                 priority
-                className="object-cover object-center"
+                className="h-full w-full object-cover object-center"
                 sizes="(max-width: 768px) 100vw, 696px"
               />
-              {hasInterior && (
-                <div className="absolute left-3 top-3 flex gap-1.5 sm:left-5 sm:top-5">
+              <div className="absolute left-3 top-3 sm:left-5 sm:top-5">
+                <div className="hero-photo-toggle" role="tablist" aria-label="Вид дома">
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={!showInterior}
                     onClick={() => {
                       setShowInterior(false);
                       setActiveIndex(0);
                     }}
                     className={cn(
-                      "chip",
-                      !showInterior ? "chip-active" : "chip-inactive bg-surface/95"
+                      "hero-photo-toggle-btn",
+                      !showInterior && "is-active"
                     )}
                   >
                     Фасад
                   </button>
                   <button
                     type="button"
+                    role="tab"
+                    aria-selected={showInterior}
                     onClick={() => {
                       setShowInterior(true);
                       setActiveIndex(0);
                     }}
                     className={cn(
-                      "chip",
-                      showInterior ? "chip-active" : "chip-inactive bg-surface/95"
+                      "hero-photo-toggle-btn",
+                      showInterior && "is-active"
                     )}
                   >
                     Внутри
                   </button>
                 </div>
-              )}
+              </div>
               <Link
                 href={`/catalog/${heroHouse.id}`}
                 className="absolute bottom-3 left-3 w-[min(310px,calc(100%-24px))] rounded-panel bg-white/95 p-[18px] shadow-float backdrop-blur-[12px] sm:bottom-5 sm:left-5"
@@ -149,15 +161,15 @@ export function HomeHero() {
                 </div>
               </Link>
             </div>
-            {displayPhotos.length > 1 && (
+            {showThumbnails && (
               <div className="mt-3 flex gap-2">
-                {displayPhotos.slice(0, 3).map((src, i) => (
+                {displayPhotos.map((src, i) => (
                   <button
                     key={src}
                     type="button"
                     onClick={() => setActiveIndex(i)}
                     className={cn(
-                      "relative h-11 w-16 shrink-0 overflow-hidden rounded-sm sm:h-14 sm:w-[84px]",
+                      "relative h-14 w-[84px] shrink-0 overflow-hidden rounded-sm",
                       activeIndex === i
                         ? "ring-2 ring-orange ring-offset-1"
                         : "opacity-80 hover:opacity-100"
@@ -167,8 +179,9 @@ export function HomeHero() {
                     <Image
                       src={src}
                       alt=""
-                      fill
-                      className="object-cover"
+                      width={84}
+                      height={56}
+                      className="h-full w-full object-cover"
                       sizes="84px"
                     />
                   </button>

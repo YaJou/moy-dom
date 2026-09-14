@@ -27,13 +27,21 @@ export function IconArrow({ className = "h-5 w-5" }: { className?: string }) {
 
 export function IconMapPin({ className = "h-4 w-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 16 16" fill="none" aria-hidden>
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
       <path
-        d="M8 1.5C5.51472 1.5 3.5 3.51472 3.5 6C3.5 9.5 8 14.5 8 14.5C8 14.5 12.5 9.5 12.5 6C12.5 3.51472 10.4853 1.5 8 1.5Z"
+        d="M10 2.5C7.23858 2.5 5 4.73858 5 7.5C5 11.25 10 17.5 10 17.5C10 17.5 15 11.25 15 7.5C15 4.73858 12.7614 2.5 10 2.5Z"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <circle cx="8" cy="6" r="1.5" stroke="currentColor" strokeWidth="1.75" />
+      <circle
+        cx="10"
+        cy="7.5"
+        r="1.75"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
     </svg>
   );
 }
@@ -42,9 +50,46 @@ export function IconLeaf({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
       <path
-        d="M17 3C11 3 6 6 3 11C6 9 9 8.5 12 9C11 12 8 15 3 17C8 14 13 11 17 3Z"
+        d="M15.5 3.5C11.2 3.8 7.5 6.2 5.5 9.8C8.2 8.8 10.8 8.9 13.2 10.2C12.1 12.6 9.8 14.8 6.5 16.5C10.4 14.6 13.8 11.4 15.5 3.5Z"
         stroke="currentColor"
-        strokeWidth="1.75"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M6.8 16.2C9.2 12.8 12.2 8.6 15.2 4.2"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function IconPhoto({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <rect
+        x="2.75"
+        y="3.75"
+        width="14.5"
+        height="12.5"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+      <circle
+        cx="13.25"
+        cy="7.25"
+        r="1.1"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+      <path
+        d="M3.5 13.5L7.2 10.2L9.8 12.4L12.1 10.5L16.5 14.2"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
     </svg>
@@ -98,6 +143,42 @@ export function IconHeart({ className = "h-5 w-5", filled = false }: { className
     <svg className={className} viewBox="0 0 20 20" fill={filled ? "currentColor" : "none"} aria-hidden>
       <path
         d="M10 16.5L8.55 15.15C4.4 11.36 2 9.08 2 6.25C2 4.17893 3.67893 2.5 5.75 2.5C6.98 2.5 8.16 3.115 9 4.02C9.84 3.115 11.02 2.5 12.25 2.5C14.3211 2.5 16 4.17893 16 6.25C16 9.08 13.6 11.36 9.45 15.15L10 16.5Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function IconLayout({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.75" />
+      <path d="M3 8H17M8 8V17" stroke="currentColor" strokeWidth="1.75" />
+    </svg>
+  );
+}
+
+export function IconRuble({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <path
+        d="M6 4H11.5C13.433 4 15 5.567 15 7.5C15 9.433 13.433 11 11.5 11H6V4Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinejoin="round"
+      />
+      <path d="M6 11V16M9 13.5H13" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconBed({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" aria-hidden>
+      <path
+        d="M3 12V16M17 12V16M3 12H17M3 12V9C3 7.34315 4.34315 6 6 6H7.5C8.32843 6 9 6.67157 9 7.5V8H11V7.5C11 6.67157 11.6716 6 12.5 6H14C15.6569 6 17 7.34315 17 9V12"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinejoin="round"

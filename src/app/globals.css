@@ -590,6 +590,17 @@
     color: var(--forest-hover);
   }
 
+  .hero-facts {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #4a5650;
+  }
+
+  .hero-facts svg {
+    color: #4a5650;
+  }
+
   /* Hero photo toggle — mockup: white active pill on translucent bar */
   .hero-photo-toggle {
     display: inline-flex;
