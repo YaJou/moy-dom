@@ -526,17 +526,33 @@
   }
 
   /* Catalog section — mockup */
+  .catalog-header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 24px;
+  }
+
   .catalog-all-link {
     display: inline-flex;
     align-items: center;
-    font-size: 14px;
-    line-height: 20px;
+    padding-top: 6px;
+    font-size: 16px;
+    line-height: 24px;
     font-weight: 700;
     color: var(--forest);
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 4px;
     text-decoration-thickness: 1px;
     transition: color 160ms ease;
+  }
+
+  @media (min-width: 768px) {
+    .catalog-all-link {
+      padding-top: 10px;
+      font-size: 18px;
+      line-height: 28px;
+    }
   }
 
   .catalog-all-link:hover {

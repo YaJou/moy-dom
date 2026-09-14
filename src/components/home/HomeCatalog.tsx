@@ -33,9 +33,9 @@ export function HomeCatalog() {
   return (
     <section id="homes" className="bg-page pb-12 pt-6">
       <div className="container-main">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+        <div className="catalog-header">
+          <div className="catalog-header-top">
+            <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-2.5 gap-y-1">
               <h2 className="h2-desktop font-extrabold text-text">
                 Дома, которые можно посмотреть
               </h2>
@@ -47,13 +47,13 @@ export function HomeCatalog() {
                 В наличии
               </span>
             </div>
-            <p className="mt-3 text-base text-muted">
-              Сравните расположение, планировку и комплектацию
-            </p>
+            <Link href="/catalog/" className="catalog-all-link shrink-0">
+              Весь каталог ↗
+            </Link>
           </div>
-          <Link href="/catalog/" className="catalog-all-link shrink-0">
-            Весь каталог ↗
-          </Link>
+          <p className="mt-3 text-base text-muted">
+            Сравните расположение, планировку и комплектацию
+          </p>
         </div>
 
         <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
