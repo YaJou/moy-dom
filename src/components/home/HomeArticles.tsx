@@ -7,14 +7,17 @@ const featured = [
   {
     slug: "otdelka",
     title: "Что входит в предчистовую отделку",
+    image: "/images/design-kit/07-pre-finish-interior.png",
   },
   {
     slug: "uchastok",
     title: "Как оценить участок и подъезд",
+    image: "/images/design-kit/12-plot-and-access.png",
   },
   {
     slug: "prichiny",
     title: "5 причин выбрать готовый дом вместо строительства",
+    image: "/images/design-kit/01-hero-house.png",
   },
 ] as const;
 
@@ -23,7 +26,11 @@ export function HomeArticles() {
     .map((item) => {
       const article = blogArticles.find((a) => a.slug === item.slug);
       if (!article) return null;
-      return { ...article, cardTitle: item.title };
+      return {
+        ...article,
+        cardTitle: item.title,
+        cardImage: item.image,
+      };
     })
     .filter(Boolean);
 
@@ -43,13 +50,15 @@ export function HomeArticles() {
           {articles.map((article) =>
             article ? (
               <article key={article.slug} className="article-card group">
-                <Image
-                  src={article.image}
-                  alt=""
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                  sizes="(max-width: 768px) 100vw, 384px"
-                />
+                <div className="article-card-media">
+                  <Image
+                    src={article.cardImage}
+                    alt=""
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 384px"
+                  />
+                </div>
                 <div className="article-card-overlay" />
                 <div className="article-card-content">
                   <p className="article-card-meta">{article.readTime}</p>
