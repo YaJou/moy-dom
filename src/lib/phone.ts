@@ -11,11 +11,11 @@ export function normalizeRuPhoneDigits(raw: string): string {
   let digits = digitsOnly(raw);
   if (!digits) return "";
 
+  // 8XXXXXXXXXX → 7XXXXXXXXXX
   if (digits.startsWith("8")) {
     digits = `7${digits.slice(1)}`;
-  } else if (digits.length === 10) {
-    digits = `7${digits}`;
   } else if (!digits.startsWith("7")) {
+    // локальный 10-значный или набор без кода страны
     digits = `7${digits}`;
   }
 
