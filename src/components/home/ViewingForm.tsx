@@ -7,6 +7,7 @@ import {
 import { Select } from "@/components/ui/Select";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
+import { submitLead } from "@/lib/lead-api";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
@@ -81,11 +82,7 @@ export function ViewingForm({
         context,
       };
 
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
+      const res = await submitLead(body);
 
       if (!res.ok) {
         throw new Error("server");

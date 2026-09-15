@@ -1,14 +1,5 @@
+import { sendTelegramLead, type LeadBody } from "@/lib/telegram-lead";
 import { NextResponse } from "next/server";
-
-interface LeadBody {
-  type?: string;
-  city?: string;
-  method?: string;
-  contact?: string;
-  name?: string;
-  comment?: string;
-  context?: Record<string, unknown>;
-}
 
 export async function POST(request: Request) {
   let body: LeadBody;
@@ -27,7 +18,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "City required" }, { status: 400 });
   }
 
-  // Stub handler: validated leads are accepted. Wire to CRM/webhook in production.
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+
+  if (token && chatId) {
+    const sent = await sendTelegramLead(token, chatId, body);
+    if (!sent) {
+      return NextResponse.json({ error: "Telegram send failed" }, { status: 500 });
+    }
+    return NextResponse.json({ ok: true });
+  }
+
   console.info("[lead]", {
     type: body.type ?? "viewing",
     city: body.city,
