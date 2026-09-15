@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  MAX_COMPARE,
   useCompare,
   getCompareHouses,
 } from "@/context/CompareContext";
@@ -33,7 +32,6 @@ export function CompareBar() {
                   : compareIds.length < 5
                     ? "дома"
                     : "домов"}
-                {ready ? "" : ` · можно до ${MAX_COMPARE}`}
               </p>
               <p className="truncate text-xs text-muted">
                 {houses.map((h) => `Дом ${h.area} м²`).join(" · ")}
@@ -43,7 +41,7 @@ export function CompareBar() {
           {ready ? (
             <Link
               href={`/compare/?ids=${compareIds.join(",")}`}
-              className="btn-compact shrink-0 bg-orange text-text hover:bg-orange-hover"
+              className="btn-primary btn-compact shrink-0"
             >
               Сравнить
             </Link>

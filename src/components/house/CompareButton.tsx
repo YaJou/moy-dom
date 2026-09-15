@@ -3,7 +3,6 @@
 import { useCompare, MAX_COMPARE } from "@/context/CompareContext";
 import { cn } from "@/lib/utils";
 import { GitCompareArrows } from "lucide-react";
-import { useState } from "react";
 
 interface CompareButtonProps {
   houseId: number;
@@ -17,15 +16,10 @@ export function CompareButton({
   className,
 }: CompareButtonProps) {
   const { isInCompare, toggleCompare } = useCompare();
-  const [limitHint, setLimitHint] = useState(false);
   const active = isInCompare(houseId);
 
   const handleClick = () => {
-    const added = toggleCompare(houseId);
-    if (!added && !active) {
-      setLimitHint(true);
-      window.setTimeout(() => setLimitHint(false), 2500);
-    }
+    toggleCompare(houseId);
   };
 
   if (variant === "icon") {
@@ -39,13 +33,7 @@ export function CompareButton({
           className
         )}
         aria-label={active ? "Убрать из сравнения" : "Сравнить"}
-        title={
-          limitHint
-            ? `Можно сравнить до ${MAX_COMPARE} домов`
-            : active
-              ? "Убрать из сравнения"
-              : "Сравнить"
-        }
+        title={active ? "Убрать из сравнения" : "Сравнить"}
       >
         <GitCompareArrows className={cn("h-4 w-4", active && "text-primary")} />
       </button>
@@ -54,49 +42,39 @@ export function CompareButton({
 
   if (variant === "labeled") {
     return (
-      <div className={className}>
-        <button
-          type="button"
-          onClick={handleClick}
-          className={cn(
-            "inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-colors",
-            active
-              ? "border-primary bg-primary-light text-primary"
-              : "border-border text-text hover:border-primary hover:text-primary"
-          )}
-        >
-          <GitCompareArrows className="h-4 w-4" />
-          {active ? "В сравнении" : "Сравнить"}
-        </button>
-        {limitHint && (
-          <p className="mt-1 text-center text-xs text-primary">
-            Можно сравнить до {MAX_COMPARE} домов
-          </p>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className={className}>
       <button
         type="button"
         onClick={handleClick}
         className={cn(
-          "flex h-12 w-full items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-colors",
+          "inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-colors",
           active
             ? "border-primary bg-primary-light text-primary"
-            : "border-border text-dark hover:border-primary hover:text-primary"
+            : "border-border text-text hover:border-primary hover:text-primary",
+          className
         )}
+        aria-label={active ? "Убрать из сравнения" : `Сравнить (до ${MAX_COMPARE})`}
       >
         <GitCompareArrows className="h-4 w-4" />
         {active ? "В сравнении" : "Сравнить"}
       </button>
-      {limitHint && (
-        <p className="mt-1.5 text-center text-xs text-primary">
-          Можно сравнить до {MAX_COMPARE} домов
-        </p>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      className={cn(
+        "flex h-12 w-full items-center justify-center gap-2 rounded-xl border text-sm font-semibold transition-colors",
+        active
+          ? "border-primary bg-primary-light text-primary"
+          : "border-border text-dark hover:border-primary hover:text-primary",
+        className
       )}
-    </div>
+      aria-label={active ? "Убрать из сравнения" : "Сравнить"}
+    >
+      <GitCompareArrows className="h-4 w-4" />
+      {active ? "В сравнении" : "Сравнить"}
+    </button>
   );
 }
