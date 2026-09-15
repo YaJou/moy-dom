@@ -45,7 +45,8 @@ if ($config === null) {
 }
 
 $message = format_lead_message($data);
-$sent = telegram_send_all($config['token'], $config['chat_ids'], $message);
+$photoUrl = extract_house_photo_url($data);
+$sent = telegram_deliver_all($config['token'], $config['chat_ids'], $message, $photoUrl);
 
 if (!$sent) {
     http_response_code(500);
@@ -148,7 +149,13 @@ function format_lead_message(array $data): string
     $comment = trim((string)($data['comment'] ?? ''));
     $context = is_array($data['context'] ?? null) ? $data['context'] : [];
 
-    $title = $type === 'viewing' ? 'Заявка на просмотр' : 'Заявка с сайта';
+    if ($type === 'callback') {
+        $title = 'Обратный звонок';
+    } elseif ($type === 'viewing') {
+        $title = 'Заявка на просмотр';
+    } else {
+        $title = 'Заявка с сайта';
+    }
     $methodLabel = $method === 'telegram' ? 'Telegram' : 'Телефон';
 
     $lines = [
@@ -156,6 +163,11 @@ function format_lead_message(array $data): string
         'Город: ' . esc($city),
         'Связь: ' . esc($methodLabel) . ' — ' . esc($contact),
     ];
+
+    $topic = trim((string)($context['topic'] ?? ''));
+    if ($topic !== '') {
+        $lines[] = 'Вопрос: ' . esc($topic);
+    }
 
     if ($name !== '') {
         $lines[] = 'Имя: ' . esc($name);
@@ -166,11 +178,36 @@ function format_lead_message(array $data): string
 
     if (!empty($context['houseId'])) {
         $houseId = (string)$context['houseId'];
+        $houseTitle = trim((string)($context['houseTitle'] ?? ''));
+        $housePrice = trim((string)($context['housePrice'] ?? ''));
+        $houseArea = trim((string)($context['houseArea'] ?? ''));
+        $placeParts = [];
+        if (!empty($context['houseCity'])) {
+            $placeParts[] = (string)$context['houseCity'];
+        }
+        if (!empty($context['houseDistrict'])) {
+            $placeParts[] = (string)$context['houseDistrict'];
+        }
+        $place = implode(', ', $placeParts);
         $url = trim((string)($context['houseUrl'] ?? ''));
         if ($url === '') {
             $url = 'https://dom-krovservice64.ru/catalog/' . $houseId . '/';
         }
-        $lines[] = 'Дом: #' . esc($houseId) . ' — ' . esc($url);
+
+        $bits = [];
+        $bits[] = $houseTitle !== '' ? $houseTitle : ('Дом #' . $houseId);
+        if ($houseArea !== '') {
+            $bits[] = $houseArea . ' м²';
+        }
+        if ($place !== '') {
+            $bits[] = $place;
+        }
+        if ($housePrice !== '') {
+            $bits[] = $housePrice;
+        }
+
+        $lines[] = 'Дом: ' . esc(implode(' · ', $bits));
+        $lines[] = 'Ссылка: ' . esc($url);
     }
 
     if (!empty($context['filters'])) {
@@ -185,16 +222,18 @@ function format_lead_message(array $data): string
     return implode("\n", $lines);
 }
 
-function telegram_send(string $token, string $chatId, string $text): bool
+function extract_house_photo_url(array $data): ?string
 {
-    $url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
-    $payload = json_encode([
-        'chat_id' => $chatId,
-        'text' => $text,
-        'parse_mode' => 'HTML',
-        'disable_web_page_preview' => true,
-    ], JSON_UNESCAPED_UNICODE);
+    $context = is_array($data['context'] ?? null) ? $data['context'] : [];
+    $photo = trim((string)($context['housePhotoUrl'] ?? ''));
+    if ($photo !== '' && str_starts_with($photo, 'http')) {
+        return $photo;
+    }
+    return null;
+}
 
+function telegram_request(string $url, string $payload): bool
+{
     if (function_exists('curl_init')) {
         $ch = curl_init($url);
         curl_setopt_array($ch, [
@@ -202,7 +241,7 @@ function telegram_send(string $token, string $chatId, string $text): bool
             CURLOPT_POSTFIELDS => $payload,
             CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 10,
+            CURLOPT_TIMEOUT => 15,
         ]);
         $response = curl_exec($ch);
         $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -219,7 +258,7 @@ function telegram_send(string $token, string $chatId, string $text): bool
             'method' => 'POST',
             'header' => "Content-Type: application/json\r\n",
             'content' => $payload,
-            'timeout' => 10,
+            'timeout' => 15,
         ],
     ]);
     $response = @file_get_contents($url, false, $ctx);
@@ -230,12 +269,46 @@ function telegram_send(string $token, string $chatId, string $text): bool
     return is_array($json) && !empty($json['ok']);
 }
 
-/** Отправляет всем получателям; успех если хотя бы одному ушло. */
-function telegram_send_all(string $token, array $chatIds, string $text): bool
+function telegram_send(string $token, string $chatId, string $text): bool
+{
+    $url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
+    $payload = json_encode([
+        'chat_id' => $chatId,
+        'text' => $text,
+        'parse_mode' => 'HTML',
+        'disable_web_page_preview' => true,
+    ], JSON_UNESCAPED_UNICODE);
+
+    return telegram_request($url, (string)$payload);
+}
+
+function telegram_send_photo(string $token, string $chatId, string $photoUrl, string $caption): bool
+{
+    $url = 'https://api.telegram.org/bot' . $token . '/sendPhoto';
+    $payload = json_encode([
+        'chat_id' => $chatId,
+        'photo' => $photoUrl,
+        'caption' => $caption,
+        'parse_mode' => 'HTML',
+    ], JSON_UNESCAPED_UNICODE);
+
+    return telegram_request($url, (string)$payload);
+}
+
+/** Фото+подпись или текст; успех если хотя бы одному ушло. */
+function telegram_deliver_all(string $token, array $chatIds, string $text, ?string $photoUrl): bool
 {
     $ok = false;
     foreach ($chatIds as $chatId) {
-        if (telegram_send($token, (string)$chatId, $text)) {
+        $cid = (string)$chatId;
+        $sent = false;
+        if ($photoUrl) {
+            $sent = telegram_send_photo($token, $cid, $photoUrl, $text);
+        }
+        if (!$sent) {
+            $sent = telegram_send($token, $cid, $text);
+        }
+        if ($sent) {
             $ok = true;
         }
     }

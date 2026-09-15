@@ -31,14 +31,14 @@ export function HeaderClient({
           size="sm"
           variant="outline"
           className="h-9 rounded-full px-3.5 text-[13px]"
-          onClick={() => openViewing()}
+          onClick={() => openViewing({ intent: "viewing" })}
         >
           Подобрать дом
         </Button>
         <Button
           size="sm"
           className="h-9 rounded-full px-3.5 text-[13px]"
-          onClick={() => openViewing()}
+          onClick={() => openViewing({ intent: "callback" })}
         >
           Обратный звонок
         </Button>
@@ -105,7 +105,7 @@ export function HeaderClient({
               className="w-full rounded-full"
               onClick={() => {
                 setIsOpen(false);
-                openViewing();
+                openViewing({ intent: "viewing" });
               }}
             >
               Подобрать дом

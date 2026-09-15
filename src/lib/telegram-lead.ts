@@ -30,15 +30,17 @@ function formatContactForMessage(method: string, contact: string): string {
       normalized.startsWith("7") &&
       !contact.trim().startsWith("@"));
 
-  if (
-    isPhone &&
-    normalized.length === 11 &&
-    normalized.startsWith("7")
-  ) {
+  if (isPhone && normalized.length === 11 && normalized.startsWith("7")) {
     return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
   }
 
   return contact.trim();
+}
+
+function leadTitle(type: string): string {
+  if (type === "callback") return "Обратный звонок";
+  if (type === "viewing") return "Заявка на просмотр";
+  return "Заявка с сайта";
 }
 
 export function formatTelegramLeadMessage(body: LeadBody): string {
@@ -50,25 +52,50 @@ export function formatTelegramLeadMessage(body: LeadBody): string {
   const comment = body.comment?.trim() || "";
   const context = body.context ?? {};
 
-  const title = type === "viewing" ? "Заявка на просмотр" : "Заявка с сайта";
   const methodLabel = method === "telegram" ? "Telegram" : "Телефон";
 
   const lines = [
-    `🏠 <b>${esc(title)}</b>`,
+    `🏠 <b>${esc(leadTitle(type))}</b>`,
     `Город: ${esc(city)}`,
     `Связь: ${esc(methodLabel)} — ${esc(contact)}`,
   ];
+
+  if (typeof context.topic === "string" && context.topic.trim()) {
+    lines.push(`Вопрос: ${esc(context.topic.trim())}`);
+  }
 
   if (name) lines.push(`Имя: ${esc(name)}`);
   if (comment) lines.push(`Комментарий: ${esc(comment)}`);
 
   if (context.houseId != null && context.houseId !== "") {
     const houseId = String(context.houseId);
+    const title =
+      typeof context.houseTitle === "string" ? context.houseTitle : "";
+    const price =
+      typeof context.housePrice === "string" ? context.housePrice : "";
+    const area =
+      context.houseArea != null && context.houseArea !== ""
+        ? `${context.houseArea} м²`
+        : "";
+    const place = [context.houseCity, context.houseDistrict]
+      .filter((v) => typeof v === "string" && v.trim())
+      .join(", ");
     const url =
       typeof context.houseUrl === "string" && context.houseUrl.trim()
         ? context.houseUrl.trim()
         : `https://dom-krovservice64.ru/catalog/${houseId}/`;
-    lines.push(`Дом: #${esc(houseId)} — ${esc(url)}`);
+
+    const houseLine = [
+      title || `Дом #${houseId}`,
+      area,
+      place,
+      price,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
+    lines.push(`Дом: ${esc(houseLine)}`);
+    lines.push(`Ссылка: ${esc(url)}`);
   }
 
   if (context.filters) {
@@ -80,6 +107,11 @@ export function formatTelegramLeadMessage(body: LeadBody): string {
 
   lines.push("Сайт: dom-krovservice64.ru");
   return lines.join("\n");
+}
+
+function getHousePhotoUrl(body: LeadBody): string | null {
+  const photo = body.context?.housePhotoUrl;
+  return typeof photo === "string" && photo.startsWith("http") ? photo : null;
 }
 
 async function sendTelegramMessage(
@@ -103,19 +135,48 @@ async function sendTelegramMessage(
   return Boolean(json.ok);
 }
 
+async function sendTelegramPhoto(
+  token: string,
+  chatId: string,
+  photoUrl: string,
+  caption: string
+): Promise<boolean> {
+  const res = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      chat_id: chatId,
+      photo: photoUrl,
+      caption,
+      parse_mode: "HTML",
+    }),
+  });
+
+  if (!res.ok) return false;
+  const json = (await res.json()) as { ok?: boolean };
+  return Boolean(json.ok);
+}
+
 export async function sendTelegramLead(
   token: string,
   chatIds: string | string[],
   body: LeadBody
 ): Promise<boolean> {
   const text = formatTelegramLeadMessage(body);
+  const photoUrl = getHousePhotoUrl(body);
   const ids = (Array.isArray(chatIds) ? chatIds : [chatIds])
     .map((id) => id.trim())
     .filter(Boolean);
   if (ids.length === 0) return false;
 
   const results = await Promise.all(
-    ids.map((id) => sendTelegramMessage(token, id, text))
+    ids.map(async (id) => {
+      if (photoUrl) {
+        const sent = await sendTelegramPhoto(token, id, photoUrl, text);
+        if (sent) return true;
+      }
+      return sendTelegramMessage(token, id, text);
+    })
   );
   return results.some(Boolean);
 }

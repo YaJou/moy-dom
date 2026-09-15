@@ -20,23 +20,24 @@ export function ViewingModal({
   defaultCity,
 }: ViewingModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const isCallback = context?.intent === "callback";
 
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (open && !dialog.open) {
       dialog.showModal();
-      analytics.viewingFormOpen("modal");
+      analytics.viewingFormOpen(isCallback ? "callback" : "modal");
     } else if (!open && dialog.open) {
       dialog.close();
     }
-  }, [open]);
+  }, [open, isCallback]);
 
   return (
     <dialog
       ref={dialogRef}
       className={cn(
-        "fixed inset-0 z-50 m-auto w-[min(520px,calc(100%-32px))] max-h-[90vh] overflow-visible rounded-card border-0 bg-surface p-8 shadow-float backdrop:bg-[rgba(18,30,24,.45)]",
+        "fixed inset-0 z-50 m-auto w-[min(520px,calc(100%-32px))] max-h-[90vh] overflow-y-auto rounded-card border-0 bg-surface p-8 shadow-float backdrop:bg-[rgba(18,30,24,.45)]",
         "open:animate-in"
       )}
       onClose={onClose}
@@ -52,11 +53,16 @@ export function ViewingModal({
       >
         ×
       </button>
-      <h2 className="h3-panel pr-10 text-text">Записаться на просмотр</h2>
+      <h2 className="h3-panel pr-10 text-text">
+        {isCallback ? "Обратный звонок" : "Записаться на просмотр"}
+      </h2>
       <p className="mt-2 text-sm text-muted">
-        Выберите город и удобный способ связи
+        {isCallback
+          ? "Выберите тему — менеджер перезвонит и поможет"
+          : "Выберите дом и удобный способ связи"}
       </p>
       <ViewingForm
+        key={`${context?.intent ?? "viewing"}-${context?.houseId ?? "none"}-${context?.topic ?? ""}`}
         className="mt-6 p-0 shadow-none"
         context={context}
         defaultCity={defaultCity}

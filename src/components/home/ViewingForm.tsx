@@ -4,26 +4,36 @@ import {
   ConsentCheckbox,
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
+import { LeadHousePicker } from "@/components/home/LeadHousePicker";
 import { Select } from "@/components/ui/Select";
+import { getHouseById } from "@/data/houses";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
+import { getHouseCover } from "@/lib/house-images";
 import { submitLead } from "@/lib/lead-api";
+import {
+  CALLBACK_TOPICS,
+  type LeadIntent,
+  topicNeedsHouse,
+} from "@/lib/lead-topics";
 import {
   formatRuPhoneCanonical,
   formatRuPhoneMask,
   looksLikePhone,
 } from "@/lib/phone";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { IconCheck, IconTelegram } from "./icons";
 
 export interface ViewingFormContext {
+  intent?: LeadIntent;
   houseId?: number;
   houseUrl?: string;
   city?: string;
   filters?: string;
   calculator?: string;
+  topic?: string;
 }
 
 interface ViewingFormProps {
@@ -37,6 +47,12 @@ interface ViewingFormProps {
 
 type ContactMethod = "phone" | "telegram";
 
+function absoluteUrl(path: string): string {
+  if (path.startsWith("http")) return path;
+  const base = siteConfig.url.replace(/\/$/, "");
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
 export function ViewingForm({
   id,
   className,
@@ -46,7 +62,10 @@ export function ViewingForm({
   onSuccess,
 }: ViewingFormProps) {
   const formId = useId();
-  const [city, setCity] = useState(defaultCity);
+  const intent: LeadIntent = context?.intent ?? "viewing";
+  const isCallback = intent === "callback";
+
+  const [city, setCity] = useState(context?.city ?? defaultCity);
   const [method, setMethod] = useState<ContactMethod>("phone");
   const [contact, setContact] = useState("");
   const [name, setName] = useState("");
@@ -56,14 +75,46 @@ export function ViewingForm({
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [houseError, setHouseError] = useState<string | null>(null);
+  const [topicError, setTopicError] = useState<string | null>(null);
+  const [topicId, setTopicId] = useState(context?.topic ?? "");
+  const [houseId, setHouseId] = useState<number | null>(
+    context?.houseId ?? null
+  );
 
   useEffect(() => {
     if (context?.city) setCity(context.city);
   }, [context?.city]);
 
+  useEffect(() => {
+    setHouseId(context?.houseId ?? null);
+  }, [context?.houseId]);
+
+  useEffect(() => {
+    if (context?.topic) setTopicId(context.topic);
+  }, [context?.topic]);
+
+  const showHousePicker =
+    !isCallback || topicNeedsHouse(topicId) || Boolean(context?.houseId);
+  const houseRequired =
+    intent === "viewing" || (isCallback && topicNeedsHouse(topicId));
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) return;
+
+    setHouseError(null);
+    setTopicError(null);
+
+    if (isCallback && !topicId) {
+      setTopicError("Выберите, какой вопрос вас интересует");
+      return;
+    }
+
+    if (houseRequired && houseId == null) {
+      setHouseError("Выберите дом, по которому звонить");
+      return;
+    }
 
     let contactValue = contact.trim();
     if (!contactValue) {
@@ -84,18 +135,43 @@ export function ViewingForm({
       contactValue = formatted;
     }
 
+    const house = houseId != null ? getHouseById(houseId) : undefined;
+    const topic = CALLBACK_TOPICS.find((t) => t.id === topicId);
+
+    const leadContext: Record<string, unknown> = {
+      ...(context?.filters ? { filters: context.filters } : {}),
+      ...(context?.calculator ? { calculator: context.calculator } : {}),
+    };
+
+    if (topic) {
+      leadContext.topic = topic.label;
+      leadContext.topicId = topic.id;
+    }
+
+    if (house) {
+      leadContext.houseId = house.id;
+      leadContext.houseTitle = house.title;
+      leadContext.housePrice = formatPrice(house.price);
+      leadContext.housePriceValue = house.price;
+      leadContext.houseCity = house.city;
+      leadContext.houseDistrict = house.district;
+      leadContext.houseArea = house.area;
+      leadContext.houseUrl = absoluteUrl(`/catalog/${house.id}/`);
+      leadContext.housePhotoUrl = absoluteUrl(getHouseCover(house));
+    }
+
     setLoading(true);
     setError(null);
 
     try {
       const body = {
-        type: "viewing",
+        type: intent,
         city,
         method,
         contact: contactValue,
         name: name.trim() || undefined,
         comment: comment.trim() || undefined,
-        context,
+        context: leadContext,
       };
 
       const res = await submitLead(body);
@@ -104,11 +180,11 @@ export function ViewingForm({
         throw new Error("server");
       }
 
-      analytics.leadSuccess("viewing");
+      analytics.leadSuccess(intent);
       setSubmitted(true);
       onSuccess?.();
     } catch {
-      analytics.leadError("viewing", "server");
+      analytics.leadError(intent, "server");
       setError(
         "Не удалось отправить заявку. Попробуйте ещё раз или напишите в Telegram."
       );
@@ -123,7 +199,9 @@ export function ViewingForm({
         <IconCheck className="mx-auto mb-4 h-12 w-12 text-success" />
         <h3 className="text-lg font-extrabold text-text">Заявка отправлена</h3>
         <p className="mt-2 text-sm text-muted">
-          Мы свяжемся с вами для согласования просмотра.
+          {isCallback
+            ? "Мы перезвоним и ответим на ваш вопрос."
+            : "Мы свяжемся с вами для согласования просмотра."}
         </p>
         <button
           type="button"
@@ -134,6 +212,8 @@ export function ViewingForm({
             setName("");
             setComment("");
             setConsent(false);
+            if (!context?.houseId) setHouseId(null);
+            if (!context?.topic) setTopicId("");
           }}
         >
           Отправить ещё
@@ -148,6 +228,61 @@ export function ViewingForm({
       onSubmit={handleSubmit}
       className={cn("viewing-form-card", className)}
     >
+      {isCallback && (
+        <div className="viewing-form-field viewing-form-field-full">
+          <label htmlFor={`${formId}-topic`} className="viewing-form-label">
+            Какой вопрос интересует *
+          </label>
+          <Select
+            id={`${formId}-topic`}
+            value={topicId}
+            onChange={(next) => {
+              setTopicId(next);
+              setTopicError(null);
+              if (!topicNeedsHouse(next) && !context?.houseId) {
+                setHouseId(null);
+              }
+              setHouseError(null);
+            }}
+            options={[
+              { value: "", label: "Выберите тему" },
+              ...CALLBACK_TOPICS.map((t) => ({
+                value: t.id,
+                label: t.label,
+              })),
+            ]}
+            placeholder="Выберите тему"
+            aria-label="Какой вопрос интересует"
+          />
+          {topicError ? (
+            <p className="viewing-form-error">{topicError}</p>
+          ) : null}
+        </div>
+      )}
+
+      {showHousePicker && (
+        <LeadHousePicker
+          value={houseId}
+          onChange={(id) => {
+            setHouseId(id);
+            setHouseError(null);
+            if (id != null) {
+              const house = getHouseById(id);
+              if (house?.city) setCity(house.city);
+            }
+          }}
+          label={
+            isCallback
+              ? "Дом по вопросу"
+              : "Какой дом заинтересовал"
+          }
+          required={houseRequired}
+          allowSkip={!houseRequired}
+          error={houseError}
+          className="viewing-form-field-full"
+        />
+      )}
+
       <div className="viewing-form-fields">
         <div className="viewing-form-field">
           <label htmlFor={`${formId}-city`} className="viewing-form-label">
@@ -243,8 +378,7 @@ export function ViewingForm({
           onChange={setConsent}
           className="viewing-form-consent"
         >
-          Я соглашаюсь с{" "}
-          <PrivacyPolicyLink />
+          Я соглашаюсь с <PrivacyPolicyLink />
         </ConsentCheckbox>
       </div>
 
@@ -300,12 +434,12 @@ export function ViewingForm({
         disabled={!consent || loading}
         className="viewing-form-submit"
       >
-        {loading ? "Отправка…" : "Записаться на просмотр"}
+        {loading
+          ? "Отправка…"
+          : isCallback
+            ? "Жду звонка"
+            : "Записаться на просмотр"}
       </button>
-
-      {context?.houseUrl && (
-        <input type="hidden" name="houseUrl" value={context.houseUrl} readOnly />
-      )}
     </form>
   );
 }
