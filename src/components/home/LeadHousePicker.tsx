@@ -4,11 +4,13 @@ import { realHouses } from "@/data/houses";
 import { getHouseCover } from "@/lib/house-images";
 import { cn, formatPrice } from "@/lib/utils";
 import Image from "next/image";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 interface LeadHousePickerProps {
   value: number | null;
   onChange: (houseId: number | null) => void;
+  /** Показывать только дома этого города */
+  city?: string;
   label?: string;
   required?: boolean;
   allowSkip?: boolean;
@@ -20,6 +22,7 @@ interface LeadHousePickerProps {
 export function LeadHousePicker({
   value,
   onChange,
+  city,
   label = "Какой дом интересует",
   required = false,
   allowSkip = true,
@@ -30,7 +33,14 @@ export function LeadHousePicker({
   const uid = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
-  const selected = value != null ? realHouses.find((h) => h.id === value) : null;
+
+  const houses = useMemo(() => {
+    if (!city) return realHouses;
+    return realHouses.filter((h) => h.city === city);
+  }, [city]);
+
+  const selected =
+    value != null ? houses.find((h) => h.id === value) ?? null : null;
 
   useEffect(() => {
     if (!open) return;
@@ -73,7 +83,7 @@ export function LeadHousePicker({
             </span>
             <span className="lead-house-meta">
               <span className="lead-house-title">
-                {selected.area} м² · {selected.city}
+                {selected.area} м² · {selected.district || selected.city}
               </span>
               <span className="lead-house-price">
                 {formatPrice(selected.price)}
@@ -82,7 +92,11 @@ export function LeadHousePicker({
           </span>
         ) : (
           <span className="lead-house-placeholder">
-            {allowSkip ? "Выберите дом или пропустите" : "Выберите дом"}
+            {houses.length === 0
+              ? "В этом городе пока нет домов"
+              : allowSkip
+                ? "Выберите дом или пропустите"
+                : "Выберите дом"}
           </span>
         )}
         <span className="lead-house-chevron" aria-hidden>
@@ -109,45 +123,52 @@ export function LeadHousePicker({
               </button>
             </li>
           )}
-          {realHouses.map((house) => {
-            const isSelected = house.id === value;
-            return (
-              <li key={house.id} role="option" aria-selected={isSelected}>
-                <button
-                  type="button"
-                  className={cn(
-                    "lead-house-option",
-                    isSelected && "is-selected"
-                  )}
-                  onClick={() => {
-                    onChange(house.id);
-                    setOpen(false);
-                  }}
-                >
-                  <span className="lead-house-thumb">
-                    <Image
-                      src={getHouseCover(house)}
-                      alt=""
-                      width={64}
-                      height={48}
-                      className="lead-house-thumb-img"
-                    />
-                  </span>
-                  <span className="lead-house-meta">
-                    <span className="lead-house-title">
-                      {house.area} м² · {house.district || house.city}
+          {houses.length === 0 ? (
+            <li className="lead-house-option-skip" role="presentation">
+              Нет домов в {city}
+            </li>
+          ) : (
+            houses.map((house) => {
+              const isSelected = house.id === value;
+              return (
+                <li key={house.id} role="option" aria-selected={isSelected}>
+                  <button
+                    type="button"
+                    className={cn(
+                      "lead-house-option",
+                      isSelected && "is-selected"
+                    )}
+                    onClick={() => {
+                      onChange(house.id);
+                      setOpen(false);
+                    }}
+                  >
+                    <span className="lead-house-thumb">
+                      <Image
+                        src={getHouseCover(house)}
+                        alt=""
+                        width={64}
+                        height={48}
+                        className="lead-house-thumb-img"
+                      />
                     </span>
-                    <span className="lead-house-sub">
-                      {house.city} · {house.bedrooms ?? house.rooms} спал.
+                    <span className="lead-house-meta">
+                      <span className="lead-house-title">
+                        {house.area} м² · {house.district || house.city}
+                      </span>
+                      <span className="lead-house-sub">
+                        {house.bedrooms ?? house.rooms} спальни · участок{" "}
+                        {house.land} сот.
+                      </span>
+                      <span className="lead-house-price">
+                        {formatPrice(house.price)}
+                      </span>
                     </span>
-                    <span className="lead-house-price">
-                      {formatPrice(house.price)}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+                  </button>
+                </li>
+              );
+            })
+          )}
         </ul>
       )}
 

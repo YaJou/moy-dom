@@ -260,16 +260,34 @@ export function ViewingForm({
         </div>
       )}
 
+      <div className="viewing-form-field viewing-form-field-full">
+        <label htmlFor={`${formId}-city`} className="viewing-form-label">
+          Город
+        </label>
+        <Select
+          id={`${formId}-city`}
+          value={city}
+          onChange={(next) => {
+            setCity(next);
+            setHouseId((prev) => {
+              if (prev == null) return null;
+              const house = getHouseById(prev);
+              return house?.city === next ? prev : null;
+            });
+            setHouseError(null);
+          }}
+          options={["Энгельс", "Саратов", "Балаково"]}
+          aria-label="Город"
+        />
+      </div>
+
       {showHousePicker && (
         <LeadHousePicker
           value={houseId}
+          city={city}
           onChange={(id) => {
             setHouseId(id);
             setHouseError(null);
-            if (id != null) {
-              const house = getHouseById(id);
-              if (house?.city) setCity(house.city);
-            }
           }}
           label={
             isCallback
@@ -284,19 +302,6 @@ export function ViewingForm({
       )}
 
       <div className="viewing-form-fields">
-        <div className="viewing-form-field">
-          <label htmlFor={`${formId}-city`} className="viewing-form-label">
-            Город
-          </label>
-          <Select
-            id={`${formId}-city`}
-            value={city}
-            onChange={setCity}
-            options={["Энгельс", "Саратов", "Балаково"]}
-            aria-label="Город"
-          />
-        </div>
-
         <div className="viewing-form-field">
           <label htmlFor={`${formId}-contact`} className="viewing-form-label">
             {method === "phone" ? "Телефон" : "Telegram"}
