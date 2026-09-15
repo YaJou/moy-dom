@@ -36,7 +36,7 @@ export function ViewingModal({
     <dialog
       ref={dialogRef}
       className={cn(
-        "fixed inset-0 z-50 m-auto w-[min(520px,calc(100%-32px))] max-h-[90vh] overflow-y-auto rounded-card border-0 bg-surface p-8 shadow-float backdrop:bg-[rgba(18,30,24,.45)]",
+        "fixed inset-0 z-50 m-auto w-[min(520px,calc(100%-32px))] max-h-[90vh] overflow-visible rounded-card border-0 bg-surface p-8 shadow-float backdrop:bg-[rgba(18,30,24,.45)]",
         "open:animate-in"
       )}
       onClose={onClose}

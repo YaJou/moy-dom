@@ -578,7 +578,7 @@
   }
 
   .ks-select-menu {
-    z-index: 240;
+    z-index: 10000;
     margin: 0;
     padding: 6px;
     max-height: 280px;

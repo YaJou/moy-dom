@@ -60,6 +60,7 @@ export function Select({
   const listRef = useRef<HTMLUListElement>(null);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [placement, setPlacement] = useState<"bottom" | "top">("bottom");
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 0 });
@@ -71,6 +72,14 @@ export function Select({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useLayoutEffect(() => {
+    if (!open) return;
+    // Native <dialog showModal()> is in the top layer; menus on document.body
+    // render behind the backdrop. Portal into the dialog when inside one.
+    const dialog = triggerRef.current?.closest("dialog");
+    setPortalTarget((dialog as HTMLElement | null) ?? document.body);
+  }, [open]);
 
   const updatePosition = useCallback(() => {
     const el = triggerRef.current;
@@ -178,67 +187,68 @@ export function Select({
 
   const openUp = placement === "top";
 
-  const menu = mounted
-    ? createPortal(
-        <AnimatePresence>
-          {open ? (
-            <motion.ul
-              key={listboxId}
-              ref={listRef}
-              id={listboxId}
-              role="listbox"
-              tabIndex={-1}
-              aria-activedescendant={`${uid}-opt-${activeIndex}`}
-              aria-labelledby={triggerId}
-              className="ks-select-menu"
-              style={{
-                position: "fixed",
-                top: openUp ? undefined : menuPos.top,
-                bottom: openUp
-                  ? Math.max(0, window.innerHeight - menuPos.top)
-                  : undefined,
-                left: menuPos.left,
-                width: menuPos.width,
-                transformOrigin: openUp ? "bottom center" : "top center",
-              }}
-              initial={{ opacity: 0, y: openUp ? 8 : -8, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: openUp ? 6 : -6, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              onKeyDown={onListKeyDown}
-            >
-              {items.map((item, index) => {
-                const isSelected = item.value === value;
-                const isActive = index === activeIndex;
-                return (
-                  <li
-                    key={item.value}
-                    id={`${uid}-opt-${index}`}
-                    role="option"
-                    aria-selected={isSelected}
-                    data-index={index}
-                    className={cn(
-                      "ks-select-option",
-                      isSelected && "is-selected",
-                      isActive && "is-active"
-                    )}
-                    onMouseEnter={() => setActiveIndex(index)}
-                    onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => choose(item.value)}
-                  >
-                    <span>{item.label}</span>
-                    {isSelected ? (
-                      <Icon name="check" className="h-4 w-4 ks-select-check" />
-                    ) : null}
-                  </li>
-                );
-              })}
-            </motion.ul>
-          ) : null}
-        </AnimatePresence>,
-        document.body
-      )
-    : null;
+  const menu =
+    mounted && portalTarget
+      ? createPortal(
+          <AnimatePresence>
+            {open ? (
+              <motion.ul
+                key={listboxId}
+                ref={listRef}
+                id={listboxId}
+                role="listbox"
+                tabIndex={-1}
+                aria-activedescendant={`${uid}-opt-${activeIndex}`}
+                aria-labelledby={triggerId}
+                className="ks-select-menu"
+                style={{
+                  position: "fixed",
+                  top: openUp ? undefined : menuPos.top,
+                  bottom: openUp
+                    ? Math.max(0, window.innerHeight - menuPos.top)
+                    : undefined,
+                  left: menuPos.left,
+                  width: menuPos.width,
+                  transformOrigin: openUp ? "bottom center" : "top center",
+                }}
+                initial={{ opacity: 0, y: openUp ? 8 : -8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: openUp ? 6 : -6, scale: 0.98 }}
+                transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                onKeyDown={onListKeyDown}
+              >
+                {items.map((item, index) => {
+                  const isSelected = item.value === value;
+                  const isActive = index === activeIndex;
+                  return (
+                    <li
+                      key={item.value}
+                      id={`${uid}-opt-${index}`}
+                      role="option"
+                      aria-selected={isSelected}
+                      data-index={index}
+                      className={cn(
+                        "ks-select-option",
+                        isSelected && "is-selected",
+                        isActive && "is-active"
+                      )}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      onMouseDown={(e) => e.preventDefault()}
+                      onClick={() => choose(item.value)}
+                    >
+                      <span>{item.label}</span>
+                      {isSelected ? (
+                        <Icon name="check" className="h-4 w-4 ks-select-check" />
+                      ) : null}
+                    </li>
+                  );
+                })}
+              </motion.ul>
+            ) : null}
+          </AnimatePresence>,
+          portalTarget
+        )
+      : null;
 
   return (
     <div
