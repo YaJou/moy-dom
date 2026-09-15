@@ -1,7 +1,11 @@
 import type { HouseDetailContent } from "@/data/house-detail";
 import { getFloorPlanImage } from "@/lib/floor-plan";
 import { getFloorPlanStats } from "@/lib/floor-plan";
-import { getHouseCover, getHouseGallery } from "@/lib/house-images";
+import {
+  getHouseCover,
+  getHouseGallery,
+  getHouseGallerySplit,
+} from "@/lib/house-images";
 import type { House } from "@/types/house";
 
 export type GalleryCategoryId =
@@ -36,7 +40,7 @@ export interface HouseDocumentItem {
 
 const READINESS_LABEL: Record<House["readiness"], string> = {
   ready: "Готов к заселению",
-  building: "Строится",
+  building: "В продаже",
 };
 
 export function getReadinessLabel(house: House): string {
@@ -54,6 +58,7 @@ export function getHousePhotoGallery(house: House): string[] {
 export function getHouseGalleryCategories(house: House): GalleryCategory[] {
   const photos = getHousePhotoGallery(house);
   const plan = getFloorPlanImage(house.id);
+  const split = getHouseGallerySplit(house.id);
   const categories: GalleryCategory[] = [
     {
       id: "all",
@@ -62,26 +67,46 @@ export function getHouseGalleryCategories(house: House): GalleryCategory[] {
     },
   ];
 
-  if (photos.length > 0) {
-    categories.push({
-      id: "facade",
-      label: "Фасад",
-      images: photos.slice(0, Math.min(3, photos.length)),
-    });
-  }
+  if (split) {
+    let offset = 0;
+    const facade = photos.slice(offset, offset + split.facade);
+    offset += split.facade;
+    const interior = photos.slice(offset, offset + split.interior);
+    offset += split.interior;
+    const plot =
+      split.plot > 0 ? photos.slice(offset, offset + split.plot) : [];
 
-  if (photos.length >= 4) {
-    categories.push({
-      id: "interior",
-      label: "Внутри",
-      images: photos.slice(2, Math.min(photos.length, 6)),
-    });
-  }
-
-  if (photos.length >= 3) {
-    const plot = photos.slice(-2);
+    if (facade.length) {
+      categories.push({ id: "facade", label: "Фасад", images: facade });
+    }
+    if (interior.length) {
+      categories.push({ id: "interior", label: "Внутри", images: interior });
+    }
     if (plot.length) {
       categories.push({ id: "plot", label: "Участок", images: plot });
+    }
+  } else {
+    if (photos.length > 0) {
+      categories.push({
+        id: "facade",
+        label: "Фасад",
+        images: photos.slice(0, Math.min(3, photos.length)),
+      });
+    }
+
+    if (photos.length >= 4) {
+      categories.push({
+        id: "interior",
+        label: "Внутри",
+        images: photos.slice(2, Math.min(photos.length, 6)),
+      });
+    }
+
+    if (photos.length >= 3) {
+      const plot = photos.slice(-2);
+      if (plot.length) {
+        categories.push({ id: "plot", label: "Участок", images: plot });
+      }
     }
   }
 

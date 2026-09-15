@@ -3,6 +3,22 @@ import type { House } from "@/types/house";
 const FALLBACK =
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80";
 
+/** Сколько фото после плана: фасад / внутри / участок (0 = нет вкладки). */
+export type HouseGallerySplit = {
+  facade: number;
+  interior: number;
+  plot: number;
+};
+
+const GALLERY_SPLIT_BY_ID: Record<number, HouseGallerySplit> = {
+  // план + 7 фасад + 8 внутри, фоток участка нет
+  7: { facade: 7, interior: 8, plot: 0 },
+};
+
+export function getHouseGallerySplit(houseId: number): HouseGallerySplit | null {
+  return GALLERY_SPLIT_BY_ID[houseId] ?? null;
+}
+
 /** Главное фото для карточки — 02.jpg */
 export function getHouseCover(house: House): string {
   return house.images[1] ?? house.images[0] ?? house.image ?? FALLBACK;
