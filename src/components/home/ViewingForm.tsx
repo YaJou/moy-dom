@@ -8,6 +8,11 @@ import { Select } from "@/components/ui/Select";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
 import { submitLead } from "@/lib/lead-api";
+import {
+  formatRuPhoneCanonical,
+  formatRuPhoneMask,
+  looksLikePhone,
+} from "@/lib/phone";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
@@ -59,13 +64,24 @@ export function ViewingForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consent) return;
-    if (!contact.trim()) {
+
+    let contactValue = contact.trim();
+    if (!contactValue) {
       setError(
         method === "phone"
           ? "Укажите телефон для звонка"
           : "Укажите username или ссылку Telegram"
       );
       return;
+    }
+
+    if (method === "phone" || looksLikePhone(contactValue)) {
+      const formatted = formatRuPhoneCanonical(contactValue);
+      if (!formatted) {
+        setError("Укажите телефон полностью: +7 999 999 99 99");
+        return;
+      }
+      contactValue = formatted;
     }
 
     setLoading(true);
@@ -76,7 +92,7 @@ export function ViewingForm({
         type: "viewing",
         city,
         method,
-        contact: contact.trim(),
+        contact: contactValue,
         name: name.trim() || undefined,
         comment: comment.trim() || undefined,
         context,
@@ -153,16 +169,27 @@ export function ViewingForm({
           <input
             id={`${formId}-contact`}
             type={method === "phone" ? "tel" : "text"}
+            inputMode={method === "phone" ? "tel" : "text"}
             value={contact}
             onChange={(e) => {
-              setContact(e.target.value);
+              const next =
+                method === "phone"
+                  ? formatRuPhoneMask(e.target.value)
+                  : e.target.value;
+              setContact(next);
               if (error) setError(null);
+            }}
+            onFocus={() => {
+              if (method === "phone" && !contact) {
+                setContact("+7 ");
+              }
             }}
             className={cn("viewing-form-input", error && "is-error")}
             placeholder={
-              method === "phone" ? "+7 (___) ___-__-__" : "@username"
+              method === "phone" ? "+7 999 999 99 99" : "@username"
             }
             autoComplete={method === "phone" ? "tel" : "off"}
+            maxLength={method === "phone" ? 16 : undefined}
           />
           {error && <p className="viewing-form-error">{error}</p>}
         </div>
@@ -186,6 +213,9 @@ export function ViewingForm({
             )}
             onClick={() => {
               setMethod("phone");
+              setContact((prev) =>
+                prev && looksLikePhone(prev) ? formatRuPhoneMask(prev) : ""
+              );
               setError(null);
             }}
           >
@@ -199,6 +229,7 @@ export function ViewingForm({
             )}
             onClick={() => {
               setMethod("telegram");
+              setContact("");
               setError(null);
             }}
           >

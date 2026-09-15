@@ -111,12 +111,39 @@ function esc(string $value): string
     return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
+/** Единый формат: +7 999 999 99 99 */
+function format_contact(string $method, string $contact): string
+{
+    $digits = preg_replace('/\D+/', '', $contact) ?? '';
+    if (str_starts_with($digits, '8') && strlen($digits) === 11) {
+        $digits = '7' . substr($digits, 1);
+    } elseif (strlen($digits) === 10) {
+        $digits = '7' . $digits;
+    }
+
+    $looksPhone =
+        $method !== 'telegram'
+        || (strlen($digits) === 11 && str_starts_with($digits, '7') && !str_starts_with(ltrim($contact), '@'));
+
+    if ($looksPhone && strlen($digits) === 11 && str_starts_with($digits, '7')) {
+        return sprintf(
+            '+7 %s %s %s %s',
+            substr($digits, 1, 3),
+            substr($digits, 4, 3),
+            substr($digits, 7, 2),
+            substr($digits, 9, 2)
+        );
+    }
+
+    return trim($contact);
+}
+
 function format_lead_message(array $data): string
 {
     $type = trim((string)($data['type'] ?? 'viewing'));
     $city = trim((string)($data['city'] ?? ''));
     $method = trim((string)($data['method'] ?? 'phone'));
-    $contact = trim((string)($data['contact'] ?? ''));
+    $contact = format_contact($method, trim((string)($data['contact'] ?? '')));
     $name = trim((string)($data['name'] ?? ''));
     $comment = trim((string)($data['comment'] ?? ''));
     $context = is_array($data['context'] ?? null) ? $data['context'] : [];

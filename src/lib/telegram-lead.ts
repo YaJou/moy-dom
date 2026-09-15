@@ -15,11 +15,37 @@ function esc(value: string): string {
     .replace(/>/g, "&gt;");
 }
 
+function formatContactForMessage(method: string, contact: string): string {
+  const digits = contact.replace(/\D/g, "");
+  let normalized = digits;
+  if (normalized.startsWith("8") && normalized.length === 11) {
+    normalized = `7${normalized.slice(1)}`;
+  } else if (normalized.length === 10) {
+    normalized = `7${normalized}`;
+  }
+
+  const isPhone =
+    method !== "telegram" ||
+    (normalized.length === 11 &&
+      normalized.startsWith("7") &&
+      !contact.trim().startsWith("@"));
+
+  if (
+    isPhone &&
+    normalized.length === 11 &&
+    normalized.startsWith("7")
+  ) {
+    return `+7 ${normalized.slice(1, 4)} ${normalized.slice(4, 7)} ${normalized.slice(7, 9)} ${normalized.slice(9, 11)}`;
+  }
+
+  return contact.trim();
+}
+
 export function formatTelegramLeadMessage(body: LeadBody): string {
   const type = body.type?.trim() || "viewing";
   const city = body.city?.trim() || "";
   const method = body.method?.trim() || "phone";
-  const contact = body.contact?.trim() || "";
+  const contact = formatContactForMessage(method, body.contact?.trim() || "");
   const name = body.name?.trim() || "";
   const comment = body.comment?.trim() || "";
   const context = body.context ?? {};
