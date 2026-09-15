@@ -65,7 +65,7 @@ export function SearchBar({
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = buildSearchParams(filters);
-    router.push(q ? `/catalog?${q}` : "/catalog");
+    router.push(q ? `/catalog/?${q}` : "/catalog/");
   };
 
   const hasFilters = Object.keys(DEFAULT_FILTERS).some(
@@ -77,22 +77,19 @@ export function SearchBar({
       ? "container-main relative z-10 mt-4 sm:-mt-12 md:-mt-14 lg:-mt-16"
       : "container-main";
 
+  // Каталог использует CatalogFilters — этот SearchBar для hero/лендингов.
   return (
     <div className={wrapper}>
       <form onSubmit={handleSearch} className="min-w-0 rounded-card bg-white p-4 shadow-card sm:p-5 md:p-6 lg:p-8">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:gap-4">
           <FilterSelect label="Город" options={searchFilters.cities} value={filters.city} onChange={update("city")} />
-          <FilterSelect label="Цена, ₽" options={searchFilters.priceRanges} value={filters.price} onChange={update("price")} />
+          <FilterSelect label="Бюджет" options={searchFilters.priceRanges} value={filters.price} onChange={update("price")} />
+          <FilterSelect label="Спальни" options={searchFilters.bedrooms} value={filters.bedrooms} onChange={update("bedrooms")} />
           <FilterSelect label="Площадь, м²" options={searchFilters.areaRanges} value={filters.area} onChange={update("area")} />
-          <FilterSelect label="Комнат" options={searchFilters.rooms} value={filters.rooms} onChange={update("rooms")} />
-          <FilterSelect label="Этажность" options={searchFilters.floors} value={filters.floors} onChange={update("floors")} />
-          <FilterSelect label="Статус" options={searchFilters.readiness} value={filters.readiness} onChange={update("readiness")} />
-          <FilterSelect label="Газ" options={searchFilters.gas} value={filters.gas} onChange={update("gas")} />
-          <FilterSelect label="Предчистовая" options={searchFilters.prefinish} value={filters.prefinish} onChange={update("prefinish")} />
         </div>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           {variant === "catalog" && hasFilters && (
-            <Button type="button" variant="outline" onClick={() => { setFilters(DEFAULT_FILTERS); router.push("/catalog"); }} className="rounded-xl">
+            <Button type="button" variant="outline" onClick={() => { setFilters(DEFAULT_FILTERS); router.push("/catalog/"); }} className="rounded-xl">
               <X className="h-4 w-4" /> Сбросить
             </Button>
           )}

@@ -32,6 +32,10 @@ export interface House {
   area: number;
   land: number;
   rooms: number;
+  /** Отдельные спальни (не путать с rooms = все жилые комнаты). */
+  bedrooms: number;
+  /** Одна короткая особенность для карточки каталога. */
+  featureLine?: string;
   image: string;
   images: string[];
   badge: HouseBadge;
@@ -40,6 +44,8 @@ export interface House {
   lat: number;
   lng: number;
   mapUrl: string;
+  /** Адрес на карте приблизительный. */
+  mapApproximate?: boolean;
   shortDescription: string;
   description: string;
   highlights: string[];
@@ -53,6 +59,8 @@ export interface SearchFiltersState {
   price: string;
   area: string;
   rooms: string;
+  bedrooms: string;
+  land: string;
   readiness: string;
   floors: string;
   gas: string;
@@ -64,6 +72,8 @@ export const DEFAULT_FILTERS: SearchFiltersState = {
   price: "Любой бюджет",
   area: "Любая",
   rooms: "Любое количество",
+  bedrooms: "Любое количество",
+  land: "Любой",
   readiness: "Любая",
   floors: "Любая",
   gas: "Любой",

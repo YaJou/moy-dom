@@ -1,7 +1,6 @@
 "use client";
 
 import { CompareButton } from "@/components/house/CompareButton";
-import { houseAmenityBadges } from "@/data/homepage";
 import { Button } from "@/components/ui/button";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { getHouseCover } from "@/lib/house-images";
@@ -64,7 +63,7 @@ export function HouseCard(props: HouseCardProps) {
           src={cover}
           alt={title}
           fill
-          objectFit="contain"
+          objectFit="cover"
           priority={priority}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
         />
@@ -99,17 +98,6 @@ export function HouseCard(props: HouseCardProps) {
         </div>
         <div className="mt-3 text-xl font-bold text-dark sm:text-2xl">
           {formatPrice(price)}
-        </div>
-
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {houseAmenityBadges.map((badge) => (
-            <span
-              key={badge}
-              className="rounded-md bg-primary-light px-2 py-0.5 text-[11px] font-medium text-primary sm:text-xs"
-            >
-              {badge}
-            </span>
-          ))}
         </div>
 
         <div className="mt-4 flex items-center gap-4 border-t border-border pt-4 text-sm text-gray">

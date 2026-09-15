@@ -1,4 +1,5 @@
 import type { House } from "@/types/house";
+import { getFloorPlanImage } from "@/lib/floor-plan";
 
 const FALLBACK =
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80";
@@ -41,6 +42,81 @@ export function isProjectVisualization(src: string): boolean {
 
 export function isFloorPlan(src: string): boolean {
   return isProjectVisualization(src) || /plan/i.test(src);
+}
+
+export type CatalogCardSlideKind = "facade" | "interior" | "plan" | "plot";
+
+export type CatalogCardSlide = {
+  kind: CatalogCardSlideKind;
+  label: string;
+  src: string;
+};
+
+/** Слайды для карусели карточки каталога: фасад → внутри → план → участок. */
+export function getCatalogCardSlides(house: House): CatalogCardSlide[] {
+  const cover = getHouseCover(house);
+  const plan = getFloorPlanImage(house.id);
+  const split = getHouseGallerySplit(house.id);
+  const photos = house.images.filter((src) => !isFloorPlan(src));
+
+  let facadeSrc = cover;
+  let interiorSrc: string | null = null;
+  let plotSrc: string | null = null;
+
+  if (split) {
+    const withoutPlan = house.images.filter((src) => !isFloorPlan(src));
+    const facadeImgs = withoutPlan.slice(0, split.facade);
+    const interiorImgs = withoutPlan.slice(
+      split.facade,
+      split.facade + split.interior
+    );
+    const plotImgs =
+      split.plot > 0
+        ? withoutPlan.slice(
+            split.facade + split.interior,
+            split.facade + split.interior + split.plot
+          )
+        : [];
+    facadeSrc = facadeImgs[0] ?? cover;
+    interiorSrc = interiorImgs[0] ?? null;
+    plotSrc = plotImgs[0] ?? null;
+  } else {
+    const afterCover = photos.filter((src) => src !== cover);
+    interiorSrc =
+      afterCover[Math.min(3, Math.max(0, afterCover.length - 1))] ??
+      afterCover[0] ??
+      null;
+    if (photos.length >= 10) {
+      plotSrc = photos[photos.length - 1] ?? null;
+      if (plotSrc === interiorSrc || plotSrc === facadeSrc) plotSrc = null;
+    }
+  }
+
+  const slides: CatalogCardSlide[] = [
+    { kind: "facade", label: "Фасад", src: facadeSrc },
+  ];
+  if (interiorSrc) {
+    slides.push({ kind: "interior", label: "Внутри", src: interiorSrc });
+  }
+  if (plan) {
+    slides.push({ kind: "plan", label: "Планировка", src: plan });
+  }
+  if (plotSrc) {
+    slides.push({ kind: "plot", label: "Участок", src: plotSrc });
+  }
+  return slides;
+}
+
+export function formatGasLabel(gas: string): string {
+  if (/подключ/i.test(gas)) return "Газ подключён";
+  if (/границ/i.test(gas)) return "Газ по границе";
+  if (/планир/i.test(gas)) return "Газ планируется";
+  return gas;
+}
+
+export function formatRepairLabel(repair: string): string {
+  if (/под ваш|предчист/i.test(repair)) return "Под вашу отделку";
+  return repair;
 }
 
 export { FALLBACK as HOUSE_IMAGE_FALLBACK };

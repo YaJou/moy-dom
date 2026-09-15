@@ -30,16 +30,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setCompareIds(JSON.parse(stored));
-      } else {
-        const legacy = localStorage.getItem("moy-dom-favorites");
-        if (legacy) {
-          const ids = JSON.parse(legacy) as number[];
-          setCompareIds(ids.slice(0, MAX_COMPARE));
-          localStorage.removeItem("moy-dom-favorites");
-        }
-      }
+      if (stored) setCompareIds(JSON.parse(stored));
     } catch {
       /* ignore */
     }

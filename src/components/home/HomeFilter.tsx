@@ -89,9 +89,9 @@ export function HomeFilter() {
           <FilterField
             label="Спальни"
             icon={<IconBed className="h-5 w-5" />}
-            options={searchFilters.rooms}
-            value={filters.rooms}
-            onChange={update("rooms")}
+            options={searchFilters.bedrooms}
+            value={filters.bedrooms}
+            onChange={update("bedrooms")}
           />
           <div className="flex items-end">
             <button type="submit" className="btn-primary filter-submit">

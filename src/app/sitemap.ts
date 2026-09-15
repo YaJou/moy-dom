@@ -19,6 +19,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/catalog/saratov/", priority: 0.9, changeFrequency: "weekly" },
     { path: "/catalog/engels/", priority: 0.9, changeFrequency: "weekly" },
     { path: "/catalog/balakovo/", priority: 0.9, changeFrequency: "weekly" },
+    { path: "/compare/", priority: 0.5, changeFrequency: "monthly" },
+    { path: "/saved/", priority: 0.5, changeFrequency: "monthly" },
     { path: "/blog/", priority: 0.8, changeFrequency: "weekly" },
     { path: "/about/", priority: 0.7, changeFrequency: "monthly" },
     { path: "/contacts/", priority: 0.7, changeFrequency: "monthly" },

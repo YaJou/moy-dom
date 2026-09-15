@@ -125,6 +125,32 @@
     margin-inline: auto;
   }
 
+  .catalog-card-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: none;
+    height: 2rem;
+    width: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--text);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+    transform: translateY(-50%);
+  }
+
+  .catalog-card-arrow:hover {
+    background: #fff;
+  }
+
+  @media (min-width: 640px) {
+    .catalog-card:hover .catalog-card-arrow {
+      display: flex;
+    }
+  }
+
   @media (min-width: 768px) {
     .container-main {
       width: min(var(--container), calc(100% - 48px));
