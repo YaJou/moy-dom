@@ -99,7 +99,7 @@ export const blogArticles: BlogArticle[] = [
     categoryLabel: "Покупка дома",
     popular: true,
     readTime: "8 мин",
-    image: "/images/blog/mortgage/01-mortgage-house-hero.png",
+    image: "/images/blog/mortgage/01-mortgage-house-hero.jpg",
     coverCaption: "Иллюстрация к материалу",
     layout: "journal",
     author: {
@@ -125,7 +125,7 @@ export const blogArticles: BlogArticle[] = [
     categoryLabel: "Отделка и комплектация",
     popular: false,
     readTime: "12 мин",
-    image: "/images/design-kit/07-pre-finish-interior.png",
+    image: "/images/design-kit/07-pre-finish-interior.jpg",
     coverCaption:
       "Пример помещения с предчистовой подготовкой: ровные стены и стяжка под чистовой ремонт. Уточняйте точный состав работ по выбранному дому — комплектация объектов может отличаться.",
     layout: "journal",
@@ -152,7 +152,7 @@ export const blogArticles: BlogArticle[] = [
     categoryLabel: "Покупка дома",
     popular: true,
     readTime: "9 мин",
-    image: "/images/blog/prichiny/01-ready-house.png",
+    image: "/images/blog/prichiny/01-ready-house.jpg",
     coverCaption: "Иллюстрация",
     layout: "journal",
     author: {

@@ -11,7 +11,7 @@ const STAGE_PHOTOS = {
   black: {
     id: "black" as const,
     title: "Черновая",
-    image: "/images/design-kit/10-brickwork.png",
+    image: "/images/design-kit/10-brickwork.jpg",
     caption:
       "Пример кладки на этапе возведения стен. Это не последовательный ремонт одной комнаты — другой объект/этап для сравнения состояния.",
     summary:
@@ -22,7 +22,7 @@ const STAGE_PHOTOS = {
   pre: {
     id: "pre" as const,
     title: "Предчистовая",
-    image: "/images/design-kit/07-pre-finish-interior.png",
+    image: "/images/design-kit/07-pre-finish-interior.jpg",
     caption:
       "Интерьер с предчистовой подготовкой: ровные стены и стяжка. Визуализация/пример комплектации — уточняйте список работ по выбранному дому.",
     summary:
@@ -111,42 +111,42 @@ const INCLUDED_TOPICS = [
   {
     id: "walls",
     title: "Стены",
-    image: "/images/design-kit/07-pre-finish-interior.png",
+    image: "/images/design-kit/07-pre-finish-interior.jpg",
     shown: "Общий вид подготовленных стен на примере интерьера.",
     ask: "Уточните по дому: штукатурка по всем стенам, ровность, трещины.",
   },
   {
     id: "floor",
     title: "Пол",
-    image: "/images/design-kit/11-underfloor-heating.png",
+    image: "/images/design-kit/11-underfloor-heating.jpg",
     shown: "Пример инженерной подготовки пола (тёплый пол / коммуникации).",
     ask: "Спросите про стяжку, бухтение, готовность к чистовому покрытию.",
   },
   {
     id: "electric",
     title: "Электрика",
-    image: "/images/design-kit/09-foundation.png",
+    image: "/images/design-kit/09-foundation.jpg",
     shown: "Иллюстрация этапа работ на объекте (не обязательно щит этого дома).",
     ask: "Только ввод или разводка до розеток и света? Где щит?",
   },
   {
     id: "heat",
     title: "Отопление",
-    image: "/images/design-kit/11-underfloor-heating.png",
+    image: "/images/design-kit/11-underfloor-heating.jpg",
     shown: "Пример смонтированного тёплого пола / коллекторной зоны.",
     ask: "Что уже смонтировано и что останется подключить после покупки.",
   },
   {
     id: "water",
     title: "Вода и канализация",
-    image: "/images/design-kit/12-plot-and-access.png",
+    image: "/images/design-kit/12-plot-and-access.jpg",
     shown: "Контекст участка и коммуникаций — не замена осмотра санузла.",
     ask: "Выводы в санузлах, гидроизоляция, скважина / канализация на участке.",
   },
   {
     id: "windows",
     title: "Окна и двери",
-    image: "/images/design-kit/02-hero-side.png",
+    image: "/images/design-kit/02-hero-side.jpg",
     shown: "Фасад с установленными окнами — пример закрытого контура дома.",
     ask: "Окна и входная дверь в цене? Откосы и подоконники — ваши или уже есть?",
   },
@@ -326,7 +326,7 @@ export function FinishHousesCta() {
     <div className="ja-houses-cta">
       <div className="ja-houses-cta-photo">
         <HouseImage
-          src="/images/design-kit/07-pre-finish-interior.png"
+          src="/images/design-kit/07-pre-finish-interior.jpg"
           alt="Предчистовая отделка"
           fill
           objectFit="cover"

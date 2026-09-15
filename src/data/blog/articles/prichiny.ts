@@ -1,11 +1,11 @@
 import type { ArticleBlock } from "@/data/blog";
 
 export const PRICHINY_IMG = {
-  cover: "/images/blog/prichiny/01-ready-house.png",
-  build: "/images/blog/prichiny/02-house-construction.png",
-  ready: "/images/blog/prichiny/01-ready-house.png",
-  interior: "/images/blog/prichiny/03-pre-finish-interior.png",
-  inspection: "/images/blog/prichiny/04-house-inspection.png",
+  cover: "/images/blog/prichiny/01-ready-house.jpg",
+  build: "/images/blog/prichiny/02-house-construction.jpg",
+  ready: "/images/blog/prichiny/01-ready-house.jpg",
+  interior: "/images/blog/prichiny/03-pre-finish-interior.jpg",
+  inspection: "/images/blog/prichiny/04-house-inspection.jpg",
 } as const;
 
 export const PRICHINY_TOC = [

@@ -7,17 +7,17 @@ const featured = [
   {
     slug: "otdelka",
     title: "Что входит в предчистовую отделку",
-    image: "/images/design-kit/07-pre-finish-interior.png",
+    image: "/images/design-kit/07-pre-finish-interior.jpg",
   },
   {
     slug: "uchastok",
     title: "Как оценить участок и подъезд",
-    image: "/images/design-kit/12-plot-and-access.png",
+    image: "/images/design-kit/12-plot-and-access.jpg",
   },
   {
     slug: "prichiny",
     title: "5 причин выбрать готовый дом вместо строительства",
-    image: "/images/design-kit/01-hero-house.png",
+    image: "/images/design-kit/01-hero-house.jpg",
   },
 ] as const;
 

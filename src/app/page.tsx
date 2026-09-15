@@ -1,15 +1,11 @@
+import dynamic from "next/dynamic";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeFilter } from "@/components/home/HomeFilter";
 import { HomeCatalog } from "@/components/home/HomeCatalog";
 import { HomeIncluded } from "@/components/home/HomeIncluded";
-import { HomeFloorPlans } from "@/components/home/HomeFloorPlans";
-import { HomeLocations } from "@/components/home/HomeLocations";
-import { HomeConstruction } from "@/components/home/HomeConstruction";
 import { HomeMortgage } from "@/components/home/HomeMortgage";
-import { HomeTrust } from "@/components/home/HomeTrust";
 import { HomeFAQ } from "@/components/home/HomeFAQ";
 import { HomeViewingSection } from "@/components/home/HomeViewingSection";
-import { HomeArticles } from "@/components/home/HomeArticles";
 import { PageCitability } from "@/components/seo/PageCitability";
 import {
   BreadcrumbJsonLd,
@@ -21,8 +17,36 @@ import { homeFaqItems } from "@/data/home-nav";
 import { siteConfig } from "@/data/site";
 import { absoluteUrl } from "@/lib/seo";
 
+const HomeFloorPlans = dynamic(
+  () =>
+    import("@/components/home/HomeFloorPlans").then((m) => m.HomeFloorPlans),
+  { loading: () => null }
+);
+const HomeLocations = dynamic(
+  () => import("@/components/home/HomeLocations").then((m) => m.HomeLocations),
+  { loading: () => null }
+);
+const HomeConstruction = dynamic(
+  () =>
+    import("@/components/home/HomeConstruction").then(
+      (m) => m.HomeConstruction
+    ),
+  { loading: () => null }
+);
+const HomeTrust = dynamic(
+  () => import("@/components/home/HomeTrust").then((m) => m.HomeTrust),
+  { loading: () => null }
+);
+const HomeArticles = dynamic(
+  () => import("@/components/home/HomeArticles").then((m) => m.HomeArticles),
+  { loading: () => null }
+);
+
 const homeTitle =
   "Готовые дома в Энгельсе, Саратове, Балаково — Кров-Сервис";
+
+const LCP_IMAGE =
+  "/images/houses/engels-snt-novoe-veselaya-116/02.jpg";
 
 export default function HomePage() {
   const citations = homeCitability.sources.map((s) => ({
@@ -38,6 +62,12 @@ export default function HomePage() {
 
   return (
     <>
+      <link
+        rel="preload"
+        as="image"
+        href={LCP_IMAGE}
+        fetchPriority="high"
+      />
       <HomePageSchema
         title={homeTitle}
         description={siteConfig.description}

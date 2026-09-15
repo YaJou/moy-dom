@@ -34,7 +34,7 @@ export function HomeIncluded() {
         <div className="included-grid mt-8">
           <div className="included-photo relative overflow-hidden">
             <Image
-              src="/images/design-kit/07-pre-finish-interior.png"
+              src="/images/design-kit/07-pre-finish-interior.jpg"
               alt="Предчистовая отделка дома"
               fill
               className="object-cover object-center"

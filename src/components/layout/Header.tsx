@@ -27,6 +27,7 @@ export function Header() {
               height={56}
               className="h-9 w-auto max-w-[200px] object-contain object-left sm:h-10 sm:max-w-[220px]"
               priority
+              fetchPriority="high"
             />
           </Link>
           <HeaderClient
@@ -50,7 +51,6 @@ export function Header() {
               width={360}
               height={96}
               className="h-[88px] w-auto max-w-[300px] object-contain object-left xl:h-[96px] xl:max-w-[340px]"
-              priority
             />
           </Link>
 

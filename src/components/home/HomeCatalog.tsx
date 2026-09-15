@@ -82,8 +82,8 @@ export function HomeCatalog() {
           </div>
         ) : (
           <div className="mt-6 grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3">
-            {houses.map((house, i) => (
-              <HomeHouseCard key={house.id} house={house} priority={i === 0} />
+            {houses.map((house) => (
+              <HomeHouseCard key={house.id} house={house} />
             ))}
           </div>
         )}

@@ -259,7 +259,7 @@ export function IpotekaArticle({ article }: { article: BlogArticle }) {
             <figure className="mp-figure">
               <div className="mp-figure-frame">
                 <HouseImage
-                  src="/images/blog/mortgage/02-mortgage-budget.png"
+                  src="/images/blog/mortgage/02-mortgage-budget.jpg"
                   alt=""
                   fill
                   objectFit="cover"
@@ -305,7 +305,7 @@ export function IpotekaArticle({ article }: { article: BlogArticle }) {
             <figure className="mp-figure">
               <div className="mp-figure-frame">
                 <HouseImage
-                  src="/images/blog/mortgage/03-mortgage-documents.png"
+                  src="/images/blog/mortgage/03-mortgage-documents.jpg"
                   alt=""
                   fill
                   objectFit="cover"
@@ -415,7 +415,7 @@ export function IpotekaArticle({ article }: { article: BlogArticle }) {
             <figure className="mp-figure">
               <div className="mp-figure-frame">
                 <HouseImage
-                  src="/images/blog/mortgage/04-mortgage-house-viewing.png"
+                  src="/images/blog/mortgage/04-mortgage-house-viewing.jpg"
                   alt=""
                   fill
                   objectFit="cover"

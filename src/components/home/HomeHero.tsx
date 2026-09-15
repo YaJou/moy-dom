@@ -28,8 +28,8 @@ const HERO_FACADE = [
 ] as const;
 
 const HERO_INTERIOR = [
-  "/images/design-kit/07-pre-finish-interior.png",
-  "/images/design-kit/11-underfloor-heating.png",
+  "/images/houses/engels-snt-malinki-pokrovskoye-87/09.jpg",
+  "/images/houses/engels-snt-malinki-pokrovskoye-87/10.jpg",
   "/images/houses/balakovo-novonatalino-100/09.jpg",
 ] as const;
 
@@ -164,6 +164,9 @@ export function HomeHero() {
                         alt={heroHouse.title}
                         fill
                         priority={!showInterior && activeIndex === 0}
+                        fetchPriority={
+                          !showInterior && activeIndex === 0 ? "high" : "auto"
+                        }
                         className="object-cover object-center"
                         sizes="(max-width: 768px) 100vw, 696px"
                       />

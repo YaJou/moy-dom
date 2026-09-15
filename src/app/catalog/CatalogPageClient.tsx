@@ -176,7 +176,7 @@ export function CatalogPageClient() {
                 <CatalogHouseCard
                   key={house.id}
                   house={house}
-                  priority={index < 3}
+                  priority={index < 1}
                 />
               ))}
             </div>
