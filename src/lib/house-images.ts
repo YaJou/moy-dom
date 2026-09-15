@@ -16,6 +16,8 @@ const GALLERY_SPLIT_BY_ID: Record<number, HouseGallerySplit> = {
   7: { facade: 7, interior: 8, plot: 0 },
   // без плана: 5 фасад/терраса + 5 внутри
   8: { facade: 5, interior: 5, plot: 0 },
+  // без плана: 4 фасад + 6 внутри
+  9: { facade: 4, interior: 6, plot: 0 },
 };
 
 export function getHouseGallerySplit(houseId: number): HouseGallerySplit | null {

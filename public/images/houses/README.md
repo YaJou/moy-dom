@@ -10,6 +10,7 @@
 | `engels-snt-novoe-veselaya-116/` | 116 м², СНТ «Новое», ул. Весёлая | 7 | `/catalog/4` |
 | `engels-snt-malinki-pokrovskoye-87/` | 87 м², Покровское Заречье, Малинки | 16 | `/catalog/7` |
 | `engels-snt-malinki-pokrovskoye-105/` | 105 м², Покровское Заречье, Малинки | 10 | `/catalog/8` |
+| `engels-snt-malinki-pokrovskoye-116/` | 116 м², Покровское Заречье, Малинки | 10 | `/catalog/9` |
 
 **`02.jpg`** — главное фото для карточки и галереи. **`01.jpg`** — визуализация проекта / планировка (если есть).
 
