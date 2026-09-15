@@ -23,13 +23,23 @@ import {
 } from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
 
-const planHouses = getHousesWithFloorPlans();
+const allPlanHouses = getHousesWithFloorPlans();
 
-export function HomeFloorPlans() {
-  const [selectedId, setSelectedId] = useState(planHouses[0]?.id ?? 0);
+export function HomeFloorPlans({ city }: { city?: string } = {}) {
+  const planHouses = useMemo(
+    () =>
+      city ? allPlanHouses.filter((h) => h.city === city) : allPlanHouses,
+    [city]
+  );
+  const [selectedId, setSelectedId] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { openViewing } = useViewingModal();
+
+  useEffect(() => {
+    setSelectedId(planHouses[0]?.id ?? 0);
+  }, [planHouses]);
+
   const house = planHouses.find((h) => h.id === selectedId) ?? planHouses[0];
   const detail = house ? getHouseDetail(house) : null;
   const planImage = house ? getFloorPlanImage(house.id) : null;

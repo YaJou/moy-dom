@@ -48,9 +48,16 @@ function FilterField({
   );
 }
 
-export function HomeFilter() {
+export function HomeFilter({
+  initialCity,
+}: {
+  initialCity?: string;
+} = {}) {
   const router = useRouter();
-  const [filters, setFilters] = useState<SearchFiltersState>(DEFAULT_FILTERS);
+  const [filters, setFilters] = useState<SearchFiltersState>({
+    ...DEFAULT_FILTERS,
+    ...(initialCity ? { city: initialCity } : {}),
+  });
   const [expanded, setExpanded] = useState(false);
 
   const count = useMemo(() => estimateCatalogCount(filters), [filters]);
@@ -66,7 +73,11 @@ export function HomeFilter() {
     router.push(q ? `/catalog?${q}` : "/catalog");
   };
 
-  const resetFilters = () => setFilters(DEFAULT_FILTERS);
+  const resetFilters = () =>
+    setFilters({
+      ...DEFAULT_FILTERS,
+      ...(initialCity ? { city: initialCity } : {}),
+    });
 
   return (
     <div className="container-main mb-8">

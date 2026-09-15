@@ -2966,6 +2966,10 @@
     isolation: isolate;
   }
 
+  .hero-photo-toggle.has-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
   .hero-photo-toggle-thumb {
     position: absolute;
     top: 4px;
@@ -2980,8 +2984,17 @@
     pointer-events: none;
   }
 
+  .hero-photo-toggle.has-3 .hero-photo-toggle-thumb {
+    width: calc(33.333% - 4px);
+  }
+
+  .hero-photo-toggle.is-mode-1 .hero-photo-toggle-thumb,
   .hero-photo-toggle.is-interior .hero-photo-toggle-thumb {
     transform: translateX(100%);
+  }
+
+  .hero-photo-toggle.has-3.is-mode-2 .hero-photo-toggle-thumb {
+    transform: translateX(200%);
   }
 
   .hero-photo-toggle-btn {

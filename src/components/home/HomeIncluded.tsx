@@ -1,5 +1,5 @@
 import { includedItems } from "@/data/home-nav";
-import { realHouses } from "@/data/houses";
+import { getHousesByCity, realHouses } from "@/data/houses";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -18,10 +18,30 @@ const includedIcons: Record<string, ReactNode> = {
   key: <IconClipboard className="h-6 w-6" />,
 };
 
-export function HomeIncluded() {
+export type HomeIncludedProps = {
+  city?: string;
+  photo?: string;
+  sampleHouseId?: number;
+};
+
+export function HomeIncluded({
+  city,
+  photo = "/images/design-kit/07-pre-finish-interior.jpg",
+  sampleHouseId,
+}: HomeIncludedProps = {}) {
+  const pool = city ? getHousesByCity(city) : realHouses;
   const sampleHouse =
-    realHouses.find((h) => h.slug === "balakovo-novonatalino-100") ??
+    (sampleHouseId
+      ? realHouses.find((h) => h.id === sampleHouseId)
+      : undefined) ??
+    pool.find((h) => h.slug === "balakovo-novonatalino-100") ??
+    pool[0] ??
     realHouses[0];
+
+  const samplePhoto =
+    photo ||
+    sampleHouse.images.find((src) => /\/(09|10|11)\.jpg$/i.test(src)) ||
+    sampleHouse.image;
 
   return (
     <section className="included-section">
@@ -34,7 +54,7 @@ export function HomeIncluded() {
         <div className="included-grid mt-8">
           <div className="included-photo relative overflow-hidden">
             <Image
-              src="/images/design-kit/07-pre-finish-interior.jpg"
+              src={samplePhoto}
               alt="Предчистовая отделка дома"
               fill
               className="object-cover object-center"

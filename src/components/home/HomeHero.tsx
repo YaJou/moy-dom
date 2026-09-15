@@ -1,7 +1,10 @@
 "use client";
 
-import { realHouses, getMinHousePrice } from "@/data/houses";
+import { realHouses, getHousesByCity, getMinHousePrice } from "@/data/houses";
+import { getCityMinPrice } from "@/data/city-landings";
 import { analytics } from "@/lib/analytics";
+import { getFloorPlanImage } from "@/lib/floor-plan";
+import { isFloorPlan } from "@/lib/house-images";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House } from "@/types/house";
 import { AnimatePresence, motion } from "framer-motion";
@@ -21,59 +24,134 @@ import {
 } from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
 
-const HERO_FACADE = [
+const DEFAULT_FACADE = [
   "/images/houses/engels-snt-novoe-veselaya-116/02.jpg",
   "/images/houses/engels-snt-novoe-veselaya-116/03.jpg",
   "/images/houses/engels-snt-malinki-pokrovskoye-87/02.jpg",
 ] as const;
 
-const HERO_INTERIOR = [
+const DEFAULT_INTERIOR = [
   "/images/houses/engels-snt-malinki-pokrovskoye-87/09.jpg",
   "/images/houses/engels-snt-malinki-pokrovskoye-87/10.jpg",
   "/images/houses/balakovo-novonatalino-100/09.jpg",
 ] as const;
 
-function pickHeroHouse(): House {
-  const withPhotos = realHouses.filter((h) => h.images.length >= 1);
+const CITY_HERO_SLUG: Record<string, string> = {
+  Балаково: "balakovo-novonatalino-100",
+  Энгельс: "engels-snt-novoe-veselaya-116",
+};
+
+type PhotoMode = "facade" | "interior" | "plan";
+
+function pickHeroHouse(city?: string): House {
+  const pool = city ? getHousesByCity(city) : realHouses;
+  const withPhotos = pool.filter((h) => h.images.length >= 1);
+  const preferred = city ? CITY_HERO_SLUG[city] : "engels-snt-novoe-veselaya-116";
   return (
-    withPhotos.find((h) => h.slug === "engels-snt-novoe-veselaya-116") ??
-    withPhotos.find((h) => h.city === "Энгельс") ??
-    withPhotos[0]
+    withPhotos.find((h) => h.slug === preferred) ??
+    [...withPhotos].sort((a, b) => b.images.length - a.images.length)[0] ??
+    realHouses[0]
   );
 }
 
-export function HomeHero() {
-  const heroHouse = useMemo(() => pickHeroHouse(), []);
+function splitHeroPhotos(house: House, city?: string) {
+  if (!city) {
+    return {
+      facade: [...DEFAULT_FACADE],
+      interior: [...DEFAULT_INTERIOR],
+      plan: null as string | null,
+    };
+  }
+
+  const plan = getFloorPlanImage(house.id);
+  const photos = house.images.filter((src) => !isFloorPlan(src));
+  if (photos.length === 0) {
+    return {
+      facade: [house.image],
+      interior: [] as string[],
+      plan,
+    };
+  }
+  const mid = Math.max(1, Math.ceil(photos.length / 2));
+  const facade = photos.slice(0, mid).slice(0, 3);
+  const interior = photos.slice(mid).slice(0, 3);
+  return {
+    facade,
+    interior: interior.length > 0 ? interior : facade.slice(0, 1),
+    plan,
+  };
+}
+
+export type HomeHeroProps = {
+  city?: string;
+  title?: string;
+  titleAccent?: string;
+  subtitle?: string;
+  catalogHref?: string;
+};
+
+export function HomeHero({
+  city,
+  title,
+  titleAccent,
+  subtitle,
+  catalogHref = "/#homes",
+}: HomeHeroProps = {}) {
+  const heroHouse = useMemo(() => pickHeroHouse(city), [city]);
+  const photos = useMemo(
+    () => splitHeroPhotos(heroHouse, city),
+    [heroHouse, city]
+  );
   const { openViewing } = useViewingModal();
-  const minPrice = getMinHousePrice();
+  const minPrice = city ? getCityMinPrice(city) : getMinHousePrice();
+  const [mode, setMode] = useState<PhotoMode>("facade");
   const [facadeIndex, setFacadeIndex] = useState(0);
   const [interiorIndex, setInteriorIndex] = useState(0);
-  const [showInterior, setShowInterior] = useState(false);
   const [lightbox, setLightbox] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const hasPlan = Boolean(photos.plan);
+  const hasInterior = photos.interior.length > 0;
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const displayPhotos = showInterior ? HERO_INTERIOR : HERO_FACADE;
-  const activeIndex = showInterior ? interiorIndex : facadeIndex;
-  const setActiveIndex = showInterior ? setInteriorIndex : setFacadeIndex;
+  useEffect(() => {
+    setMode("facade");
+    setFacadeIndex(0);
+    setInteriorIndex(0);
+  }, [city, heroHouse.id]);
+
+  const displayPhotos =
+    mode === "plan" && photos.plan
+      ? [photos.plan]
+      : mode === "interior"
+        ? photos.interior
+        : photos.facade;
+  const activeIndex = mode === "interior" ? interiorIndex : facadeIndex;
+  const setActiveIndex = mode === "interior" ? setInteriorIndex : setFacadeIndex;
   const activePhoto = displayPhotos[activeIndex] ?? displayPhotos[0];
 
   const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
+  const modeIndex = mode === "facade" ? 0 : mode === "interior" ? 1 : 2;
+  const tabCount = 1 + (hasInterior ? 1 : 0) + (hasPlan ? 1 : 0);
 
   const goTo = useCallback(
     (index: number) => {
+      if (mode === "plan") return;
       setActiveIndex((index + displayPhotos.length) % displayPhotos.length);
     },
-    [displayPhotos.length, setActiveIndex]
+    [displayPhotos.length, mode, setActiveIndex]
   );
 
-  const openLightbox = useCallback((index?: number) => {
-    if (typeof index === "number") setActiveIndex(index);
-    setLightbox(true);
-  }, [setActiveIndex]);
+  const openLightbox = useCallback(
+    (index?: number) => {
+      if (typeof index === "number" && mode !== "plan") setActiveIndex(index);
+      setLightbox(true);
+    },
+    [mode, setActiveIndex]
+  );
 
   useEffect(() => {
     if (!lightbox) return;
@@ -90,6 +168,28 @@ export function HomeHero() {
     };
   }, [lightbox, activeIndex, goTo]);
 
+  const heading = city ? (
+    <>
+      {title ?? "Готовые частные дома"}
+      <br />
+      <span className="text-forest">{titleAccent ?? `в ${city}`}</span>
+    </>
+  ) : (
+    <>
+      Свой дом.
+      <br />
+      Свой участок.
+      <br />
+      <span className="text-forest">Новая жизнь.</span>
+    </>
+  );
+
+  const lead =
+    subtitle ??
+    (city
+      ? `Готовые дома в ${city}`
+      : "Готовые дома в Энгельсе, Саратове и Балаково");
+
   return (
     <>
       <section className="bg-page py-6 md:py-10">
@@ -98,14 +198,10 @@ export function HomeHero() {
             <div className="min-w-0">
               <p className="section-eyebrow">Дома с участком</p>
               <h1 className="h1-desktop mt-4 text-balance text-text">
-                Свой дом.
-                <br />
-                Свой участок.
-                <br />
-                <span className="text-forest">Новая жизнь.</span>
+                {heading}
               </h1>
               <p className="mt-5 max-w-[450px] text-lg leading-7 text-muted">
-                Готовые дома в Энгельсе, Саратове и Балаково
+                {lead}
               </p>
               <p className="hero-price mt-5 text-text">
                 от {formatPrice(minPrice)}
@@ -114,14 +210,14 @@ export function HomeHero() {
                 Комплектация — в карточке каждого дома
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link href="/#homes" className="btn-primary w-full sm:w-auto">
+                <Link href={catalogHref} className="btn-primary w-full sm:w-auto">
                   Смотреть дома
                   <IconArrow className="h-5 w-5" />
                 </Link>
                 <button
                   type="button"
                   className="btn-secondary w-full sm:w-auto"
-                  onClick={() => openViewing({ city: heroHouse.city })}
+                  onClick={() => openViewing({ city: city ?? heroHouse.city })}
                 >
                   Записаться на просмотр
                 </button>
@@ -163,11 +259,14 @@ export function HomeHero() {
                         src={activePhoto}
                         alt={heroHouse.title}
                         fill
-                        priority={!showInterior && activeIndex === 0}
+                        priority={mode === "facade" && activeIndex === 0}
                         fetchPriority={
-                          !showInterior && activeIndex === 0 ? "high" : "auto"
+                          mode === "facade" && activeIndex === 0 ? "high" : "auto"
                         }
-                        className="object-cover object-center"
+                        className={cn(
+                          "object-center",
+                          mode === "plan" ? "object-contain bg-white" : "object-cover"
+                        )}
                         sizes="(max-width: 768px) 100vw, 696px"
                       />
                     </motion.span>
@@ -179,7 +278,8 @@ export function HomeHero() {
                     <div
                       className={cn(
                         "hero-photo-toggle",
-                        showInterior && "is-interior"
+                        tabCount === 3 && "has-3",
+                        `is-mode-${modeIndex}`
                       )}
                       role="tablist"
                       aria-label="Вид дома"
@@ -188,27 +288,43 @@ export function HomeHero() {
                       <button
                         type="button"
                         role="tab"
-                        aria-selected={!showInterior}
-                        onClick={() => setShowInterior(false)}
+                        aria-selected={mode === "facade"}
+                        onClick={() => setMode("facade")}
                         className={cn(
                           "hero-photo-toggle-btn",
-                          !showInterior && "is-active"
+                          mode === "facade" && "is-active"
                         )}
                       >
                         Фасад
                       </button>
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={showInterior}
-                        onClick={() => setShowInterior(true)}
-                        className={cn(
-                          "hero-photo-toggle-btn",
-                          showInterior && "is-active"
-                        )}
-                      >
-                        Внутри
-                      </button>
+                      {hasInterior && (
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={mode === "interior"}
+                          onClick={() => setMode("interior")}
+                          className={cn(
+                            "hero-photo-toggle-btn",
+                            mode === "interior" && "is-active"
+                          )}
+                        >
+                          Внутри
+                        </button>
+                      )}
+                      {hasPlan && (
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={mode === "plan"}
+                          onClick={() => setMode("plan")}
+                          className={cn(
+                            "hero-photo-toggle-btn",
+                            mode === "plan" && "is-active"
+                          )}
+                        >
+                          План
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -246,32 +362,34 @@ export function HomeHero() {
                 </div>
               </div>
 
-              <div className="hero-gallery-thumbs">
-                {displayPhotos.map((src, i) => (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => {
-                      if (activeIndex === i) openLightbox(i);
-                      else setActiveIndex(i);
-                    }}
-                    onDoubleClick={() => openLightbox(i)}
-                    className={cn(
-                      "hero-gallery-thumb",
-                      activeIndex === i && "is-active"
-                    )}
-                    aria-label={`Фото ${i + 1}`}
-                  >
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 33vw, 230px"
-                    />
-                  </button>
-                ))}
-              </div>
+              {displayPhotos.length > 1 && (
+                <div className="hero-gallery-thumbs">
+                  {displayPhotos.map((src, i) => (
+                    <button
+                      key={src}
+                      type="button"
+                      onClick={() => {
+                        if (activeIndex === i) openLightbox(i);
+                        else setActiveIndex(i);
+                      }}
+                      onDoubleClick={() => openLightbox(i)}
+                      className={cn(
+                        "hero-gallery-thumb",
+                        activeIndex === i && "is-active"
+                      )}
+                      aria-label={`Фото ${i + 1}`}
+                    >
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 33vw, 230px"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -328,7 +446,7 @@ export function HomeHero() {
               className="flex w-[70vw] max-w-[1100px] flex-col items-center gap-3"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
+              <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
                 <Image
                   key={`lightbox-${activePhoto}`}
                   src={activePhoto}
@@ -340,30 +458,32 @@ export function HomeHero() {
                 />
               </div>
 
-              <div className="flex items-center gap-2">
-                {displayPhotos.map((src, i) => (
-                  <button
-                    key={`lb-thumb-${src}`}
-                    type="button"
-                    onClick={() => setActiveIndex(i)}
-                    className={cn(
-                      "relative h-11 w-14 overflow-hidden rounded-md border-2 shadow-md transition-opacity sm:h-12 sm:w-16",
-                      activeIndex === i
-                        ? "border-white opacity-100"
-                        : "border-white/30 opacity-70 hover:opacity-100"
-                    )}
-                    aria-label={`Показать фото ${i + 1}`}
-                  >
-                    <Image
-                      src={src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  </button>
-                ))}
-              </div>
+              {displayPhotos.length > 1 && (
+                <div className="flex items-center gap-2">
+                  {displayPhotos.map((src, i) => (
+                    <button
+                      key={`lb-thumb-${src}`}
+                      type="button"
+                      onClick={() => setActiveIndex(i)}
+                      className={cn(
+                        "relative h-11 w-14 overflow-hidden rounded-md border-2 shadow-md transition-opacity sm:h-12 sm:w-16",
+                        activeIndex === i
+                          ? "border-white opacity-100"
+                          : "border-white/30 opacity-70 hover:opacity-100"
+                      )}
+                      aria-label={`Показать фото ${i + 1}`}
+                    >
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        sizes="64px"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>,
           document.body
