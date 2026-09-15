@@ -44,13 +44,6 @@ export function HomeCatalog() {
               <h2 className="h2-desktop font-extrabold text-text">
                 Дома, которые можно посмотреть
               </h2>
-              <span className="inline-flex items-center gap-1.5 text-sm text-muted">
-                <span
-                  className="h-2 w-2 shrink-0 rounded-full bg-success"
-                  aria-hidden
-                />
-                В наличии
-              </span>
             </div>
             <Link href="/catalog/" className="catalog-all-link shrink-0">
               Весь каталог ↗
