@@ -45,7 +45,7 @@ if ($config === null) {
 }
 
 $message = format_lead_message($data);
-$sent = telegram_send($config['token'], $config['chat_id'], $message);
+$sent = telegram_send_all($config['token'], $config['chat_ids'], $message);
 
 if (!$sent) {
     http_response_code(500);
@@ -54,6 +54,26 @@ if (!$sent) {
 }
 
 echo json_encode(['ok' => true]);
+
+function normalize_chat_ids(array $cfg): array
+{
+    $ids = [];
+    if (!empty($cfg['chat_ids']) && is_array($cfg['chat_ids'])) {
+        foreach ($cfg['chat_ids'] as $id) {
+            $id = trim((string)$id);
+            if ($id !== '') {
+                $ids[] = $id;
+            }
+        }
+    }
+    if (!empty($cfg['chat_id'])) {
+        $id = trim((string)$cfg['chat_id']);
+        if ($id !== '') {
+            $ids[] = $id;
+        }
+    }
+    return array_values(array_unique($ids));
+}
 
 function load_lead_config(): ?array
 {
@@ -69,16 +89,17 @@ function load_lead_config(): ?array
     foreach ($candidates as $path) {
         if (is_file($path)) {
             $cfg = require $path;
-            if (
-                is_array($cfg)
-                && !empty($cfg['token'])
-                && !empty($cfg['chat_id'])
-            ) {
-                return [
-                    'token' => (string)$cfg['token'],
-                    'chat_id' => (string)$cfg['chat_id'],
-                ];
+            if (!is_array($cfg) || empty($cfg['token'])) {
+                continue;
             }
+            $chatIds = normalize_chat_ids($cfg);
+            if ($chatIds === []) {
+                continue;
+            }
+            return [
+                'token' => (string)$cfg['token'],
+                'chat_ids' => $chatIds,
+            ];
         }
     }
 
@@ -180,4 +201,16 @@ function telegram_send(string $token, string $chatId, string $text): bool
     }
     $json = json_decode($response, true);
     return is_array($json) && !empty($json['ok']);
+}
+
+/** Отправляет всем получателям; успех если хотя бы одному ушло. */
+function telegram_send_all(string $token, array $chatIds, string $text): bool
+{
+    $ok = false;
+    foreach ($chatIds as $chatId) {
+        if (telegram_send($token, (string)$chatId, $text)) {
+            $ok = true;
+        }
+    }
+    return $ok;
 }

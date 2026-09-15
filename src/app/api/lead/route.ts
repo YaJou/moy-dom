@@ -19,10 +19,13 @@ export async function POST(request: Request) {
   }
 
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const chatIds = (process.env.TELEGRAM_CHAT_IDS || process.env.TELEGRAM_CHAT_ID || "")
+    .split(/[,;\s]+/)
+    .map((id) => id.trim())
+    .filter(Boolean);
 
-  if (token && chatId) {
-    const sent = await sendTelegramLead(token, chatId, body);
+  if (token && chatIds.length > 0) {
+    const sent = await sendTelegramLead(token, chatIds, body);
     if (!sent) {
       return NextResponse.json({ error: "Telegram send failed" }, { status: 500 });
     }

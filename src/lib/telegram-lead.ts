@@ -56,12 +56,11 @@ export function formatTelegramLeadMessage(body: LeadBody): string {
   return lines.join("\n");
 }
 
-export async function sendTelegramLead(
+async function sendTelegramMessage(
   token: string,
   chatId: string,
-  body: LeadBody
+  text: string
 ): Promise<boolean> {
-  const text = formatTelegramLeadMessage(body);
   const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -76,4 +75,21 @@ export async function sendTelegramLead(
   if (!res.ok) return false;
   const json = (await res.json()) as { ok?: boolean };
   return Boolean(json.ok);
+}
+
+export async function sendTelegramLead(
+  token: string,
+  chatIds: string | string[],
+  body: LeadBody
+): Promise<boolean> {
+  const text = formatTelegramLeadMessage(body);
+  const ids = (Array.isArray(chatIds) ? chatIds : [chatIds])
+    .map((id) => id.trim())
+    .filter(Boolean);
+  if (ids.length === 0) return false;
+
+  const results = await Promise.all(
+    ids.map((id) => sendTelegramMessage(token, id, text))
+  );
+  return results.some(Boolean);
 }
