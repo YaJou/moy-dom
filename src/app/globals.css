@@ -1749,6 +1749,42 @@
     letter-spacing: -0.3px;
     color: #fff;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* На карточке дома — 3 поля, не 4: иначе «₽» ломается на новую строку */
+  .mortgage-fields--house {
+    align-items: start;
+  }
+
+  @media (min-width: 640px) {
+    .mortgage-fields--house {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .mortgage-fields--house {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px 28px;
+    }
+  }
+
+  .mortgage-fields--house .mortgage-field-value {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .mortgage-field--static .mortgage-field-value {
+    margin-bottom: 0;
+  }
+
+  /* Выравниваем колонку без слайдера по высоте со слайдерами */
+  .mortgage-field--static::after {
+    content: "";
+    display: block;
+    height: 28px;
+    margin-top: 14px;
   }
 
   .mortgage-range {

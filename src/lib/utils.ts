@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat("ru-RU").format(price) + " ₽";
+  return new Intl.NumberFormat("ru-RU").format(price) + "\u00A0₽";
 }

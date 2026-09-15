@@ -77,15 +77,15 @@ export function HouseMortgageSection({ house }: HouseMortgageSectionProps) {
             Стоимость {formatPrice(house.price)} уже подставлена. Измените взнос
             и срок — ставка расчётная {rate}% годовых.
           </p>
-          <div className="mortgage-fields">
-            <div className="mortgage-field">
+          <div className="mortgage-fields mortgage-fields--house">
+            <div className="mortgage-field mortgage-field--static">
               <p className="mortgage-field-label">Стоимость дома</p>
               <p className="mortgage-field-value">{formatPrice(house.price)}</p>
             </div>
             <MortgageRange
               label="Первый взнос"
               value={downPct}
-              display={`${downPct} % · ${formatPrice(result.downPayment)}`}
+              display={`${downPct}\u00A0%\u00A0·\u00A0${formatPrice(result.downPayment)}`}
               min={10}
               max={70}
               step={5}
@@ -96,7 +96,7 @@ export function HouseMortgageSection({ house }: HouseMortgageSectionProps) {
             <MortgageRange
               label="Срок"
               value={years}
-              display={`${years} лет`}
+              display={`${years}\u00A0лет`}
               min={5}
               max={30}
               step={1}
