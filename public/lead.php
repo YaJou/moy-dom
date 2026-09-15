@@ -161,7 +161,7 @@ function format_lead_message(array $data): string
     $lines = [
         '🏠 <b>' . esc($title) . '</b>',
         'Город: ' . esc($city),
-        'Связь: ' . esc($methodLabel) . ' — ' . esc($contact),
+        'Связь: ' . esc($methodLabel) . ' — <code>' . esc($contact) . '</code>',
     ];
 
     $topic = trim((string)($context['topic'] ?? ''));

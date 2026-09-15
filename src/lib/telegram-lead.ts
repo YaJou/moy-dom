@@ -57,7 +57,7 @@ export function formatTelegramLeadMessage(body: LeadBody): string {
   const lines = [
     `🏠 <b>${esc(leadTitle(type))}</b>`,
     `Город: ${esc(city)}`,
-    `Связь: ${esc(methodLabel)} — ${esc(contact)}`,
+    `Связь: ${esc(methodLabel)} — <code>${esc(contact)}</code>`,
   ];
 
   if (typeof context.topic === "string" && context.topic.trim()) {
