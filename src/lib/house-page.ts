@@ -227,9 +227,9 @@ export function buildCompletenessTabs(
         { label: "Стены", value: house.specs.wallMaterial },
         {
           label: "Фундамент",
-          value: find("фундамент") ?? "Монолитная лента",
+          value: house.specs.foundation,
         },
-        { label: "Кровля", value: find("кровл") ?? "По проекту" },
+        { label: "Кровля", value: house.specs.roof },
         {
           label: "Год постройки",
           value: String(house.specs.buildYear),

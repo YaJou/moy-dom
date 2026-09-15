@@ -23,6 +23,8 @@ export function HouseSpecsGrid({ house }: HouseSpecsGridProps) {
     { icon: Building2, label: "Этажей", value: `${specs.floors}` },
     { icon: Building2, label: "Год постройки", value: `${specs.buildYear}` },
     { icon: Building2, label: "Материал стен", value: specs.wallMaterial },
+    { icon: Building2, label: "Фундамент", value: specs.foundation },
+    { icon: Home, label: "Кровля", value: specs.roof },
     { icon: Home, label: "Терраса", value: specs.terrace },
     { icon: Home, label: "Ремонт", value: specs.repair },
     { icon: Droplets, label: "Водоснабжение", value: specs.water },

@@ -6,6 +6,10 @@ export interface HouseSpecs {
   landCategory: string;
   buildYear: number;
   wallMaterial: string;
+  /** Фундамент — одинаковый у всех объектов. */
+  foundation: string;
+  /** Кровля — одинаковая у всех объектов. */
+  roof: string;
   terrace: string;
   bathroom: string;
   repair: string;

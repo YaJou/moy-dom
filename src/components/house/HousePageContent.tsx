@@ -38,7 +38,8 @@ export function HouseIncluded({ house }: HousePageContentProps) {
       </div>
       {house.specs.terrace && (
         <p className="mt-4 text-sm text-gray">
-          Также: {house.specs.terrace}, металлочерепица, кирпичная облицовка
+          Также: {house.specs.terrace}, {house.specs.roof.toLowerCase()},
+          кирпичная облицовка
         </p>
       )}
     </div>
