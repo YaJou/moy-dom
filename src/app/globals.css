@@ -6252,6 +6252,15 @@
   }
 }
 
+/* Built portfolio page */
+.built-details-section {
+  background-color: var(--forest);
+}
+
+.built-cta-section {
+  background-color: #fff4ec;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
