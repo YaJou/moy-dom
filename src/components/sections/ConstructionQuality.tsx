@@ -5,17 +5,17 @@ import Link from "next/link";
 
 const photos = [
   {
-    src: "/images/houses/engels-snt-malinki-troitskaya-100/09.jpg",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/08.jpg",
     caption: "Фундамент и стены — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },
   {
-    src: "/images/houses/engels-snt-malinki-troitskaya-100/10.jpg",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/09.jpg",
     caption: "Кирпичная облицовка — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },
   {
-    src: "/images/houses/engels-snt-malinki-troitskaya-100/11.jpg",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/10.jpg",
     caption: "Инженерные системы — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },

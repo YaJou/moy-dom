@@ -33,7 +33,7 @@ const STAGE_PHOTOS = {
   key: {
     id: "key" as const,
     title: "Чистовая",
-    image: "/images/houses/engels-snt-malinki-troitskaya-100/07.jpg",
+    image: "/images/houses/engels-snt-malinki-troitskaya-100/06.jpg",
     caption:
       "Пример более готового интерьера для сравнения. Не тот же объект, что на снимке предчистовой — смотрите разницу состояний, а не «один ремонт во времени».",
     summary:
