@@ -3,6 +3,7 @@
 import { CatalogHouseCard } from "@/components/cards/CatalogHouseCard";
 import { CatalogFilters } from "@/components/catalog/CatalogFilters";
 import { useFavorites } from "@/context/FavoritesContext";
+import { useCompare } from "@/context/CompareContext";
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { YandexHousesMap } from "@/components/sections/YandexHousesMap";
@@ -13,6 +14,8 @@ import {
   getFilterLabel,
   parseSearchParams,
   pluralizeHouses,
+  sortHouses,
+  type CatalogSort,
 } from "@/lib/filters";
 import { getHouseCover } from "@/lib/house-images";
 import { formatPrice, cn } from "@/lib/utils";
@@ -24,13 +27,27 @@ import { useMemo, useState } from "react";
 
 type ViewMode = "cards" | "map";
 
+const SORT_OPTIONS: { id: CatalogSort; label: string }[] = [
+  { id: "price-asc", label: "Сначала дешевле" },
+  { id: "area-desc", label: "Сначала просторнее" },
+  { id: "new", label: "Новые поступления" },
+];
+
+function selectedHomesTitle(n: number): string {
+  if (n === 1) return "Посмотреть этот дом?";
+  if (n === 2) return "Посмотреть эти два дома?";
+  return `Посмотреть эти ${n} ${pluralizeHouses(n)}?`;
+}
+
 export function CatalogPageClient() {
   const searchParams = useSearchParams();
   const { favorites } = useFavorites();
+  const { compareIds } = useCompare();
   const { openViewing } = useViewingModal();
   const [view, setView] = useState<ViewMode>("cards");
   const [mapFocus, setMapFocus] = useState<House | null>(null);
   const [shareHint, setShareHint] = useState(false);
+  const [sort, setSort] = useState<CatalogSort>("price-asc");
 
   const filters = useMemo(() => {
     const params: Record<string, string> = {};
@@ -42,11 +59,21 @@ export function CatalogPageClient() {
       : ({ ...DEFAULT_FILTERS } as SearchFiltersState);
   }, [searchParams]);
 
-  const results = useMemo(
+  const filtered = useMemo(
     () => filterHouses(housesData, filters),
     [filters]
   );
+  const results = useMemo(
+    () => sortHouses(filtered, sort),
+    [filtered, sort]
+  );
   const activeCount = countActiveFilters(filters);
+
+  const selectedIds = useMemo(() => {
+    const set = new Set<number>([...favorites, ...compareIds]);
+    return [...set];
+  }, [favorites, compareIds]);
+  const hasSelection = selectedIds.length > 0;
 
   const activeKeys = (
     Object.keys(DEFAULT_FILTERS) as (keyof SearchFiltersState)[]
@@ -64,15 +91,27 @@ export function CatalogPageClient() {
     }
   };
 
+  const openSelectedViewing = () => {
+    if (hasSelection) {
+      openViewing({
+        houseId: selectedIds[0],
+        houseIds: selectedIds,
+        filters:
+          activeCount > 0
+            ? `${searchParams.toString()}&selected=${selectedIds.join(",")}`
+            : `selected=${selectedIds.join(",")}`,
+      });
+      return;
+    }
+    openViewing({
+      filters: activeCount > 0 ? searchParams.toString() : undefined,
+    });
+  };
+
   return (
     <>
       <section className="bg-white pb-4 pt-2">
-        <div className="container-main mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm text-muted">
-            {activeCount > 0
-              ? `Найдено ${results.length} ${pluralizeHouses(results.length)} по выбранным фильтрам`
-              : `Всего ${housesData.length} ${pluralizeHouses(housesData.length)} в каталоге`}
-          </p>
+        <div className="container-main mb-4 flex flex-wrap items-center justify-end gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href="/saved/"
@@ -127,6 +166,35 @@ export function CatalogPageClient() {
 
       <section className="section-padding bg-white pt-6 sm:pt-8">
         <div className="container-main">
+          {results.length > 0 && (
+            <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-sm font-medium text-text">
+                Найдено {results.length} {pluralizeHouses(results.length)}
+              </p>
+              <div
+                className="flex flex-wrap gap-2"
+                role="group"
+                aria-label="Сортировка"
+              >
+                {SORT_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => setSort(opt.id)}
+                    className={cn(
+                      "inline-flex h-9 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors",
+                      sort === opt.id
+                        ? "border-orange bg-orange/10 text-text"
+                        : "border-border bg-surface text-muted hover:border-orange/40 hover:text-text"
+                    )}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {results.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-card border border-border bg-page py-16 text-center">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary-light">
@@ -239,21 +307,21 @@ export function CatalogPageClient() {
         <div className="container-main grid gap-5 lg:grid-cols-2">
           <div className="rounded-card bg-[#1f4d3a] px-6 py-8 text-white sm:px-8">
             <h2 className="text-xl font-extrabold sm:text-2xl">
-              Не можете выбрать между несколькими домами?
+              {hasSelection
+                ? selectedHomesTitle(selectedIds.length)
+                : "Не можете выбрать между несколькими домами?"}
             </h2>
             <p className="mt-3 max-w-md text-sm leading-relaxed text-white/85 sm:text-base">
-              Отметьте понравившиеся — обсудим различия и согласуем просмотр.
+              {hasSelection
+                ? "Согласуем просмотр выбранных объектов."
+                : "Отметьте понравившиеся — обсудим различия и согласуем просмотр."}
             </p>
             <button
               type="button"
-              onClick={() =>
-                openViewing({
-                  filters: activeCount > 0 ? searchParams.toString() : undefined,
-                })
-              }
+              onClick={openSelectedViewing}
               className="mt-6 inline-flex h-11 items-center rounded-xl bg-white px-5 text-sm font-semibold text-[#1f4d3a] hover:bg-white/90"
             >
-              Обсудить варианты
+              {hasSelection ? "Договориться о просмотре" : "Помочь с выбором"}
             </button>
           </div>
 
@@ -280,7 +348,11 @@ export function CatalogPageClient() {
               </p>
               <button
                 type="button"
-                onClick={() => openViewing()}
+                onClick={() =>
+                  hasSelection
+                    ? openSelectedViewing()
+                    : openViewing()
+                }
                 className="mt-5 inline-flex h-11 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white hover:bg-primary-hover"
               >
                 Записаться на просмотр

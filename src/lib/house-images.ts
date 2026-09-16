@@ -56,19 +56,24 @@ export type CatalogCardSlide = {
   src: string;
 };
 
-/** Слайды для карусели карточки каталога: фасад → внутри → план → участок. */
+/** Слайды для карусели карточки каталога с подписями. */
 export function getCatalogCardSlides(house: House): CatalogCardSlide[] {
-  const cover = getHouseCover(house);
   const plan = getFloorPlanImage(house.id);
   const split = getHouseGallerySplit(house.id);
-  const photos = house.images.filter((src) => !isFloorPlan(src));
+  const withoutPlan = house.images.filter((src) => !isFloorPlan(src));
+  const slides: CatalogCardSlide[] = [];
 
-  let facadeSrc = cover;
-  let interiorSrc: string | null = null;
-  let plotSrc: string | null = null;
+  const pushUnique = (
+    kind: CatalogCardSlideKind,
+    label: string,
+    src: string | null | undefined
+  ) => {
+    if (!src) return;
+    if (slides.some((s) => s.src === src)) return;
+    slides.push({ kind, label, src });
+  };
 
   if (split) {
-    const withoutPlan = house.images.filter((src) => !isFloorPlan(src));
     const facadeImgs = withoutPlan.slice(0, split.facade);
     const interiorImgs = withoutPlan.slice(
       split.facade,
@@ -81,34 +86,34 @@ export function getCatalogCardSlides(house: House): CatalogCardSlide[] {
             split.facade + split.interior + split.plot
           )
         : [];
-    facadeSrc = facadeImgs[0] ?? cover;
-    interiorSrc = interiorImgs[0] ?? null;
-    plotSrc = plotImgs[0] ?? null;
+    facadeImgs.forEach((src) => pushUnique("facade", "Фасад", src));
+    interiorImgs.forEach((src) =>
+      pushUnique("interior", "Кухня-гостиная", src)
+    );
+    if (plan) pushUnique("plan", "Планировка", plan);
+    plotImgs.forEach((src) => pushUnique("plot", "Участок", src));
   } else {
-    const afterCover = photos.filter((src) => src !== cover);
-    interiorSrc =
-      afterCover[Math.min(3, Math.max(0, afterCover.length - 1))] ??
-      afterCover[0] ??
-      null;
-    if (photos.length >= 10) {
-      plotSrc = photos[photos.length - 1] ?? null;
-      if (plotSrc === interiorSrc || plotSrc === facadeSrc) plotSrc = null;
+    const cover = getHouseCover(house);
+    const rest = withoutPlan.filter((src) => src !== cover);
+    const mid = Math.max(1, Math.ceil(rest.length / 2));
+    pushUnique("facade", "Фасад", cover);
+    rest.slice(0, mid).forEach((src) => pushUnique("facade", "Фасад", src));
+    rest
+      .slice(mid)
+      .forEach((src) => pushUnique("interior", "Кухня-гостиная", src));
+    if (plan) pushUnique("plan", "Планировка", plan);
+    if (withoutPlan.length >= 10) {
+      const plot = withoutPlan[withoutPlan.length - 1];
+      pushUnique("plot", "Участок", plot);
     }
   }
 
-  const slides: CatalogCardSlide[] = [
-    { kind: "facade", label: "Фасад", src: facadeSrc },
-  ];
-  if (interiorSrc) {
-    slides.push({ kind: "interior", label: "Внутри", src: interiorSrc });
+  if (slides.length === 0) {
+    pushUnique("facade", "Фасад", house.image);
   }
-  if (plan) {
-    slides.push({ kind: "plan", label: "Планировка", src: plan });
-  }
-  if (plotSrc) {
-    slides.push({ kind: "plot", label: "Участок", src: plotSrc });
-  }
-  return slides;
+
+  // Карточка: не больше 8 кадров, чтобы счётчик «1 / 8» был осмысленным
+  return slides.slice(0, 8);
 }
 
 export function formatGasLabel(gas: string): string {

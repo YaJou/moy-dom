@@ -291,7 +291,7 @@ export const realHousesUnsorted: House[] = [
     land: 7.5,
     rooms: 4,
     bedrooms: 3,
-    featureLine: "3 спальни, гардероб, терраса",
+    featureLine: "Гардероб и терраса",
     image: "/images/houses/engels-snt-malinki-pokrovskoye-105/03.jpg",
     images: [
       "/images/houses/engels-snt-malinki-pokrovskoye-105/02.jpg",
@@ -360,7 +360,7 @@ export const realHousesUnsorted: House[] = [
     land: 7.5,
     rooms: 4,
     bedrooms: 3,
-    featureLine: "3 спальни, 2 с/у, терраса",
+    featureLine: "Два санузла и терраса",
     image: "/images/houses/engels-snt-malinki-pokrovskoye-116/02.jpg",
     images: imgs("engels-snt-malinki-pokrovskoye-116", 10),
     badge: "new",

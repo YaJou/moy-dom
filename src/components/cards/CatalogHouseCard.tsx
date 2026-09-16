@@ -7,13 +7,13 @@ import {
   formatGasLabel,
   formatRepairLabel,
   getCatalogCardSlides,
-  type CatalogCardSlide,
 } from "@/lib/house-images";
 import { formatPrice, cn } from "@/lib/utils";
 import type { House } from "@/types/house";
-import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface CatalogHouseCardProps {
   house: House;
@@ -26,13 +26,20 @@ function landText(land: number): string {
     : String(land).replace(".", ",");
 }
 
+function bedroomsLabel(n: number): string {
+  if (n === 1) return "1 спальня";
+  if (n < 5) return `${n} спальни`;
+  return `${n} спален`;
+}
+
 export function CatalogHouseCard({
   house,
   priority = false,
 }: CatalogHouseCardProps) {
   const slides = getCatalogCardSlides(house);
   const [index, setIndex] = useState(0);
-  const [planOpen, setPlanOpen] = useState(false);
+  const [lightbox, setLightbox] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const touchX = useRef<number | null>(null);
   const slide = slides[index] ?? slides[0];
 
@@ -44,8 +51,27 @@ export function CatalogHouseCard({
   );
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
     setIndex(0);
   }, [house.id]);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(false);
+      if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "ArrowRight") go(1);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [lightbox, go]);
 
   const onTouchStart = (e: React.TouchEvent) => {
     touchX.current = e.touches[0]?.clientX ?? null;
@@ -58,40 +84,59 @@ export function CatalogHouseCard({
     go(dx < 0 ? 1 : -1);
   };
 
-  const openPlan = (s: CatalogCardSlide) => {
-    if (s.kind === "plan") setPlanOpen(true);
+  const openLightbox = (at?: number) => {
+    if (typeof at === "number") setIndex(at);
+    setLightbox(true);
   };
 
   return (
     <article className="catalog-card flex h-full flex-col overflow-hidden rounded-card border border-border bg-surface shadow-card transition-shadow duration-[160ms] hover:shadow-card-hover">
       <div
-        className="relative aspect-[4/3] overflow-hidden bg-page"
+        className="relative aspect-[4/3] cursor-zoom-in overflow-hidden bg-page"
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
+        onClick={() => openLightbox()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openLightbox();
+          }
+        }}
+        aria-label={`Открыть фото: ${slide?.label ?? "галерея"}`}
       >
-        <HouseImage
-          src={slide.src}
-          alt={`${house.title} — ${slide.label}`}
-          fill
-          objectFit={slide.kind === "plan" ? "contain" : "cover"}
-          priority={priority && index === 0}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
-        />
+        {slide && (
+          <HouseImage
+            src={slide.src}
+            alt={`${house.title} — ${slide.label}`}
+            fill
+            objectFit={slide.kind === "plan" ? "contain" : "cover"}
+            priority={priority && index === 0}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 384px"
+          />
+        )}
 
         {slides.length > 1 && (
           <>
             <button
               type="button"
-              className="catalog-card-arrow left-2 hidden sm:flex"
-              onClick={() => go(-1)}
+              className="catalog-card-arrow left-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                go(-1);
+              }}
               aria-label="Предыдущее фото"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               type="button"
-              className="catalog-card-arrow right-2 hidden sm:flex"
-              onClick={() => go(1)}
+              className="catalog-card-arrow right-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                go(1);
+              }}
               aria-label="Следующее фото"
             >
               <ChevronRight className="h-4 w-4" />
@@ -99,36 +144,16 @@ export function CatalogHouseCard({
           </>
         )}
 
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2">
+        <div className="pointer-events-none absolute bottom-3 left-3 right-3 flex items-center justify-between gap-2">
           <span className="rounded-md bg-black/55 px-2 py-1 text-[11px] font-semibold text-white">
-            {slide.label}
+            {slide?.label}
           </span>
-          <div className="flex gap-1">
-            {slides.map((s, i) => (
-              <button
-                key={s.kind}
-                type="button"
-                aria-label={s.label}
-                onClick={() => setIndex(i)}
-                className={cn(
-                  "h-1.5 w-1.5 rounded-full transition-colors",
-                  i === index ? "bg-white" : "bg-white/45"
-                )}
-              />
-            ))}
-          </div>
+          {slides.length > 1 && (
+            <span className="rounded-md bg-black/55 px-2 py-1 text-[11px] font-semibold tabular-nums text-white">
+              {index + 1}&nbsp;/&nbsp;{slides.length}
+            </span>
+          )}
         </div>
-
-        {slide.kind === "plan" && (
-          <button
-            type="button"
-            onClick={() => openPlan(slide)}
-            className="absolute right-3 top-3 flex items-center gap-1 rounded-md bg-white/95 px-2 py-1 text-[11px] font-semibold text-text shadow-sm"
-          >
-            <Maximize2 className="h-3.5 w-3.5" />
-            Увеличить
-          </button>
-        )}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
@@ -143,12 +168,7 @@ export function CatalogHouseCard({
         </p>
 
         <p className="mt-3 text-sm text-muted">
-          {house.bedrooms}{" "}
-          {house.bedrooms === 1
-            ? "спальня"
-            : house.bedrooms < 5
-              ? "спальни"
-              : "спален"}
+          {bedroomsLabel(house.bedrooms)}
           {" · "}
           {formatRepairLabel(house.specs.repair)}
           {" · "}
@@ -156,7 +176,7 @@ export function CatalogHouseCard({
         </p>
 
         {house.featureLine && (
-          <p className="mt-2 text-sm font-medium text-text">
+          <p className="mt-2 text-sm font-semibold leading-snug text-[#2c332f]">
             {house.featureLine}
           </p>
         )}
@@ -165,7 +185,7 @@ export function CatalogHouseCard({
           <button
             type="button"
             className="font-medium text-orange hover:underline"
-            onClick={() => setIndex(0)}
+            onClick={() => openLightbox(0)}
           >
             Фото
           </button>
@@ -176,10 +196,7 @@ export function CatalogHouseCard({
               className="font-medium text-orange hover:underline"
               onClick={() => {
                 const i = slides.findIndex((s) => s.kind === "plan");
-                if (i >= 0) {
-                  setIndex(i);
-                  setPlanOpen(true);
-                }
+                openLightbox(i >= 0 ? i : 0);
               }}
             >
               Планировка
@@ -211,36 +228,79 @@ export function CatalogHouseCard({
         </div>
       </div>
 
-      {planOpen && slide.kind === "plan" && (
-        <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/70 p-4"
-          role="dialog"
-          aria-modal
-          aria-label="Планировка"
-          onClick={() => setPlanOpen(false)}
-        >
-          <button
-            type="button"
-            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white text-text"
-            aria-label="Закрыть"
-            onClick={() => setPlanOpen(false)}
-          >
-            <X className="h-5 w-5" />
-          </button>
+      {mounted &&
+        lightbox &&
+        createPortal(
           <div
-            className="relative h-[min(80vh,720px)] w-full max-w-4xl overflow-hidden rounded-xl bg-white"
-            onClick={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+            role="dialog"
+            aria-modal
+            aria-label={`Фото дома — ${house.title}`}
+            onClick={() => setLightbox(false)}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
           >
-            <HouseImage
-              src={slides.find((s) => s.kind === "plan")!.src}
-              alt={`Планировка — ${house.title}`}
-              fill
-              objectFit="contain"
-              sizes="900px"
-            />
-          </div>
-        </div>
-      )}
+            <button
+              type="button"
+              className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white text-text"
+              aria-label="Закрыть"
+              onClick={() => setLightbox(false)}
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {slides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-text shadow sm:left-5"
+                  aria-label="Предыдущее фото"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    go(-1);
+                  }}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-text shadow sm:right-5"
+                  aria-label="Следующее фото"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    go(1);
+                  }}
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </>
+            )}
+
+            <div
+              className="relative flex w-full max-w-4xl flex-col items-center gap-3"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative h-[min(72vh,680px)] w-full overflow-hidden rounded-xl bg-white">
+                <HouseImage
+                  src={slide.src}
+                  alt={`${house.title} — ${slide.label}`}
+                  fill
+                  objectFit="contain"
+                  sizes="900px"
+                />
+              </div>
+              <div className="flex items-center gap-3 text-sm font-semibold text-white">
+                <span className="rounded-md bg-black/45 px-2.5 py-1">
+                  {slide.label}
+                </span>
+                <span className="tabular-nums text-white/90">
+                  {index + 1} / {slides.length}
+                </span>
+              </div>
+            </div>
+          </div>,
+          document.body
+        )}
     </article>
   );
 }

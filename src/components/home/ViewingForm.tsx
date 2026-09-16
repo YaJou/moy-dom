@@ -29,6 +29,8 @@ import { IconCheck, IconTelegram } from "./icons";
 export interface ViewingFormContext {
   intent?: LeadIntent;
   houseId?: number;
+  /** Несколько выбранных домов (избранное / сравнение) */
+  houseIds?: number[];
   houseUrl?: string;
   city?: string;
   filters?: string;
@@ -79,7 +81,7 @@ export function ViewingForm({
   const [topicError, setTopicError] = useState<string | null>(null);
   const [topicId, setTopicId] = useState(context?.topic ?? "");
   const [houseId, setHouseId] = useState<number | null>(
-    context?.houseId ?? null
+    context?.houseId ?? context?.houseIds?.[0] ?? null
   );
 
   useEffect(() => {
@@ -87,8 +89,8 @@ export function ViewingForm({
   }, [context?.city]);
 
   useEffect(() => {
-    setHouseId(context?.houseId ?? null);
-  }, [context?.houseId]);
+    setHouseId(context?.houseId ?? context?.houseIds?.[0] ?? null);
+  }, [context?.houseId, context?.houseIds]);
 
   useEffect(() => {
     if (context?.topic) setTopicId(context.topic);
@@ -142,6 +144,26 @@ export function ViewingForm({
       ...(context?.filters ? { filters: context.filters } : {}),
       ...(context?.calculator ? { calculator: context.calculator } : {}),
     };
+
+    const selectedIds =
+      context?.houseIds && context.houseIds.length > 0
+        ? context.houseIds
+        : houseId != null
+          ? [houseId]
+          : [];
+
+    if (selectedIds.length > 0) {
+      leadContext.selectedHouseIds = selectedIds;
+      leadContext.selectedHouses = selectedIds
+        .map((id) => getHouseById(id))
+        .filter(Boolean)
+        .map((h) => ({
+          id: h!.id,
+          title: h!.title,
+          price: formatPrice(h!.price),
+          url: absoluteUrl(`/catalog/${h!.id}/`),
+        }));
+    }
 
     if (topic) {
       leadContext.topic = topic.label;
@@ -282,23 +304,37 @@ export function ViewingForm({
       </div>
 
       {showHousePicker && (
-        <LeadHousePicker
-          value={houseId}
-          city={city}
-          onChange={(id) => {
-            setHouseId(id);
-            setHouseError(null);
-          }}
-          label={
-            isCallback
-              ? "Дом по вопросу"
-              : "Какой дом заинтересовал"
-          }
-          required={houseRequired}
-          allowSkip={!houseRequired}
-          error={houseError}
-          className="viewing-form-field-full"
-        />
+        <>
+          {context?.houseIds && context.houseIds.length > 1 && (
+            <p className="viewing-form-field-full mb-2 text-sm text-muted">
+              В заявку передадим выбранные дома (
+              {context.houseIds.length}): можно уточнить основной объект ниже.
+            </p>
+          )}
+          <LeadHousePicker
+            value={houseId}
+            city={
+              context?.houseIds && context.houseIds.length > 1
+                ? undefined
+                : city
+            }
+            onChange={(id) => {
+              setHouseId(id);
+              setHouseError(null);
+            }}
+            label={
+              isCallback
+                ? "Дом по вопросу"
+                : context?.houseIds && context.houseIds.length > 1
+                  ? "Основной дом для просмотра"
+                  : "Какой дом заинтересовал"
+            }
+            required={houseRequired}
+            allowSkip={!houseRequired}
+            error={houseError}
+            className="viewing-form-field-full"
+          />
+        </>
       )}
 
       <div className="viewing-form-fields">

@@ -228,12 +228,7 @@ export function CatalogFilters({ initialFilters, houses }: CatalogFiltersProps) 
           </div>
         )}
 
-        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-muted">
-            {active
-              ? `Найдено ${count} ${pluralizeHouses(count)}`
-              : `Всего ${count} ${pluralizeHouses(count)} в каталоге`}
-          </p>
+        <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-end">
           <button
             type="submit"
             className="inline-flex h-11 items-center justify-center rounded-xl bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-hover"

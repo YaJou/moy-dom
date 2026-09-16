@@ -113,26 +113,45 @@ export function filterHouses(
   houses: House[],
   filters: SearchFiltersState
 ): House[] {
-  return houses
-    .filter((house) => {
-      if (!isAnyCity(filters.city) && house.city !== filters.city) return false;
-      if (!isAnyPrice(filters.price) && !matchesPrice(house.price, filters.price))
-        return false;
-      if (!matchesArea(house.area, filters.area)) return false;
-      if (!matchesCount(house.rooms, filters.rooms)) return false;
-      if (!matchesCount(house.bedrooms, filters.bedrooms)) return false;
-      if (!matchesLand(house.land, filters.land)) return false;
-      if (!matchesReadiness(house.readiness, filters.readiness)) return false;
-      if (!matchesFloors(house.specs.floors, filters.floors)) return false;
-      if (!matchesGas(house.specs.gas, filters.gas)) return false;
-      if (!matchesPrefinish(house.specs.repair, filters.prefinish)) return false;
-      return true;
-    })
-    .sort((a, b) => {
-      const d = citySortIndex(a.city) - citySortIndex(b.city);
-      if (d !== 0) return d;
+  return houses.filter((house) => {
+    if (!isAnyCity(filters.city) && house.city !== filters.city) return false;
+    if (!isAnyPrice(filters.price) && !matchesPrice(house.price, filters.price))
+      return false;
+    if (!matchesArea(house.area, filters.area)) return false;
+    if (!matchesCount(house.rooms, filters.rooms)) return false;
+    if (!matchesCount(house.bedrooms, filters.bedrooms)) return false;
+    if (!matchesLand(house.land, filters.land)) return false;
+    if (!matchesReadiness(house.readiness, filters.readiness)) return false;
+    if (!matchesFloors(house.specs.floors, filters.floors)) return false;
+    if (!matchesGas(house.specs.gas, filters.gas)) return false;
+    if (!matchesPrefinish(house.specs.repair, filters.prefinish)) return false;
+    return true;
+  });
+}
+
+export type CatalogSort = "price-asc" | "area-desc" | "new";
+
+export function sortHouses(houses: House[], sort: CatalogSort): House[] {
+  const list = [...houses];
+  if (sort === "price-asc") {
+    return list.sort((a, b) => {
+      if (a.price !== b.price) return a.price - b.price;
+      return citySortIndex(a.city) - citySortIndex(b.city);
+    });
+  }
+  if (sort === "area-desc") {
+    return list.sort((a, b) => {
+      if (a.area !== b.area) return b.area - a.area;
       return a.price - b.price;
     });
+  }
+  // Новые поступления
+  return list.sort((a, b) => {
+    const aNew = a.badge === "new" ? 1 : 0;
+    const bNew = b.badge === "new" ? 1 : 0;
+    if (aNew !== bNew) return bNew - aNew;
+    return b.id - a.id;
+  });
 }
 
 /** Реальный счётчик по каталогу — без маркетинговых «40 домов». */
