@@ -5,18 +5,18 @@ import Link from "next/link";
 
 const photos = [
   {
-    src: "/images/houses/balakovo-novonatalino-100/09.jpg",
-    caption: "Фундамент и стены — дом 100 м², Новонатальино",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/09.jpg",
+    caption: "Фундамент и стены — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },
   {
-    src: "/images/houses/balakovo-novonatalino-100/10.jpg",
-    caption: "Кирпичная облицовка — дом 100 м², Новонатальино",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/10.jpg",
+    caption: "Кирпичная облицовка — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },
   {
-    src: "/images/houses/balakovo-novonatalino-100/11.jpg",
-    caption: "Инженерные системы — дом 100 м², Новонатальино",
+    src: "/images/houses/engels-snt-malinki-troitskaya-100/11.jpg",
+    caption: "Инженерные системы — дом 100 м², СНТ «Малинки»",
     house: realHouses.find((h) => h.id === 2),
   },
 ];

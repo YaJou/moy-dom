@@ -33,11 +33,11 @@ const DEFAULT_FACADE = [
 const DEFAULT_INTERIOR = [
   "/images/houses/engels-snt-malinki-pokrovskoye-87/09.jpg",
   "/images/houses/engels-snt-malinki-pokrovskoye-87/10.jpg",
-  "/images/houses/balakovo-novonatalino-100/09.jpg",
+  "/images/houses/engels-snt-malinki-troitskaya-100/09.jpg",
 ] as const;
 
 const CITY_HERO_SLUG: Record<string, string> = {
-  Балаково: "balakovo-novonatalino-100",
+  Балаково: "natalino-mehanizatorov-105",
   Энгельс: "engels-snt-novoe-veselaya-116",
 };
 

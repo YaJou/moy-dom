@@ -5,7 +5,7 @@ import type { House } from "@/types/house";
 
 /** Houses where 01.jpg is a real floor plan (see README in each folder). */
 const FLOOR_PLAN_BY_ID: Record<number, string> = {
-  2: "/images/houses/balakovo-novonatalino-100/01.jpg",
+  2: "/images/houses/engels-snt-malinki-troitskaya-100/01.jpg",
   4: "/images/houses/engels-snt-novoe-veselaya-116/01.jpg",
   7: "/images/houses/engels-snt-malinki-pokrovskoye-87/01.jpg",
 };

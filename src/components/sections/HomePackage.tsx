@@ -4,7 +4,7 @@ import { ArrowRight, Droplets, Home, Paintbrush, Wrench } from "lucide-react";
 import Link from "next/link";
 
 const sampleHouse =
-  realHouses.find((h) => h.slug === "balakovo-novonatalino-100") ??
+  realHouses.find((h) => h.slug === "engels-snt-malinki-troitskaya-100") ??
   realHouses[0];
 
 const interiorPhoto =

@@ -34,7 +34,7 @@ export function HomeIncluded({
     (sampleHouseId
       ? realHouses.find((h) => h.id === sampleHouseId)
       : undefined) ??
-    pool.find((h) => h.slug === "balakovo-novonatalino-100") ??
+    pool.find((h) => h.slug === "engels-snt-malinki-troitskaya-100") ??
     pool[0] ??
     realHouses[0];
 

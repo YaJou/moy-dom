@@ -46,7 +46,7 @@ export function CityLandingPage({ slug }: CityLandingPageProps) {
   const landing = getCityLanding(slug);
   const includedPhoto =
     slug === "balakovo"
-      ? "/images/houses/balakovo-novonatalino-100/09.jpg"
+      ? "/images/houses/natalino-mehanizatorov-105/02.jpg"
       : undefined;
 
   return (
