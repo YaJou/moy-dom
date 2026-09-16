@@ -88,9 +88,12 @@ function JournalArticle({ article }: { article: BlogArticle }) {
                 {article.author.name}
               </Link>
             ) : null}
-            <time dateTime={article.updatedDateIso ?? article.dateIso}>
-              Обновлено {article.updatedDate ?? article.date}
-            </time>
+            <time dateTime={article.dateIso}>Опубликовано {article.date}</time>
+            {article.updatedDate ? (
+              <time dateTime={article.updatedDateIso}>
+                Обновлено {article.updatedDate}
+              </time>
+            ) : null}
             <span>{article.readTime}</span>
           </div>
         </header>
@@ -140,11 +143,19 @@ function DefaultArticle({ article }: { article: BlogArticle }) {
     <article className="section-padding bg-white pb-16">
       <div className="container-main">
         <header className="mx-auto max-w-3xl border-b border-border pb-8">
-          <time dateTime={article.dateIso} className="text-sm text-muted">
-            {article.date}
-          </time>
-          <span className="mx-2 text-muted">·</span>
-          <span className="text-sm text-muted">{article.readTime}</span>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
+            <time dateTime={article.dateIso}>Опубликовано {article.date}</time>
+            {article.updatedDate ? (
+              <>
+                <span aria-hidden>·</span>
+                <time dateTime={article.updatedDateIso}>
+                  Обновлено {article.updatedDate}
+                </time>
+              </>
+            ) : null}
+            <span aria-hidden>·</span>
+            <span>{article.readTime}</span>
+          </div>
           <h1 className="mt-3 text-2xl font-bold leading-tight text-text sm:text-3xl lg:text-4xl">
             {article.title}
           </h1>
@@ -225,7 +236,7 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
       <Breadcrumb
         items={[
           { label: "Главная", href: "/" },
-          { label: "Блог", href: "/blog/" },
+          { label: "Статьи", href: "/blog/" },
           { label: article.title },
         ]}
       />

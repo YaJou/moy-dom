@@ -54,14 +54,21 @@ export interface BlogArticleAuthor {
 export interface BlogArticle {
   slug: string;
   title: string;
+  /** Короткий заголовок для карточек на /blog */
+  cardTitle?: string;
   description: string;
+  /** 1–2 предложения под заголовком карточки */
+  excerpt: string;
   date: string;
   dateIso: string;
   updatedDate?: string;
   updatedDateIso?: string;
   category: "construction" | "mortgage" | "general";
+  /** Тема для бейджа: ОТДЕЛКА, УЧАСТОК… */
+  topicLabel: string;
   categoryLabel?: string;
   popular: boolean;
+  /** Время чтения по объёму текста (~180 сл./мин + таблицы) */
   readTime: string;
   image: string;
   coverCaption?: string;
@@ -69,39 +76,89 @@ export interface BlogArticle {
   author?: BlogArticleAuthor;
   blocks: ArticleBlock[];
   relatedSlugs: string[];
+  /** Выделенный материал «С чего начать» */
+  featured?: boolean;
+  featuredTitle?: string;
+  featuredDescription?: string;
+  featuredCta?: string;
+  /** Якорь задачи на хабе статей */
+  taskId?: "house" | "plot" | "finish" | "purchase";
 }
+
+export const blogHubCopy = {
+  title: "Что нужно знать перед покупкой дома",
+  description:
+    "Как выбрать участок, разобраться в отделке, оценить расходы и подготовиться к покупке. Объясняем на примерах частных домов.",
+  tasks: [
+    { id: "house" as const, label: "Выбираю дом", slug: "prichiny" },
+    { id: "plot" as const, label: "Изучаю участок", slug: "uchastok" },
+    { id: "finish" as const, label: "Разбираюсь в отделке", slug: "otdelka" },
+    { id: "purchase" as const, label: "Планирую покупку", slug: "ipoteka" },
+  ],
+  author: {
+    name: "Команда Кров-Сервис",
+    role: "Сопровождение просмотров и комплектации",
+    headline: "Разбираем вопросы, которые слышим на просмотрах",
+    text: "В статьях объясняем комплектацию домов и показываем детали на наших объектах.",
+    topics: "Участок · Отделка · Ипотека · Готовый дом или стройка",
+    href: "/about/",
+    photo: "/images/blog/prichiny/04-house-inspection.jpg",
+  },
+  catalogCta: {
+    title: "Посмотрите, как это выглядит в конкретном доме",
+    description:
+      "Фотографии, планировки и состав отделки — в карточках объектов.",
+    button: "Посмотреть дома",
+    href: "/catalog/",
+  },
+} as const;
 
 export const blogArticles: BlogArticle[] = [
   {
     slug: "uchastok",
-    title: "Как выбрать участок для строительства дома: полное руководство 2026",
+    title: "Как выбрать участок для строительства дома",
+    cardTitle: "Как выбрать участок под дом",
     description:
       "Как выбрать земельный участок под строительство дома в Саратовской области: категория земли, коммуникации, кадастр, рельеф, юридическая проверка. Таблицы, чек-листы и советы застройщика Кров-Сервис.",
+    excerpt:
+      "Категория земли, коммуникации, подъезд и юридическая проверка. На что смотреть до покупки участка.",
     date: "15 мая 2025",
     dateIso: "2025-05-15",
+    updatedDate: "16 сентября 2026",
+    updatedDateIso: "2026-09-16",
     category: "construction",
+    topicLabel: "Участок",
+    categoryLabel: "Участок",
     popular: true,
-    readTime: "18 мин",
-    image: "/images/blog/blog-1.jpg",
+    readTime: "8 мин",
+    image: "/images/design-kit/12-plot-and-access.jpg",
+    coverCaption:
+      "Подъезд и окружение участка: дорога, ограждение и соседняя застройка.",
+    taskId: "plot",
     relatedSlugs: ["ipoteka", "otdelka", "prichiny"],
     blocks: uchastokBlocks,
   },
   {
     slug: "ipoteka",
     title: "Ипотека на готовый дом: от выбора до получения ключей",
+    cardTitle: "Ипотека на готовый дом: шаги и расходы",
     description:
       "С чего начать покупку дома с участком: как сравнить условия, подготовить документы и разобраться с расходами до сделки",
+    excerpt:
+      "Как сравнить условия банка, собрать документы и заранее учесть расходы до сделки.",
     date: "3 марта 2026",
     dateIso: "2026-03-03",
     updatedDate: "15 сентября 2026",
     updatedDateIso: "2026-09-15",
     category: "mortgage",
+    topicLabel: "Ипотека",
     categoryLabel: "Покупка дома",
     popular: true,
-    readTime: "8 мин",
-    image: "/images/blog/mortgage/01-mortgage-house-hero.jpg",
-    coverCaption: "Иллюстрация к материалу",
+    readTime: "12 мин",
+    image: "/images/blog/mortgage/02-mortgage-budget.jpg",
+    coverCaption: "Расчёт бюджета и подготовка к покупке дома",
     layout: "journal",
+    taskId: "purchase",
     author: {
       name: "Кров-Сервис",
       role: "Отдел продаж и сопровождения объектов",
@@ -114,21 +171,26 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     slug: "otdelka",
-    title: "Предчистовая отделка: что входит и что останется сделать",
+    title: "Предчистовая отделка: что уже сделано и что останется вам",
+    cardTitle: "Предчистовая отделка: что уже сделано и что останется вам",
     description:
       "Какие работы закрывает предчистовая отделка, чем она отличается от черновой и «под ключ», что проверить на просмотре и где возможны дополнительные расходы.",
+    excerpt:
+      "Разбираем стены, полы и коммуникации. Какие вопросы задать продавцу и что учесть перед ремонтом.",
     date: "14 января 2026",
     dateIso: "2026-01-14",
     updatedDate: "14 сентября 2026",
     updatedDateIso: "2026-09-14",
     category: "construction",
+    topicLabel: "Отделка",
     categoryLabel: "Отделка и комплектация",
     popular: false,
-    readTime: "12 мин",
+    readTime: "9 мин",
     image: "/images/design-kit/07-pre-finish-interior.jpg",
     coverCaption:
       "Пример помещения с предчистовой подготовкой: ровные стены и стяжка под чистовой ремонт. Уточняйте точный состав работ по выбранному дому — комплектация объектов может отличаться.",
     layout: "journal",
+    taskId: "finish",
     author: {
       name: "Кров-Сервис",
       role: "Отдел продаж и сопровождения объектов",
@@ -141,20 +203,30 @@ export const blogArticles: BlogArticle[] = [
   },
   {
     slug: "prichiny",
-    title: "5 причин выбрать готовый дом вместо строительства",
+    title: "Готовый дом или строительство: что подойдёт вам",
+    cardTitle: "Готовый дом или строительство: что подойдёт вам",
     description:
       "У готового дома можно заранее посмотреть планировку, участок и качество отделки. Разбираем, когда такой вариант удобнее, что всё равно придётся проверить и в каких случаях лучше строить под себя",
+    excerpt:
+      "Сравниваем свободу выбора, организацию работ и расходы. Когда удобнее готовый дом, а когда — стройка под себя.",
     date: "28 ноября 2025",
     dateIso: "2025-11-28",
     updatedDate: "15 сентября 2026",
     updatedDateIso: "2026-09-15",
     category: "construction",
+    topicLabel: "Выбор",
     categoryLabel: "Покупка дома",
     popular: true,
-    readTime: "9 мин",
-    image: "/images/blog/prichiny/01-ready-house.jpg",
-    coverCaption: "Иллюстрация",
+    readTime: "12 мин",
+    image: "/images/blog/prichiny/02-house-construction.jpg",
+    coverCaption: "Этап строительства и готовый дом — сравниваем подходы",
     layout: "journal",
+    featured: true,
+    featuredTitle: "Купить готовый дом или строить с нуля?",
+    featuredDescription:
+      "Сравниваем свободу выбора, организацию работ и расходы. Разбираем, когда имеет смысл каждый вариант.",
+    featuredCta: "Сравнить варианты",
+    taskId: "house",
     author: {
       name: "Кров-Сервис",
       role: "Отдел продаж и сопровождения объектов",
@@ -173,4 +245,12 @@ export function getBlogArticle(slug: string): BlogArticle | undefined {
 
 export function getBlogArticleHref(slug: string): string {
   return `/blog/${slug}/`;
+}
+
+export function getFeaturedArticle(): BlogArticle | undefined {
+  return blogArticles.find((a) => a.featured);
+}
+
+export function getHubArticles(): BlogArticle[] {
+  return blogArticles.filter((a) => !a.featured);
 }

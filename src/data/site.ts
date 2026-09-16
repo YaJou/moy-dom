@@ -52,7 +52,8 @@ export const navigation: NavItem[] = [
       { label: "Выбор участка", href: "/blog/uchastok/" },
       { label: "Ипотека", href: "/blog/ipoteka/" },
       { label: "Отделка", href: "/blog/otdelka/" },
-      { label: "5 причин купить готовый", href: "/blog/prichiny/" },
+      { label: "Готовый дом или стройка", href: "/blog/prichiny/" },
+      { label: "Чек-лист просмотра", href: "/blog/checklist/" },
     ],
   },
   {

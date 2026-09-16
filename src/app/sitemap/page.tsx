@@ -25,6 +25,7 @@ const sections = [
       { label: "Партнёры", href: "/partners/" },
       { label: "Документы", href: "/documents/" },
       { label: "Блог", href: "/blog/" },
+      { label: "Чек-лист просмотра", href: "/blog/checklist/" },
     ],
   },
   {
