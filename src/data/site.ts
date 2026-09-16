@@ -11,7 +11,7 @@ export const siteConfig = {
   phone: "+7 (919) 822-35-34",
   phoneHours: "Ежедневно с 8:00 до 17:00",
   whatsapp: "https://wa.me/79198223534",
-  telegram: "https://t.me/moydom",
+  telegram: "https://t.me/krovservice64",
   email: "info@dom-krovservice64.ru",
   address: "г. Энгельс, Пристанская, 70",
   workingHours: "Пн–Вс: 8:00 – 17:00",
@@ -366,7 +366,7 @@ export const footerLinks = {
 
 export const socialLinks = [
   { name: "VK", href: "https://vk.com/dom_krovservice64", icon: "vk" },
-  { name: "Telegram", href: "https://t.me/moydom", icon: "telegram" },
+  { name: "Telegram", href: "https://t.me/krovservice64", icon: "telegram" },
   { name: "WhatsApp", href: "https://wa.me/79198223534", icon: "whatsapp" },
 ];
 
