@@ -23,6 +23,13 @@ function parseMoney(v: string): number {
   return Number.isFinite(n) && n > 0 ? n : 0;
 }
 
+/** Форматирует ввод суммы: 1500000 → «1 500 000» */
+function formatMoneyInput(raw: string): string {
+  const digits = String(raw).replace(/\D/g, "");
+  if (!digits) return "";
+  return digits.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
 export function NeedsNotes() {
   const [notes, setNotes] = useState<NeedsNotesState>({});
   const [ready, setReady] = useState(false);
@@ -353,21 +360,14 @@ export function BudgetTool() {
           <label key={f.id} className="uc-budget-field">
             <span>{f.label}, ₽</span>
             <input
-              type="number"
+              type="text"
               inputMode="numeric"
-              min={0}
-              step={1000}
+              autoComplete="off"
               value={values[f.id] ?? ""}
               placeholder="Не указано"
               onChange={(e) => {
-                const raw = e.target.value;
-                if (raw === "") {
-                  setValues((prev) => ({ ...prev, [f.id]: "" }));
-                  return;
-                }
-                const n = Number(raw);
-                if (!Number.isFinite(n) || n < 0) return;
-                setValues((prev) => ({ ...prev, [f.id]: raw }));
+                const formatted = formatMoneyInput(e.target.value);
+                setValues((prev) => ({ ...prev, [f.id]: formatted }));
               }}
             />
           </label>

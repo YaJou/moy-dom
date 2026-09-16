@@ -6340,6 +6340,7 @@
       grid-row: 1;
       align-self: start;
       width: 260px;
+      position: relative;
     }
   }
 

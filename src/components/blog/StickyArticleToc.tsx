@@ -25,6 +25,7 @@ export function StickyArticleToc({ items }: StickyArticleTocProps) {
 
       const layout = (slot.closest(".pr-layout") ||
         slot.closest(".mp-layout") ||
+        slot.closest(".uc-layout") ||
         slot.closest(".ja-layout")) as HTMLElement | null;
       if (!layout) return;
 
