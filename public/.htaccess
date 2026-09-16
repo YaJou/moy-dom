@@ -77,6 +77,7 @@ ErrorDocument 404 /404.html
   RewriteRule ^catalog/terrace/?$ /catalog/ [L,R=301]
 
   # Legacy / dead routes → closest live pages
+  RewriteRule ^catalog/1/?$ /catalog/balakovo/ [L,R=301]
   RewriteRule ^projects(/.*)?$ /catalog/ [L,R=301]
   RewriteRule ^plots(/.*)?$ /catalog/ [L,R=301]
   RewriteRule ^reviews(/.*)?$ /#reviews [L,R=301,NE]

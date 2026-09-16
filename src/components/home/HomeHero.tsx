@@ -37,7 +37,7 @@ const DEFAULT_INTERIOR = [
 ] as const;
 
 const CITY_HERO_SLUG: Record<string, string> = {
-  Балаково: "natalino-mehanizatorov-105",
+  Балаково: "natalino-stepnaya-87",
   Энгельс: "engels-snt-novoe-veselaya-116",
 };
 
