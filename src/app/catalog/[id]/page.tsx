@@ -1,3 +1,4 @@
+import { TrackHouseView } from "@/components/house/TrackHouseView";
 import { HouseGallery, HouseHeroActions } from "@/components/house/HouseGallery";
 import { HousePriceCard, HouseMobileAsk } from "@/components/house/HousePriceCard";
 import { HouseKeyFeatures } from "@/components/house/HouseKeyFeatures";
@@ -59,6 +60,7 @@ export default async function HousePage({ params }: HousePageProps) {
       />
 
       <article className="hp-page">
+        <TrackHouseView houseId={house.id} />
         <div className="container-main">
           <header className="hp-hero-head">
             <div className="hp-hero-top">

@@ -2,8 +2,13 @@
 
 import { CatalogHouseCard } from "@/components/cards/CatalogHouseCard";
 import { CatalogFilters } from "@/components/catalog/CatalogFilters";
+import { CatalogFamilyFit } from "@/components/catalog/CatalogFamilyFit";
+import { CatalogPriceIncluded } from "@/components/catalog/CatalogPriceIncluded";
+import { CatalogChoiceFaq } from "@/components/catalog/CatalogChoiceFaq";
+import { CatalogWaitlist } from "@/components/catalog/CatalogWaitlist";
 import { useFavorites } from "@/context/FavoritesContext";
 import { useCompare } from "@/context/CompareContext";
+import { useRecentlyViewed } from "@/hooks/useRecentlyViewed";
 import { useViewingModal } from "@/components/home/ViewingModalProvider";
 import { HouseImage } from "@/components/ui/HouseImage";
 import { YandexHousesMap } from "@/components/sections/YandexHousesMap";
@@ -17,15 +22,20 @@ import {
   sortHouses,
   type CatalogSort,
 } from "@/lib/filters";
+import {
+  hasLargeKitchenLiving,
+  hasTwoBathrooms,
+} from "@/lib/house-price-composition";
 import { getHouseCover } from "@/lib/house-images";
 import { formatPrice, cn } from "@/lib/utils";
 import { DEFAULT_FILTERS, type House, type SearchFiltersState } from "@/types/house";
 import { LayoutGrid, Map as MapIcon, SearchX, Share2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type ViewMode = "cards" | "map";
+type ListMode = "all" | "saved" | "recent";
 
 const SORT_OPTIONS: { id: CatalogSort; label: string }[] = [
   { id: "price-asc", label: "Сначала дешевле" },
@@ -43,15 +53,20 @@ export function CatalogPageClient() {
   const searchParams = useSearchParams();
   const { favorites } = useFavorites();
   const { compareIds } = useCompare();
+  const { recentlyViewedIds } = useRecentlyViewed();
   const { openViewing } = useViewingModal();
   const [view, setView] = useState<ViewMode>("cards");
+  const [listMode, setListMode] = useState<ListMode>("all");
   const [mapFocus, setMapFocus] = useState<House | null>(null);
   const [shareHint, setShareHint] = useState(false);
   const [sort, setSort] = useState<CatalogSort>("price-asc");
 
+  const needParam = searchParams.get("need");
+
   const filters = useMemo(() => {
     const params: Record<string, string> = {};
     searchParams.forEach((value, key) => {
+      if (key === "need") return;
       params[key] = value;
     });
     return Object.keys(params).length
@@ -59,15 +74,40 @@ export function CatalogPageClient() {
       : ({ ...DEFAULT_FILTERS } as SearchFiltersState);
   }, [searchParams]);
 
-  const filtered = useMemo(
-    () => filterHouses(housesData, filters),
-    [filters]
-  );
+  const filtered = useMemo(() => {
+    let list = filterHouses(housesData, filters);
+    if (needParam === "bath2") list = list.filter(hasTwoBathrooms);
+    if (needParam === "kitchen") list = list.filter(hasLargeKitchenLiving);
+    return list;
+  }, [filters, needParam]);
+
+  const scoped = useMemo(() => {
+    if (listMode === "saved") {
+      const set = new Set(favorites);
+      return filtered.filter((h) => set.has(h.id));
+    }
+    if (listMode === "recent") {
+      const order = new Map(recentlyViewedIds.map((id, i) => [id, i]));
+      return filtered
+        .filter((h) => order.has(h.id))
+        .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
+    }
+    return filtered;
+  }, [filtered, listMode, favorites, recentlyViewedIds]);
+
   const results = useMemo(
-    () => sortHouses(filtered, sort),
-    [filtered, sort]
+    () =>
+      listMode === "recent" ? scoped : sortHouses(scoped, sort),
+    [scoped, sort, listMode]
   );
-  const activeCount = countActiveFilters(filters);
+
+  useEffect(() => {
+    if (listMode === "recent" && recentlyViewedIds.length === 0) {
+      setListMode("all");
+    }
+  }, [listMode, recentlyViewedIds.length]);
+
+  const activeCount = countActiveFilters(filters) + (needParam ? 1 : 0);
 
   const selectedIds = useMemo(() => {
     const set = new Set<number>([...favorites, ...compareIds]);
@@ -107,6 +147,16 @@ export function CatalogPageClient() {
       filters: activeCount > 0 ? searchParams.toString() : undefined,
     });
   };
+
+  const listTabs: { id: ListMode; label: string; show: boolean }[] = [
+    { id: "all", label: "Все дома", show: true },
+    { id: "saved", label: "Сохранённые", show: true },
+    {
+      id: "recent",
+      label: "Недавно смотрели",
+      show: recentlyViewedIds.length > 0,
+    },
+  ];
 
   return (
     <>
@@ -164,34 +214,68 @@ export function CatalogPageClient() {
         <CatalogFilters initialFilters={filters} houses={housesData} />
       </section>
 
-      <section className="section-padding bg-white pt-6 sm:pt-8">
+      <section id="catalog-results" className="section-padding bg-white pt-6 sm:pt-8">
         <div className="container-main">
+          <div
+            className="mb-5 flex flex-wrap gap-2"
+            role="tablist"
+            aria-label="Подборка"
+          >
+            {listTabs
+              .filter((t) => t.show)
+              .map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={listMode === t.id}
+                  onClick={() => setListMode(t.id)}
+                  className={cn(
+                    "catalog-tab",
+                    listMode === t.id
+                      ? "catalog-tab-active"
+                      : "catalog-tab-inactive"
+                  )}
+                >
+                  {t.label}
+                  {t.id === "saved" && favorites.length > 0
+                    ? ` (${favorites.length})`
+                    : ""}
+                  {t.id === "recent" && recentlyViewedIds.length > 0
+                    ? ` (${recentlyViewedIds.length})`
+                    : ""}
+                </button>
+              ))}
+          </div>
+
           {results.length > 0 && (
             <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm font-medium text-text">
                 Найдено {results.length} {pluralizeHouses(results.length)}
               </p>
-              <div
-                className="flex flex-wrap gap-2"
-                role="group"
-                aria-label="Сортировка"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => setSort(opt.id)}
-                    className={cn(
-                      "inline-flex h-9 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors",
-                      sort === opt.id
-                        ? "border-orange bg-orange/10 text-text"
-                        : "border-border bg-surface text-muted hover:border-orange/40 hover:text-text"
-                    )}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
+              {listMode !== "recent" && (
+                <div
+                  className="flex flex-wrap gap-2"
+                  role="group"
+                  aria-label="Сортировка"
+                >
+                  {SORT_OPTIONS.map((opt) => (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => setSort(opt.id)}
+                      className={cn(
+                        "inline-flex h-9 items-center rounded-full border px-3.5 text-sm font-semibold transition-colors",
+                        sort === opt.id
+                          ? "border-orange bg-orange/10 text-text"
+                          : "border-border bg-surface text-muted hover:border-orange/40 hover:text-text"
+                      )}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -201,12 +285,18 @@ export function CatalogPageClient() {
                 <SearchX className="h-8 w-8 text-primary" />
               </div>
               <h2 className="text-xl font-semibold text-dark">
-                По этим условиям домов нет
+                {listMode === "saved"
+                  ? "Пока нет сохранённых домов"
+                  : listMode === "recent"
+                    ? "Вы ещё не смотрели карточки домов"
+                    : "По этим условиям домов нет"}
               </h2>
               <p className="mt-2 max-w-md text-sm text-muted">
-                Снимите одно из ограничений — или сбросьте все фильтры.
+                {listMode === "all"
+                  ? "Снимите одно из ограничений — или сбросьте все фильтры."
+                  : "Откройте вкладку «Все дома» или сохраните понравившиеся объекты."}
               </p>
-              {activeKeys.length > 0 && (
+              {listMode === "all" && activeKeys.length > 0 && (
                 <div className="mt-5 flex flex-wrap justify-center gap-2">
                   {activeKeys.map((key) => (
                     <Link
@@ -231,12 +321,22 @@ export function CatalogPageClient() {
                   ))}
                 </div>
               )}
-              <Link
-                href="/catalog/"
-                className="mt-6 inline-flex h-12 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-hover"
-              >
-                Сбросить все фильтры
-              </Link>
+              {listMode === "all" ? (
+                <Link
+                  href="/catalog/"
+                  className="mt-6 inline-flex h-12 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-hover"
+                >
+                  Сбросить все фильтры
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setListMode("all")}
+                  className="mt-6 inline-flex h-12 items-center rounded-xl bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-hover"
+                >
+                  Все дома
+                </button>
+              )}
             </div>
           ) : view === "cards" ? (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
@@ -349,9 +449,7 @@ export function CatalogPageClient() {
               <button
                 type="button"
                 onClick={() =>
-                  hasSelection
-                    ? openSelectedViewing()
-                    : openViewing()
+                  hasSelection ? openSelectedViewing() : openViewing()
                 }
                 className="mt-5 inline-flex h-11 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-white hover:bg-primary-hover"
               >
@@ -361,6 +459,11 @@ export function CatalogPageClient() {
           </div>
         </div>
       </section>
+
+      <CatalogFamilyFit />
+      <CatalogPriceIncluded />
+      <CatalogChoiceFaq />
+      <CatalogWaitlist />
     </>
   );
 }

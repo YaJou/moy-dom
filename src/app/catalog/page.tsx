@@ -23,9 +23,10 @@ export default function CatalogPage() {
       <section className="bg-white pb-2 pt-2 sm:pb-4">
         <div className="container-main">
           <h1 className="section-title">Каталог домов</h1>
-          <p className="mt-2 text-sm text-gray sm:text-base">
-            Готовые частные дома в Энгельсе, Саратове и Балаково — с участком,
-            коммуникациями, ипотекой и рассрочкой.
+          <p className="mt-3 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+            Дома с участком в Энгельсе, Саратове и Балаково.
+            Сравните расположение, планировки и комплектации. Сохраните
+            подходящие дома и выберите, какие посмотреть лично.
           </p>
         </div>
       </section>

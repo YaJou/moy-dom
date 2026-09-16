@@ -153,6 +153,8 @@ function format_lead_message(array $data): string
         $title = 'Обратный звонок';
     } elseif ($type === 'viewing') {
         $title = 'Заявка на просмотр';
+    } elseif ($type === 'waitlist') {
+        $title = 'Подписка: подходящий дом';
     } else {
         $title = 'Заявка с сайта';
     }
