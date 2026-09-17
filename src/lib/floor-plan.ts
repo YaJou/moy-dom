@@ -8,6 +8,7 @@ const FLOOR_PLAN_BY_ID: Record<number, string> = {
   2: "/images/houses/engels-snt-malinki-troitskaya-100/01.jpg",
   4: "/images/houses/engels-snt-novoe-veselaya-116/01.jpg",
   7: "/images/houses/engels-snt-malinki-pokrovskoye-87/01.jpg",
+  8: "/images/houses/engels-snt-malinki-pokrovskoye-105/01.jpg",
 };
 
 export function getFloorPlanImage(houseId: number): string | null {
