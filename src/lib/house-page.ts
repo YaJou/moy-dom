@@ -164,11 +164,18 @@ export function buildKeyFeatures(
     });
   }
 
-  if (/подключ/i.test(house.specs.electricity) || house.specs.gas) {
+  if (
+    house.specs.electricity ||
+    house.specs.water ||
+    house.specs.sewage ||
+    house.specs.gas
+  ) {
     features.push({
       title: "Инженерия на участке",
       description: [
-        house.specs.electricity,
+        house.specs.electricity
+          ? `Электричество: ${house.specs.electricity}`
+          : null,
         house.specs.water,
         house.specs.sewage,
       ]

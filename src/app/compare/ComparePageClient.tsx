@@ -78,6 +78,11 @@ const ROWS: {
     get: (h) => formatGasLabel(h.specs.gas),
   },
   {
+    label: "Электричество",
+    group: "utils",
+    get: (h) => h.specs.electricity,
+  },
+  {
     label: "Вода",
     key: "water",
     group: "utils",

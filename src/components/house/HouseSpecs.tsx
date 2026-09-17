@@ -7,6 +7,7 @@ import {
   MapPin,
   Ruler,
   Trees,
+  Zap,
 } from "lucide-react";
 
 interface HouseSpecsGridProps {
@@ -29,6 +30,11 @@ export function HouseSpecsGrid({ house }: HouseSpecsGridProps) {
     { icon: Home, label: "Ремонт", value: specs.repair },
     { icon: Droplets, label: "Водоснабжение", value: specs.water },
     { icon: Flame, label: "Газ", value: specs.gas },
+    {
+      icon: Zap,
+      label: "Электричество",
+      value: specs.electricity,
+    },
     { icon: Droplets, label: "Канализация", value: specs.sewage },
     { icon: MapPin, label: "Дорога", value: specs.road },
     { icon: MapPin, label: "До центра", value: specs.distanceToCenter },
