@@ -67,7 +67,7 @@ export function ViewingModal({
         context={context}
         defaultCity={defaultCity}
         compact
-        onSuccess={onClose}
+        onDone={onClose}
       />
     </dialog>
   );

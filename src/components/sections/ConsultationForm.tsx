@@ -1,5 +1,6 @@
 "use client";
 
+import { FormSuccessPanel } from "@/components/feedback/FormSuccessPanel";
 import { Button } from "@/components/ui/button";
 import { Select } from "@/components/ui/Select";
 import {
@@ -8,7 +9,6 @@ import {
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
 import { IconCheck, IconPhone, IconSend } from "@/components/home/icons";
-import { notifyFormSuccess } from "@/lib/form-success";
 import { useState } from "react";
 
 interface ConsultationFormProps {
@@ -33,10 +33,6 @@ export function ConsultationForm({
     setSubmitted(true);
     setConsentPd(false);
     setForm({ name: "", phone: "", city: defaultCity, message: "" });
-    notifyFormSuccess({
-      title: "Заявка отправлена",
-      description: "Мы свяжемся с вами в ближайшее время.",
-    });
   };
 
   return (
@@ -87,19 +83,12 @@ export function ConsultationForm({
 
           <div className="rounded-card border border-border bg-background p-5 shadow-card sm:p-6 lg:p-8">
             {submitted ? (
-              <div className="flex flex-col items-center py-8 text-center">
-                <IconCheck className="mb-4 h-12 w-12 text-primary" />
-                <h3 className="text-xl font-semibold text-dark">Заявка отправлена!</h3>
-                <p className="mt-2 text-sm text-gray">
-                  Мы свяжемся с вами в ближайшее время.
-                </p>
-                <Button
-                  className="mt-6 rounded-xl"
-                  onClick={() => setSubmitted(false)}
-                >
-                  Отправить ещё
-                </Button>
-              </div>
+              <FormSuccessPanel
+                title="Заявка отправлена"
+                description="Мы свяжемся с вами в ближайшее время."
+                secondaryLabel="Отправить ещё"
+                onSecondary={() => setSubmitted(false)}
+              />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

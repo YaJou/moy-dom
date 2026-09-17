@@ -1,5 +1,6 @@
 "use client";
 
+import { FormSuccessPanel } from "@/components/feedback/FormSuccessPanel";
 import {
   ConsentCheckbox,
   PrivacyPolicyLink,
@@ -92,15 +93,12 @@ export function CatalogWaitlist() {
 
           <div className="rounded-panel bg-white p-5 text-text sm:p-6">
             {done ? (
-              <div>
-                <p className="text-lg font-extrabold text-text">
-                  Заявку приняли
-                </p>
-                <p className="mt-2 text-sm text-muted">
-                  Напишем, когда появится дом под ваши параметры. Пока можно
-                  следить за новинками в Telegram.
-                </p>
-              </div>
+              <FormSuccessPanel
+                title="Заявку приняли"
+                description="Напишем, когда появится дом под ваши параметры. Пока можно следить за новинками в Telegram."
+                secondaryLabel="Отправить ещё"
+                onSecondary={() => setDone(false)}
+              />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

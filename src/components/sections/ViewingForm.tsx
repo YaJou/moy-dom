@@ -1,5 +1,6 @@
 "use client";
 
+import { FormSuccessPanel } from "@/components/feedback/FormSuccessPanel";
 import { Button } from "@/components/ui/button";
 import {
   ConsentCheckbox,
@@ -7,9 +8,8 @@ import {
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
-import { notifyFormSuccess } from "@/lib/form-success";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { useState } from "react";
 
 type ContactMethod = "call" | "telegram";
@@ -41,10 +41,6 @@ export function ViewingForm() {
       analytics.leadSuccess("viewing");
       setConsentPd(false);
       setForm({ name: "", contact: "", city: "Саратов", message: "" });
-      notifyFormSuccess({
-        title: "Заявка отправлена",
-        description: "Мы свяжемся с вами в рабочее время.",
-      });
     } catch {
       setError("Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.");
       analytics.leadError("viewing", "submit_failed");
@@ -75,20 +71,12 @@ export function ViewingForm() {
 
           <div className="rounded-panel bg-surface p-5 md:p-6">
             {submitted ? (
-              <div className="flex flex-col items-center py-6 text-center">
-                <CheckCircle2 className="mb-3 h-10 w-10 text-success" />
-                <p className="font-bold text-text">Заявка отправлена</p>
-                <p className="mt-2 text-sm text-muted">
-                  Мы свяжемся с вами в рабочее время.
-                </p>
-                <Button
-                  variant="outline"
-                  className="mt-4"
-                  onClick={() => setSubmitted(false)}
-                >
-                  Отправить ещё
-                </Button>
-              </div>
+              <FormSuccessPanel
+                title="Заявка отправлена"
+                description="Мы свяжемся с вами в рабочее время."
+                secondaryLabel="Отправить ещё"
+                onSecondary={() => setSubmitted(false)}
+              />
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

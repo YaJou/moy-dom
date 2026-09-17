@@ -1,12 +1,12 @@
 "use client";
 
+import { FormSuccessPanel } from "@/components/feedback/FormSuccessPanel";
 import { Button } from "@/components/ui/button";
 import {
   ConsentCheckbox,
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
 import { alertsData } from "@/data/site";
-import { notifyFormSuccess } from "@/lib/form-success";
 import { cn } from "@/lib/utils";
 import { Bell, CheckCircle2, ExternalLink } from "lucide-react";
 import { useState } from "react";
@@ -31,10 +31,6 @@ export function Newsletter() {
     setPhone("");
     setConsentPd(false);
     setConsentNotify(false);
-    notifyFormSuccess({
-      title: "Вы подписаны",
-      description: `Будем присылать уведомления о домах в ${city}.`,
-    });
   };
 
   const channelLabel =
@@ -83,20 +79,12 @@ export function Newsletter() {
 
           <div className="rounded-card bg-white p-5 sm:p-6">
             {submitted ? (
-              <div className="flex flex-col items-center py-6 text-center">
-                <CheckCircle2 className="mb-3 h-10 w-10 text-primary" />
-                <p className="font-semibold text-dark">Вы подписаны!</p>
-                <p className="mt-1 text-sm text-gray">
-                  Будем присылать уведомления о домах в {city}
-                </p>
-                <Button
-                  variant="outline"
-                  className="mt-4 rounded-xl"
-                  onClick={() => setSubmitted(false)}
-                >
-                  Изменить настройки
-                </Button>
-              </div>
+              <FormSuccessPanel
+                title="Вы подписаны"
+                description={`Будем присылать уведомления о домах в ${city}.`}
+                secondaryLabel="Изменить настройки"
+                onSecondary={() => setSubmitted(false)}
+              />
             ) : channel === "vk" ? (
               <div className="space-y-5">
                 <div>

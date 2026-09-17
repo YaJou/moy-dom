@@ -1,5 +1,6 @@
 "use client";
 
+import { FormSuccessPanel } from "@/components/feedback/FormSuccessPanel";
 import {
   ConsentCheckbox,
   PrivacyPolicyLink,
@@ -24,7 +25,7 @@ import {
 import { cn, formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
-import { IconCheck, IconTelegram } from "./icons";
+import { IconTelegram } from "./icons";
 
 export interface ViewingFormContext {
   intent?: LeadIntent;
@@ -44,7 +45,10 @@ interface ViewingFormProps {
   defaultCity?: string;
   context?: ViewingFormContext;
   compact?: boolean;
+  /** После успешной отправки (форма остаётся на экране успеха). */
   onSuccess?: () => void;
+  /** Кнопка «Хорошо» / закрытие модалки. */
+  onDone?: () => void;
 }
 
 type ContactMethod = "phone" | "telegram";
@@ -62,6 +66,7 @@ export function ViewingForm({
   context,
   compact = false,
   onSuccess,
+  onDone,
 }: ViewingFormProps) {
   const formId = useId();
   const intent: LeadIntent = context?.intent ?? "viewing";
@@ -215,31 +220,31 @@ export function ViewingForm({
     }
   };
 
+  const resetForm = () => {
+    setSubmitted(false);
+    setContact("");
+    setName("");
+    setComment("");
+    setConsent(false);
+    if (!context?.houseId) setHouseId(null);
+    if (!context?.topic) setTopicId("");
+  };
+
   if (submitted) {
     return (
-      <div className={cn("viewing-form-card text-center", className)}>
-        <IconCheck className="mx-auto mb-4 h-12 w-12 text-success" />
-        <h3 className="text-lg font-extrabold text-text">Заявка отправлена</h3>
-        <p className="mt-2 text-sm text-muted">
-          {isCallback
-            ? "Мы перезвоним и ответим на ваш вопрос."
-            : "Мы свяжемся с вами для согласования просмотра."}
-        </p>
-        <button
-          type="button"
-          className="btn-secondary mt-6 w-full"
-          onClick={() => {
-            setSubmitted(false);
-            setContact("");
-            setName("");
-            setComment("");
-            setConsent(false);
-            if (!context?.houseId) setHouseId(null);
-            if (!context?.topic) setTopicId("");
-          }}
-        >
-          Отправить ещё
-        </button>
+      <div className={cn("viewing-form-card form-success-host", className)}>
+        <FormSuccessPanel
+          title="Заявка отправлена"
+          description={
+            isCallback
+              ? "Мы перезвоним и ответим на ваш вопрос."
+              : "Мы свяжемся с вами для согласования просмотра."
+          }
+          primaryLabel={onDone ? "Хорошо" : undefined}
+          onPrimary={onDone}
+          secondaryLabel="Отправить ещё"
+          onSecondary={resetForm}
+        />
       </div>
     );
   }
@@ -248,7 +253,7 @@ export function ViewingForm({
     <form
       id={id}
       onSubmit={handleSubmit}
-      className={cn("viewing-form-card", className)}
+      className={cn("viewing-form-card form-fill-host", className)}
     >
       {isCallback && (
         <div className="viewing-form-field viewing-form-field-full">
