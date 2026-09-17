@@ -1,3 +1,5 @@
+import { messageForLeadType, notifyFormSuccess } from "@/lib/form-success";
+
 export interface LeadPayload {
   type?: string;
   city: string;
@@ -17,9 +19,15 @@ export function getLeadEndpoint(): string {
 }
 
 export async function submitLead(payload: LeadPayload): Promise<Response> {
-  return fetch(getLeadEndpoint(), {
+  const res = await fetch(getLeadEndpoint(), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
+
+  if (res.ok) {
+    notifyFormSuccess(messageForLeadType(payload.type));
+  }
+
+  return res;
 }

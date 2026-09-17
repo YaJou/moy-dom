@@ -8,6 +8,7 @@ import {
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
 import { IconCheck, IconPhone, IconSend } from "@/components/home/icons";
+import { notifyFormSuccess } from "@/lib/form-success";
 import { useState } from "react";
 
 interface ConsultationFormProps {
@@ -32,6 +33,10 @@ export function ConsultationForm({
     setSubmitted(true);
     setConsentPd(false);
     setForm({ name: "", phone: "", city: defaultCity, message: "" });
+    notifyFormSuccess({
+      title: "Заявка отправлена",
+      description: "Мы свяжемся с вами в ближайшее время.",
+    });
   };
 
   return (

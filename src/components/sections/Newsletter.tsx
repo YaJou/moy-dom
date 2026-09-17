@@ -6,6 +6,7 @@ import {
   PrivacyPolicyLink,
 } from "@/components/legal/ConsentCheckbox";
 import { alertsData } from "@/data/site";
+import { notifyFormSuccess } from "@/lib/form-success";
 import { cn } from "@/lib/utils";
 import { Bell, CheckCircle2, ExternalLink } from "lucide-react";
 import { useState } from "react";
@@ -30,6 +31,10 @@ export function Newsletter() {
     setPhone("");
     setConsentPd(false);
     setConsentNotify(false);
+    notifyFormSuccess({
+      title: "Вы подписаны",
+      description: `Будем присылать уведомления о домах в ${city}.`,
+    });
   };
 
   const channelLabel =

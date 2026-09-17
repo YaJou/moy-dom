@@ -2,6 +2,7 @@
 
 import { CompareProvider } from "@/context/CompareContext";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { FormSuccessToast } from "@/components/feedback/FormSuccessToast";
 import { ViewingModalProvider } from "@/components/home/ViewingModalProvider";
 import { CompareBar } from "@/components/layout/CompareBar";
 import { StickyMobileCTA } from "@/components/layout/StickyMobileCTA";
@@ -16,6 +17,7 @@ export function AppProviders({ children }: { children: React.ReactNode }) {
           <CompareBar />
           <StickyMobileCTA />
           <CookieBanner />
+          <FormSuccessToast />
         </ViewingModalProvider>
       </CompareProvider>
     </FavoritesProvider>
