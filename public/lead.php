@@ -47,6 +47,7 @@ if ($config === null) {
 $message = format_lead_message($data);
 $photoUrl = extract_house_photo_url($data);
 $sent = telegram_deliver_all($config['token'], $config['chat_ids'], $message, $photoUrl);
+log_lead_attempt($data, $sent, $message);
 
 if (!$sent) {
     http_response_code(500);
@@ -55,6 +56,38 @@ if (!$sent) {
 }
 
 echo json_encode(['ok' => true]);
+
+/** Пишем заявки в ~/logs/leads.log — чтобы можно было восстановить, если TG молчит. */
+function log_lead_attempt(array $data, bool $sent, string $message): void
+{
+    $home = getenv('HOME') ?: '';
+    if ($home === '') {
+        $home = dirname((string)($_SERVER['DOCUMENT_ROOT'] ?? __DIR__), 2);
+    }
+    $dir = rtrim($home, '/\\') . '/logs';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0750, true);
+    }
+    $line = json_encode(
+        [
+            'ts' => date('c'),
+            'ip' => (string)($_SERVER['REMOTE_ADDR'] ?? ''),
+            'sent' => $sent,
+            'type' => (string)($data['type'] ?? ''),
+            'city' => (string)($data['city'] ?? ''),
+            'method' => (string)($data['method'] ?? ''),
+            'contact' => (string)($data['contact'] ?? ''),
+            'name' => (string)($data['name'] ?? ''),
+            'comment' => (string)($data['comment'] ?? ''),
+            'context' => is_array($data['context'] ?? null) ? $data['context'] : new stdClass(),
+            'message_preview' => mb_substr(strip_tags($message), 0, 400),
+        ],
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+    );
+    if ($line !== false) {
+        @file_put_contents($dir . '/leads.log', $line . "\n", FILE_APPEND | LOCK_EX);
+    }
+}
 
 function normalize_chat_ids(array $cfg): array
 {
