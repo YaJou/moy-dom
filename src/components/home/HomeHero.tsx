@@ -1,6 +1,11 @@
 "use client";
 
-import { realHouses, getHousesByCity, getMinHousePrice } from "@/data/houses";
+import {
+  getHouseById,
+  getHousesByCity,
+  getMinHousePrice,
+  realHouses,
+} from "@/data/houses";
 import { getCityMinPrice } from "@/data/city-landings";
 import { analytics } from "@/lib/analytics";
 import { getFloorPlanImage } from "@/lib/floor-plan";
@@ -24,17 +29,8 @@ import {
 } from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
 
-const DEFAULT_FACADE = [
-  "/images/houses/engels-snt-novoe-veselaya-116/02.jpg",
-  "/images/houses/engels-snt-novoe-veselaya-116/03.jpg",
-  "/images/houses/engels-snt-malinki-pokrovskoye-87/02.jpg",
-] as const;
-
-const DEFAULT_INTERIOR = [
-  "/images/houses/engels-snt-malinki-pokrovskoye-87/09.jpg",
-  "/images/houses/engels-snt-malinki-pokrovskoye-87/10.jpg",
-  "/images/houses/engels-snt-malinki-troitskaya-100/08.jpg",
-] as const;
+/** Главная: миниатюры = разные дома (карточка и ссылка меняются вместе с фото). */
+const HOME_HERO_HOUSE_IDS = [4, 8, 7] as const;
 
 const CITY_HERO_SLUG: Record<string, string> = {
   Балаково: "natalino-stepnaya-87",
@@ -43,10 +39,17 @@ const CITY_HERO_SLUG: Record<string, string> = {
 
 type PhotoMode = "facade" | "interior" | "plan";
 
-function pickHeroHouse(city?: string): House {
-  const pool = city ? getHousesByCity(city) : realHouses;
+type HeroSlide = {
+  house: House;
+  facade: string;
+  interior: string;
+  plan: string | null;
+};
+
+function pickCityHeroHouse(city: string): House {
+  const pool = getHousesByCity(city);
   const withPhotos = pool.filter((h) => h.images.length >= 1);
-  const preferred = city ? CITY_HERO_SLUG[city] : "engels-snt-novoe-veselaya-116";
+  const preferred = CITY_HERO_SLUG[city];
   return (
     withPhotos.find((h) => h.slug === preferred) ??
     [...withPhotos].sort((a, b) => b.images.length - a.images.length)[0] ??
@@ -54,32 +57,54 @@ function pickHeroHouse(city?: string): House {
   );
 }
 
-function splitHeroPhotos(house: House, city?: string) {
-  if (!city) {
-    return {
-      facade: [...DEFAULT_FACADE],
-      interior: [...DEFAULT_INTERIOR],
-      plan: null as string | null,
-    };
-  }
-
+function photosForHouse(house: House): {
+  facade: string[];
+  interior: string[];
+  plan: string | null;
+} {
   const plan = getFloorPlanImage(house.id);
   const photos = house.images.filter((src) => !isFloorPlan(src));
   if (photos.length === 0) {
-    return {
-      facade: [house.image],
-      interior: [] as string[],
-      plan,
-    };
+    return { facade: [house.image], interior: [], plan };
   }
   const mid = Math.max(1, Math.ceil(photos.length / 2));
-  const facade = photos.slice(0, mid).slice(0, 3);
-  const interior = photos.slice(mid).slice(0, 3);
+  const facade = photos.slice(0, mid);
+  const interior = photos.slice(mid);
   return {
-    facade,
+    facade: facade.length > 0 ? facade : [house.image],
     interior: interior.length > 0 ? interior : facade.slice(0, 1),
     plan,
   };
+}
+
+function buildHomeSlides(): HeroSlide[] {
+  return HOME_HERO_HOUSE_IDS.map((id) => {
+    const house = getHouseById(id) ?? realHouses[0];
+    const split = photosForHouse(house);
+    return {
+      house,
+      facade: split.facade[0] ?? house.image,
+      interior: split.interior[0] ?? split.facade[0] ?? house.image,
+      plan: split.plan,
+    };
+  }).filter((s) => Boolean(s.house));
+}
+
+function buildCitySlides(city: string): HeroSlide[] {
+  const house = pickCityHeroHouse(city);
+  const split = photosForHouse(house);
+  const facade = split.facade.slice(0, 3);
+  const interiorPool = split.interior.slice(0, 3);
+  const interiors =
+    interiorPool.length > 0 ? interiorPool : facade.slice(0, 1);
+
+  // На городской странице миниатюры — фото одного дома.
+  return facade.map((src, i) => ({
+    house,
+    facade: src,
+    interior: interiors[i % interiors.length],
+    plan: split.plan,
+  }));
 }
 
 export type HomeHeroProps = {
@@ -97,21 +122,18 @@ export function HomeHero({
   subtitle,
   catalogHref = "/#homes",
 }: HomeHeroProps = {}) {
-  const heroHouse = useMemo(() => pickHeroHouse(city), [city]);
-  const photos = useMemo(
-    () => splitHeroPhotos(heroHouse, city),
-    [heroHouse, city]
+  const slides = useMemo(
+    () => (city ? buildCitySlides(city) : buildHomeSlides()),
+    [city]
   );
+  const multiHouse = !city;
+
   const { openViewing } = useViewingModal();
   const minPrice = city ? getCityMinPrice(city) : getMinHousePrice();
   const [mode, setMode] = useState<PhotoMode>("facade");
-  const [facadeIndex, setFacadeIndex] = useState(0);
-  const [interiorIndex, setInteriorIndex] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [mounted, setMounted] = useState(false);
-
-  const hasPlan = Boolean(photos.plan);
-  const hasInterior = photos.interior.length > 0;
 
   useEffect(() => {
     setMounted(true);
@@ -119,19 +141,28 @@ export function HomeHero({
 
   useEffect(() => {
     setMode("facade");
-    setFacadeIndex(0);
-    setInteriorIndex(0);
-  }, [city, heroHouse.id]);
+    setSlideIndex(0);
+  }, [city]);
 
-  const displayPhotos =
-    mode === "plan" && photos.plan
-      ? [photos.plan]
-      : mode === "interior"
-        ? photos.interior
-        : photos.facade;
-  const activeIndex = mode === "interior" ? interiorIndex : facadeIndex;
-  const setActiveIndex = mode === "interior" ? setInteriorIndex : setFacadeIndex;
-  const activePhoto = displayPhotos[activeIndex] ?? displayPhotos[0];
+  const activeSlide = slides[slideIndex] ?? slides[0];
+  const heroHouse = activeSlide?.house ?? realHouses[0];
+
+  const hasPlan = Boolean(activeSlide?.plan);
+  const hasInterior = slides.some((s) => Boolean(s.interior));
+
+  const displayPhotos = useMemo(() => {
+    if (mode === "plan") {
+      // На главной миниатюры остаются домами; план только в основном кадре.
+      if (multiHouse) return slides.map((s) => s.facade);
+      return activeSlide?.plan ? [activeSlide.plan] : [];
+    }
+    return slides.map((s) => (mode === "interior" ? s.interior : s.facade));
+  }, [activeSlide, mode, multiHouse, slides]);
+
+  const activePhoto =
+    mode === "plan" && activeSlide?.plan
+      ? activeSlide.plan
+      : (displayPhotos[slideIndex] ?? displayPhotos[0]);
 
   const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
   const modeIndex = mode === "facade" ? 0 : mode === "interior" ? 1 : 2;
@@ -139,26 +170,34 @@ export function HomeHero({
 
   const goTo = useCallback(
     (index: number) => {
-      if (mode === "plan") return;
-      setActiveIndex((index + displayPhotos.length) % displayPhotos.length);
+      if (!multiHouse && mode === "plan") return;
+      if (displayPhotos.length === 0) return;
+      const next = (index + displayPhotos.length) % displayPhotos.length;
+      setSlideIndex(next);
+      if (mode === "plan" && multiHouse && !slides[next]?.plan) {
+        setMode("facade");
+      }
     },
-    [displayPhotos.length, mode, setActiveIndex]
+    [displayPhotos.length, mode, multiHouse, slides]
   );
 
   const openLightbox = useCallback(
     (index?: number) => {
-      if (typeof index === "number" && mode !== "plan") setActiveIndex(index);
+      if (typeof index === "number") {
+        if (!multiHouse && mode === "plan") return;
+        setSlideIndex(index);
+      }
       setLightbox(true);
     },
-    [mode, setActiveIndex]
+    [mode, multiHouse]
   );
 
   useEffect(() => {
     if (!lightbox) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setLightbox(false);
-      if (e.key === "ArrowLeft") goTo(activeIndex - 1);
-      if (e.key === "ArrowRight") goTo(activeIndex + 1);
+      if (e.key === "ArrowLeft") goTo(slideIndex - 1);
+      if (e.key === "ArrowRight") goTo(slideIndex + 1);
     };
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
@@ -166,7 +205,7 @@ export function HomeHero({
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
     };
-  }, [lightbox, activeIndex, goTo]);
+  }, [lightbox, slideIndex, goTo]);
 
   const heading = city ? (
     <>
@@ -189,6 +228,8 @@ export function HomeHero({
     (city
       ? `Готовые дома в ${city}`
       : "Готовые дома в Энгельсе, Саратове и Балаково");
+
+  const thumbPhotos = displayPhotos;
 
   return (
     <>
@@ -248,7 +289,7 @@ export function HomeHero({
                 >
                   <AnimatePresence initial={false}>
                     <motion.span
-                      key={activePhoto}
+                      key={`${heroHouse.id}-${activePhoto}`}
                       className="hero-gallery-fade"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -259,13 +300,15 @@ export function HomeHero({
                         src={activePhoto}
                         alt={heroHouse.title}
                         fill
-                        priority={mode === "facade" && activeIndex === 0}
+                        priority={mode === "facade" && slideIndex === 0}
                         fetchPriority={
-                          mode === "facade" && activeIndex === 0 ? "high" : "auto"
+                          mode === "facade" && slideIndex === 0 ? "high" : "auto"
                         }
                         className={cn(
                           "object-center",
-                          mode === "plan" ? "object-contain bg-white" : "object-cover"
+                          mode === "plan"
+                            ? "object-contain bg-white"
+                            : "object-cover"
                         )}
                         sizes="(max-width: 768px) 100vw, 696px"
                       />
@@ -346,48 +389,71 @@ export function HomeHero({
                       analytics.selectItem(heroHouse.id, heroHouse.title)
                     }
                   >
-                    <p className="hero-float-title">{shortTitle}</p>
-                    <p className="hero-float-place">
-                      {heroHouse.city}, {heroHouse.district}
-                    </p>
-                    <div className="hero-float-row">
-                      <p className="hero-float-price">
-                        {formatPrice(heroHouse.price)}
-                      </p>
-                      <span className="hero-float-arrow">
-                        <IconArrow className="h-4 w-4 sm:h-5 sm:w-5" />
-                      </span>
-                    </div>
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={heroHouse.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <p className="hero-float-title">{shortTitle}</p>
+                        <p className="hero-float-place">
+                          {heroHouse.city}, {heroHouse.district}
+                        </p>
+                        <div className="hero-float-row">
+                          <p className="hero-float-price">
+                            {formatPrice(heroHouse.price)}
+                          </p>
+                          <span className="hero-float-arrow">
+                            <IconArrow className="h-4 w-4 sm:h-5 sm:w-5" />
+                          </span>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
                   </Link>
                 </div>
               </div>
 
-              {displayPhotos.length > 1 && (
+              {thumbPhotos.length > 1 && (
                 <div className="hero-gallery-thumbs">
-                  {displayPhotos.map((src, i) => (
-                    <button
-                      key={src}
-                      type="button"
-                      onClick={() => {
-                        if (activeIndex === i) openLightbox(i);
-                        else setActiveIndex(i);
-                      }}
-                      onDoubleClick={() => openLightbox(i)}
-                      className={cn(
-                        "hero-gallery-thumb",
-                        activeIndex === i && "is-active"
-                      )}
-                      aria-label={`Фото ${i + 1}`}
-                    >
-                      <Image
-                        src={src}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 33vw, 230px"
-                      />
-                    </button>
-                  ))}
+                  {thumbPhotos.map((src, i) => {
+                    const thumbHouse = slides[i]?.house ?? heroHouse;
+                    return (
+                      <button
+                        key={`${thumbHouse.id}-${src}`}
+                        type="button"
+                        onClick={() => {
+                          if (slideIndex === i) {
+                            openLightbox(i);
+                            return;
+                          }
+                          setSlideIndex(i);
+                          if (mode === "plan" && multiHouse && !slides[i]?.plan) {
+                            setMode("facade");
+                          }
+                        }}
+                        onDoubleClick={() => openLightbox(i)}
+                        className={cn(
+                          "hero-gallery-thumb",
+                          slideIndex === i && "is-active"
+                        )}
+                        aria-label={
+                          multiHouse
+                            ? `${thumbHouse.title}, ${formatPrice(thumbHouse.price)}`
+                            : `Фото ${i + 1}`
+                        }
+                      >
+                        <Image
+                          src={src}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 33vw, 230px"
+                        />
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -415,13 +481,13 @@ export function HomeHero({
               <span>Закрыть</span>
             </button>
 
-            {displayPhotos.length > 1 && (
+            {thumbPhotos.length > 1 && (
               <>
                 <button
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    goTo(activeIndex - 1);
+                    goTo(slideIndex - 1);
                   }}
                   className="absolute left-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:left-5 sm:h-14 sm:w-14"
                   aria-label="Предыдущее фото"
@@ -432,7 +498,7 @@ export function HomeHero({
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    goTo(activeIndex + 1);
+                    goTo(slideIndex + 1);
                   }}
                   className="absolute right-2 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white backdrop-blur-sm transition-colors hover:bg-black/60 sm:right-5 sm:h-14 sm:w-14"
                   aria-label="Следующее фото"
@@ -448,9 +514,9 @@ export function HomeHero({
             >
               <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
                 <Image
-                  key={`lightbox-${activePhoto}`}
+                  key={`lightbox-${heroHouse.id}-${activePhoto}`}
                   src={activePhoto}
-                  alt={`${heroHouse.title} — фото ${activeIndex + 1}`}
+                  alt={`${heroHouse.title} — фото ${slideIndex + 1}`}
                   fill
                   className="object-contain"
                   sizes="70vw"
@@ -458,16 +524,16 @@ export function HomeHero({
                 />
               </div>
 
-              {displayPhotos.length > 1 && (
+              {thumbPhotos.length > 1 && (
                 <div className="flex items-center gap-2">
-                  {displayPhotos.map((src, i) => (
+                  {thumbPhotos.map((src, i) => (
                     <button
-                      key={`lb-thumb-${src}`}
+                      key={`lb-thumb-${slides[i]?.house.id ?? i}-${src}`}
                       type="button"
-                      onClick={() => setActiveIndex(i)}
+                      onClick={() => setSlideIndex(i)}
                       className={cn(
                         "relative h-11 w-14 overflow-hidden rounded-md border-2 shadow-md transition-opacity sm:h-12 sm:w-16",
-                        activeIndex === i
+                        slideIndex === i
                           ? "border-white opacity-100"
                           : "border-white/30 opacity-70 hover:opacity-100"
                       )}
