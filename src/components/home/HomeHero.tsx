@@ -174,9 +174,8 @@ export function HomeHero({
 
   const displayPhotos = useMemo(() => {
     if (mode === "plan") {
-      if (multiHouse) {
-        return slides.map((s) => s.plan ?? s.facade);
-      }
+      // Снизу всегда фасады домов; план — только в основном кадре.
+      if (multiHouse) return slides.map((s) => s.facade);
       return activeSlide?.plan ? [activeSlide.plan] : [];
     }
     if (mode === "interior") {
@@ -185,7 +184,10 @@ export function HomeHero({
     return slides.map((s) => s.facade);
   }, [activeSlide, mode, multiHouse, slides]);
 
-  const activePhoto = displayPhotos[slideIndex] ?? displayPhotos[0];
+  const activePhoto =
+    mode === "plan" && multiHouse
+      ? (activeSlide?.plan ?? activeSlide?.facade ?? displayPhotos[0])
+      : (displayPhotos[slideIndex] ?? displayPhotos[0]);
 
   const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
   const modeIndex = mode === "facade" ? 0 : mode === "interior" ? 1 : 2;
