@@ -29,8 +29,29 @@ import {
 } from "./icons";
 import { useViewingModal } from "./ViewingModalProvider";
 
-/** Главная: миниатюры = разные дома (карточка и ссылка меняются вместе с фото). */
-const HOME_HERO_HOUSE_IDS = [4, 8, 7] as const;
+/** Главная: 3 дома — у каждого фасад, 1 фото внутри и план. */
+const HOME_HERO_SHOTS: {
+  id: number;
+  facade: string;
+  interior: string;
+}[] = [
+  {
+    id: 4,
+    facade: "/images/houses/engels-snt-novoe-veselaya-116/02.jpg",
+    // У этого объекта пока нет отдельного интерьера — кадр с входом/проёмом.
+    interior: "/images/houses/engels-snt-novoe-veselaya-116/07.jpg",
+  },
+  {
+    id: 8,
+    facade: "/images/houses/engels-snt-malinki-pokrovskoye-105/03.jpg",
+    interior: "/images/houses/engels-snt-malinki-pokrovskoye-105/07.jpg",
+  },
+  {
+    id: 7,
+    facade: "/images/houses/engels-snt-malinki-pokrovskoye-87/02.jpg",
+    interior: "/images/houses/engels-snt-malinki-pokrovskoye-87/09.jpg",
+  },
+];
 
 const CITY_HERO_SLUG: Record<string, string> = {
   Балаково: "natalino-stepnaya-87",
@@ -78,16 +99,15 @@ function photosForHouse(house: House): {
 }
 
 function buildHomeSlides(): HeroSlide[] {
-  return HOME_HERO_HOUSE_IDS.map((id) => {
-    const house = getHouseById(id) ?? realHouses[0];
-    const split = photosForHouse(house);
+  return HOME_HERO_SHOTS.map((shot) => {
+    const house = getHouseById(shot.id) ?? realHouses[0];
     return {
       house,
-      facade: split.facade[0] ?? house.image,
-      interior: split.interior[0] ?? split.facade[0] ?? house.image,
-      plan: split.plan,
+      facade: shot.facade,
+      interior: shot.interior,
+      plan: getFloorPlanImage(shot.id),
     };
-  }).filter((s) => Boolean(s.house));
+  });
 }
 
 function buildCitySlides(city: string): HeroSlide[] {
@@ -147,22 +167,25 @@ export function HomeHero({
   const activeSlide = slides[slideIndex] ?? slides[0];
   const heroHouse = activeSlide?.house ?? realHouses[0];
 
-  const hasPlan = Boolean(activeSlide?.plan);
-  const hasInterior = slides.some((s) => Boolean(s.interior));
+  const hasPlan = multiHouse
+    ? slides.every((s) => Boolean(s.plan))
+    : Boolean(activeSlide?.plan);
+  const hasInterior = slides.every((s) => Boolean(s.interior));
 
   const displayPhotos = useMemo(() => {
     if (mode === "plan") {
-      // На главной миниатюры остаются домами; план только в основном кадре.
-      if (multiHouse) return slides.map((s) => s.facade);
+      if (multiHouse) {
+        return slides.map((s) => s.plan ?? s.facade);
+      }
       return activeSlide?.plan ? [activeSlide.plan] : [];
     }
-    return slides.map((s) => (mode === "interior" ? s.interior : s.facade));
+    if (mode === "interior") {
+      return slides.map((s) => s.interior);
+    }
+    return slides.map((s) => s.facade);
   }, [activeSlide, mode, multiHouse, slides]);
 
-  const activePhoto =
-    mode === "plan" && activeSlide?.plan
-      ? activeSlide.plan
-      : (displayPhotos[slideIndex] ?? displayPhotos[0]);
+  const activePhoto = displayPhotos[slideIndex] ?? displayPhotos[0];
 
   const shortTitle = `Дом ${heroHouse.area} м² · ${heroHouse.land} соток`;
   const modeIndex = mode === "facade" ? 0 : mode === "interior" ? 1 : 2;
@@ -172,13 +195,9 @@ export function HomeHero({
     (index: number) => {
       if (!multiHouse && mode === "plan") return;
       if (displayPhotos.length === 0) return;
-      const next = (index + displayPhotos.length) % displayPhotos.length;
-      setSlideIndex(next);
-      if (mode === "plan" && multiHouse && !slides[next]?.plan) {
-        setMode("facade");
-      }
+      setSlideIndex((index + displayPhotos.length) % displayPhotos.length);
     },
-    [displayPhotos.length, mode, multiHouse, slides]
+    [displayPhotos.length, mode, multiHouse]
   );
 
   const openLightbox = useCallback(
@@ -421,21 +440,16 @@ export function HomeHero({
                     const thumbHouse = slides[i]?.house ?? heroHouse;
                     return (
                       <button
-                        key={`${thumbHouse.id}-${src}`}
+                        key={`${mode}-${thumbHouse.id}-${src}`}
                         type="button"
                         onClick={() => {
-                          if (slideIndex === i) {
-                            openLightbox(i);
-                            return;
-                          }
-                          setSlideIndex(i);
-                          if (mode === "plan" && multiHouse && !slides[i]?.plan) {
-                            setMode("facade");
-                          }
+                          if (slideIndex === i) openLightbox(i);
+                          else setSlideIndex(i);
                         }}
                         onDoubleClick={() => openLightbox(i)}
                         className={cn(
                           "hero-gallery-thumb",
+                          mode === "plan" && "is-plan",
                           slideIndex === i && "is-active"
                         )}
                         aria-label={
@@ -448,7 +462,9 @@ export function HomeHero({
                           src={src}
                           alt=""
                           fill
-                          className="object-cover"
+                          className={
+                            mode === "plan" ? "object-contain bg-white" : "object-cover"
+                          }
                           sizes="(max-width: 768px) 33vw, 230px"
                         />
                       </button>
