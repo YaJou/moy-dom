@@ -7,10 +7,19 @@ import type { Metadata } from "next";
 import type { HouseDetailContent } from "@/data/house-detail";
 
 export function buildHouseTitle(house: House): string {
-  return `${house.title} в ${house.district}, ${house.city} — ${formatPrice(house.price)}`;
+  const price = formatPrice(house.price);
+  const alreadyHasPlace =
+    house.title.includes(house.city) || house.title.includes(house.district);
+  if (alreadyHasPlace) {
+    return `${house.title} — ${price} | Кров-Сервис`;
+  }
+  return `${house.title} в ${house.district}, ${house.city} — ${price}`;
 }
 
 export function buildHouseDescription(house: House): string {
+  if (house.id === 10) {
+    return `${house.shortDescription} Звоните: ${siteConfig.phone}.`;
+  }
   return `${house.shortDescription} Участок ${house.land} сот., ${house.bedrooms} спальни, ${house.area} м². Звоните: ${siteConfig.phone}.`;
 }
 

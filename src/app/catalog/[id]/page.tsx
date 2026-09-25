@@ -3,11 +3,15 @@ import { HouseGallery, HouseHeroActions } from "@/components/house/HouseGallery"
 import { HousePriceCard, HouseMobileAsk } from "@/components/house/HousePriceCard";
 import { HouseKeyFeatures } from "@/components/house/HouseKeyFeatures";
 import { HouseFloorPlan } from "@/components/house/HouseFloorPlan";
+import { HouseArticle } from "@/components/house/HouseArticle";
+import { HouseWhyChoose } from "@/components/house/HouseWhyChoose";
+import { HouseAudience } from "@/components/house/HouseAudience";
 import { HouseVideoTour } from "@/components/house/HouseVideoTour";
 import { HouseCompleteness } from "@/components/house/HouseCompleteness";
 import { HouseDocsAndBuild } from "@/components/house/HouseDocsAndBuild";
 import { HouseLocationBlock } from "@/components/house/HouseLocationBlock";
 import { HouseMortgageSection } from "@/components/house/HouseMortgageSection";
+import { HouseSeoContent } from "@/components/house/HouseSeoContent";
 import { HouseFAQ } from "@/components/house/HouseFAQ";
 import { HouseViewingCTA } from "@/components/house/HouseViewingCTA";
 import { SimilarHouses } from "@/components/house/SimilarHouses";
@@ -98,11 +102,15 @@ export default async function HousePage({ params }: HousePageProps) {
 
           <HouseKeyFeatures house={house} detail={detail} />
           <HouseFloorPlan house={house} detail={detail} />
+          <HouseArticle house={house} detail={detail} />
+          <HouseWhyChoose detail={detail} />
+          <HouseAudience detail={detail} />
           <HouseVideoTour house={house} detail={detail} />
           <HouseCompleteness house={house} detail={detail} />
           <HouseDocsAndBuild house={house} detail={detail} />
           <HouseLocationBlock house={house} detail={detail} />
           <HouseMortgageSection house={house} />
+          <HouseSeoContent house={house} detail={detail} />
           <HouseFAQ detail={detail} />
           <HouseViewingCTA house={house} />
           <SimilarHouses house={house} />

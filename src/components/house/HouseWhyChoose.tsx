@@ -1,25 +1,21 @@
 import type { HouseDetailContent } from "@/data/house-detail";
-import { Check } from "lucide-react";
 
 interface HouseWhyChooseProps {
   detail: HouseDetailContent;
 }
 
 export function HouseWhyChoose({ detail }: HouseWhyChooseProps) {
+  if (!detail.whyChoose.length) return null;
+
   return (
-    <section className="mt-10">
-      <h2 className="text-xl font-bold text-dark sm:text-2xl">
-        Почему стоит выбрать именно этот дом
-      </h2>
-      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+    <section className="hp-section" id="why-choose">
+      <h2 className="hp-h2">Почему стоит выбрать именно этот дом</h2>
+      <p className="hp-lead">
+        Главные аргументы объекта — без повторения цены из карточки.
+      </p>
+      <ul className="hp-why-list">
         {detail.whyChoose.map((item) => (
-          <li
-            key={item}
-            className="flex items-start gap-2.5 rounded-xl border border-border bg-background p-4 text-sm text-dark"
-          >
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-            {item}
-          </li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
     </section>
