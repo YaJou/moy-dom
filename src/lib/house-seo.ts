@@ -11,7 +11,7 @@ export function buildHouseTitle(house: House): string {
 }
 
 export function buildHouseDescription(house: House): string {
-  return `${house.shortDescription} Участок ${house.land} сот., ${house.rooms} комн., ${house.area} м². Газ, скважина, ипотека. Звоните: ${siteConfig.phone}.`;
+  return `${house.shortDescription} Участок ${house.land} сот., ${house.bedrooms} спальни, ${house.area} м². Звоните: ${siteConfig.phone}.`;
 }
 
 export function buildHouseMetadata(house: House): Metadata {
