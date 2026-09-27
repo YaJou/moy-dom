@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $raw = file_get_contents('php://input');
 $data = json_decode($raw ?: '', true);
 if (!is_array($data)) {
+    log_lead_attempt(null, false, 'invalid_json');
     http_response_code(400);
     echo json_encode(['error' => 'Invalid JSON']);
     exit;
@@ -26,12 +27,14 @@ $contact = trim((string)($data['contact'] ?? ''));
 $city = trim((string)($data['city'] ?? ''));
 
 if ($contact === '') {
+    log_lead_attempt($data, false, 'contact_required');
     http_response_code(400);
     echo json_encode(['error' => 'Contact required']);
     exit;
 }
 
 if ($city === '') {
+    log_lead_attempt($data, false, 'city_required');
     http_response_code(400);
     echo json_encode(['error' => 'City required']);
     exit;
@@ -39,6 +42,7 @@ if ($city === '') {
 
 $config = load_lead_config();
 if ($config === null) {
+    log_lead_attempt($data, false, 'not_configured');
     http_response_code(500);
     echo json_encode(['error' => 'Lead handler not configured']);
     exit;
@@ -47,7 +51,7 @@ if ($config === null) {
 $message = format_lead_message($data);
 $photoUrl = extract_house_photo_url($data);
 $sent = telegram_deliver_all($config['token'], $config['chat_ids'], $message, $photoUrl);
-log_lead_attempt($data, $sent, $message);
+log_lead_attempt($data, $sent, $sent ? '' : 'telegram_failed', $message);
 
 if (!$sent) {
     http_response_code(500);
@@ -57,8 +61,11 @@ if (!$sent) {
 
 echo json_encode(['ok' => true]);
 
-/** Пишем заявки в ~/logs/leads.log — чтобы можно было восстановить, если TG молчит. */
-function log_lead_attempt(array $data, bool $sent, string $message): void
+/**
+ * Пишем все попытки заявок в ~/logs/leads.log —
+ * и успешные (в Telegram), и ошибки валидации / отправки.
+ */
+function log_lead_attempt(?array $data, bool $sent, string $error = '', string $message = ''): void
 {
     $home = getenv('HOME') ?: '';
     if ($home === '') {
@@ -68,19 +75,31 @@ function log_lead_attempt(array $data, bool $sent, string $message): void
     if (!is_dir($dir)) {
         @mkdir($dir, 0750, true);
     }
+
+    $data = is_array($data) ? $data : [];
+    $context = is_array($data['context'] ?? null) ? $data['context'] : [];
+
     $line = json_encode(
         [
             'ts' => date('c'),
             'ip' => (string)($_SERVER['REMOTE_ADDR'] ?? ''),
+            'ok' => $sent && $error === '',
             'sent' => $sent,
+            'error' => $error,
             'type' => (string)($data['type'] ?? ''),
             'city' => (string)($data['city'] ?? ''),
             'method' => (string)($data['method'] ?? ''),
             'contact' => (string)($data['contact'] ?? ''),
             'name' => (string)($data['name'] ?? ''),
             'comment' => (string)($data['comment'] ?? ''),
-            'context' => is_array($data['context'] ?? null) ? $data['context'] : new stdClass(),
-            'message_preview' => mb_substr(strip_tags($message), 0, 400),
+            'houseId' => $context['houseId'] ?? null,
+            'houseTitle' => (string)($context['houseTitle'] ?? ''),
+            'houseUrl' => (string)($context['houseUrl'] ?? ''),
+            'topic' => (string)($context['topic'] ?? ''),
+            'context' => $context === [] ? new stdClass() : $context,
+            'message_preview' => $message !== ''
+                ? mb_substr(strip_tags($message), 0, 400)
+                : '',
         ],
         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
     );
