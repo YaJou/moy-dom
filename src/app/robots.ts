@@ -9,12 +9,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/404"],
+        disallow: ["/404", "/stats.php", "/view.php"],
       },
       {
         userAgent: "Yandex",
         allow: "/",
-        disallow: ["/404"],
+        disallow: ["/404", "/stats.php", "/view.php"],
       },
     ],
     sitemap: `${siteConfig.url}/sitemap.xml`,

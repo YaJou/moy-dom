@@ -64,7 +64,12 @@ export default async function HousePage({ params }: HousePageProps) {
       />
 
       <article className="hp-page">
-        <TrackHouseView houseId={house.id} />
+        <TrackHouseView
+          houseId={house.id}
+          title={house.title}
+          city={house.city}
+          district={house.district}
+        />
         <div className="container-main">
           <header className="hp-hero-head">
             <div className="hp-hero-top">
