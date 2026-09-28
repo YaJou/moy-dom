@@ -8,12 +8,14 @@ import {
 } from "@/components/legal/ConsentCheckbox";
 import { siteConfig } from "@/data/site";
 import { analytics } from "@/lib/analytics";
+import { submitLead } from "@/lib/lead-api";
 import { cn } from "@/lib/utils";
 import { Send } from "lucide-react";
 import { useState } from "react";
 
 type ContactMethod = "call" | "telegram";
 
+/** Legacy section form — теперь тоже пишет в lead.php / Telegram. */
 export function ViewingForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -31,18 +33,28 @@ export function ViewingForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!consentPd) return;
-    if (method === "call" && !form.contact.trim()) return;
+    if (!form.contact.trim()) return;
     setLoading(true);
     setError(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
+      const res = await submitLead({
+        type: "viewing",
+        city: form.city,
+        method: method === "telegram" ? "telegram" : "phone",
+        contact: form.contact.trim(),
+        name: form.name.trim() || undefined,
+        comment: form.message.trim() || undefined,
+      });
+      if (!res.ok) throw new Error("server");
       setSubmitted(true);
       analytics.leadSuccess("viewing");
       setConsentPd(false);
       setForm({ name: "", contact: "", city: "Саратов", message: "" });
     } catch {
-      setError("Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.");
+      setError(
+        "Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам."
+      );
       analytics.leadError("viewing", "submit_failed");
     } finally {
       setLoading(false);
@@ -98,24 +110,26 @@ export function ViewingForm() {
                 </div>
 
                 <div>
-                  <span className="field-label">Способ связи</span>
-                  <div className="flex gap-2">
+                  <span className="field-label">Как связаться</span>
+                  <div className="mt-2 flex gap-2">
                     {(
                       [
-                        { id: "call", label: "Позвонить" },
-                        { id: "telegram", label: "Написать" },
+                        ["call", "Телефон"],
+                        ["telegram", "Telegram"],
                       ] as const
-                    ).map((item) => (
+                    ).map(([id, label]) => (
                       <button
-                        key={item.id}
+                        key={id}
                         type="button"
-                        onClick={() => setMethod(item.id)}
                         className={cn(
-                          "chip flex-1 justify-center",
-                          method === item.id && "chip-active"
+                          "rounded-xl border px-3 py-2 text-sm font-semibold",
+                          method === id
+                            ? "border-orange bg-orange-soft text-text"
+                            : "border-border bg-white text-muted"
                         )}
+                        onClick={() => setMethod(id)}
                       >
-                        {item.label}
+                        {label}
                       </button>
                     ))}
                   </div>
@@ -123,87 +137,82 @@ export function ViewingForm() {
 
                 <div>
                   <label htmlFor="view-contact" className="field-label">
-                    {method === "call" ? "Телефон" : "Telegram"}
+                    {method === "telegram" ? "Telegram" : "Телефон"}
                   </label>
                   <input
                     id="view-contact"
-                    type={method === "call" ? "tel" : "text"}
-                    autoComplete={method === "call" ? "tel" : "off"}
-                    required={method === "call"}
+                    required
                     value={form.contact}
                     onChange={(e) =>
                       setForm({ ...form, contact: e.target.value })
                     }
                     placeholder={
-                      method === "call" ? "+7 (___) ___-__-__" : "@username"
+                      method === "telegram" ? "@username" : "+7 999 999 99 99"
                     }
                     className="field-input"
                   />
                 </div>
 
-                {!showComment ? (
+                <div>
+                  <label htmlFor="view-name" className="field-label">
+                    Имя
+                  </label>
+                  <input
+                    id="view-name"
+                    value={form.name}
+                    onChange={(e) =>
+                      setForm({ ...form, name: e.target.value })
+                    }
+                    className="field-input"
+                  />
+                </div>
+
+                {showComment ? (
+                  <div>
+                    <label htmlFor="view-message" className="field-label">
+                      Комментарий
+                    </label>
+                    <textarea
+                      id="view-message"
+                      rows={3}
+                      value={form.message}
+                      onChange={(e) =>
+                        setForm({ ...form, message: e.target.value })
+                      }
+                      className="field-input"
+                    />
+                  </div>
+                ) : (
                   <button
                     type="button"
-                    className="text-sm font-medium text-muted hover:text-text"
+                    className="text-sm font-semibold text-forest"
                     onClick={() => setShowComment(true)}
                   >
                     Добавить комментарий
                   </button>
-                ) : (
-                  <>
-                    <div>
-                      <label htmlFor="view-name" className="field-label">
-                        Имя
-                      </label>
-                      <input
-                        id="view-name"
-                        type="text"
-                        autoComplete="name"
-                        value={form.name}
-                        onChange={(e) =>
-                          setForm({ ...form, name: e.target.value })
-                        }
-                        className="field-input"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="view-message" className="field-label">
-                        Комментарий
-                      </label>
-                      <textarea
-                        id="view-message"
-                        rows={3}
-                        value={form.message}
-                        onChange={(e) =>
-                          setForm({ ...form, message: e.target.value })
-                        }
-                        className="field-input min-h-[96px] resize-none py-3"
-                      />
-                    </div>
-                  </>
                 )}
 
                 <ConsentCheckbox
-                  id="view-consent-pd"
                   checked={consentPd}
                   onChange={setConsentPd}
-                >
-                  Нажимая кнопку, я соглашаюсь на обработку персональных данных
-                  согласно <PrivacyPolicyLink />.
-                </ConsentCheckbox>
+                  label={
+                    <>
+                      Согласен на обработку персональных данных.{" "}
+                      <PrivacyPolicyLink />
+                    </>
+                  }
+                />
 
-                {error && (
-                  <p className="text-sm text-error" role="alert">
-                    {error}
-                  </p>
-                )}
+                {error ? (
+                  <p className="text-sm font-semibold text-red-700">{error}</p>
+                ) : null}
 
                 <Button
                   type="submit"
-                  className="w-full"
-                  disabled={!consentPd || loading}
+                  className="w-full rounded-xl"
+                  disabled={loading || !consentPd}
                 >
-                  <Send className="h-4 w-4" strokeWidth={1.75} />
+                  <Send className="mr-2 h-4 w-4" />
                   {loading ? "Отправка…" : "Записаться на просмотр"}
                 </Button>
               </form>

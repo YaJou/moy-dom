@@ -112,7 +112,9 @@ if ($authed) {
 
     $leads = load_leads_log(LEADS_LIMIT);
     foreach ($leads as $lead) {
-        $ok = !empty($lead['ok']) || (!empty($lead['sent']) && empty($lead['error']));
+        $ok = !empty($lead['ok'])
+            || (!empty($lead['sent']) && (empty($lead['error']) || ($lead['error'] ?? '') === 'telegram_partial'));
+        $partial = !empty($lead['partial']) || (($lead['error'] ?? '') === 'telegram_partial');
         $day = substr((string)($lead['ts'] ?? ''), 0, 10);
 
         $leadTotals['all']++;
@@ -140,7 +142,7 @@ if ($authed) {
             }
         }
 
-        $enriched = $lead + ['_ok' => $ok];
+        $enriched = $lead + ['_ok' => $ok, '_partial' => $partial];
         if (count($recentLeads) < 6) {
             $recentLeads[] = $enriched;
         }
@@ -246,6 +248,7 @@ function lead_error_label(string $error): string
         'city_required' => 'Нет города',
         'not_configured' => 'Нет конфига TG',
         'telegram_failed' => 'Telegram не отправил',
+        'telegram_partial' => 'Дошло не во все чаты Telegram',
         '' => '',
         default => $error,
     };
@@ -300,6 +303,7 @@ function lead_house_meta(array $lead): array
 function render_lead_card(array $lead): void
 {
     $ok = !empty($lead['_ok']);
+    $partial = !empty($lead['_partial']);
     $err = lead_error_label((string)($lead['error'] ?? ''));
     $method = (string)($lead['method'] ?? '');
     $methodLabel = $method === 'telegram' ? 'Telegram' : ($method === 'phone' ? 'Телефон' : $method);
@@ -309,11 +313,16 @@ function render_lead_card(array $lead): void
     $contact = (string)($lead['contact'] ?? '');
     $city = (string)($lead['city'] ?? '');
     $ts = (string)($lead['ts'] ?? '');
+    $tg = is_array($lead['telegram']['chats'] ?? null) ? $lead['telegram']['chats'] : [];
+    $isTest = str_contains($contact, '999 999') || str_contains($contact, '999999');
+    $cardClass = $ok ? ($partial ? 'is-partial' : 'is-ok') : 'is-fail';
     ?>
-    <article class="lead-card <?= $ok ? 'is-ok' : 'is-fail' ?>" data-search="<?= h(mb_strtolower($contact . ' ' . $name . ' ' . $city . ' ' . $houseTitle . ' ' . $comment . ' ' . $topic)) ?>">
+    <article class="lead-card <?= $cardClass ?>" data-search="<?= h(mb_strtolower($contact . ' ' . $name . ' ' . $city . ' ' . $houseTitle . ' ' . $comment . ' ' . $topic)) ?>">
       <div class="lead-card-top">
         <div class="lead-status">
-          <?php if ($ok): ?>
+          <?php if ($ok && $partial): ?>
+            <span class="pill pill-warn">Частично</span>
+          <?php elseif ($ok): ?>
             <span class="pill pill-ok">Успех</span>
           <?php else: ?>
             <span class="pill pill-fail">Ошибка</span>
@@ -321,6 +330,9 @@ function render_lead_card(array $lead): void
           <span class="pill pill-soft"><?= h(lead_type_label((string)($lead['type'] ?? ''))) ?></span>
           <?php if ($methodLabel !== ''): ?>
             <span class="pill pill-soft"><?= h($methodLabel) ?></span>
+          <?php endif; ?>
+          <?php if ($isTest): ?>
+            <span class="pill pill-warn">Тест</span>
           <?php endif; ?>
         </div>
         <time class="lead-time" title="<?= h(format_ts($ts)) ?>"><?= h(format_rel($ts)) ?></time>
@@ -352,16 +364,31 @@ function render_lead_card(array $lead): void
           <?php endif; ?>
         </div>
 
-        <?php if ($topic !== '' || $comment !== '' || (!$ok && $err !== '')): ?>
+        <?php if ($topic !== '' || $comment !== '' || $err !== '' || $tg !== []): ?>
           <div class="lead-notes">
-            <?php if (!$ok && $err !== ''): ?>
-              <div class="lead-error"><?= h($err) ?></div>
+            <?php if ($err !== ''): ?>
+              <div class="<?= $partial ? 'lead-warn' : 'lead-error' ?>"><?= h($err) ?></div>
             <?php endif; ?>
             <?php if ($topic !== ''): ?>
               <div><?= h($topic) ?></div>
             <?php endif; ?>
             <?php if ($comment !== ''): ?>
               <div class="muted"><?= h($comment) ?></div>
+            <?php endif; ?>
+            <?php if ($tg !== []): ?>
+              <div class="muted">
+                Telegram:
+                <?php foreach ($tg as $chat): ?>
+                  <?php
+                    $chatOk = !empty($chat['text_ok']);
+                    $label = (string)($chat['chat'] ?? '?');
+                    $chatErr = (string)($chat['error'] ?? '');
+                  ?>
+                  <span class="<?= $chatOk ? 'tg-ok' : 'tg-fail' ?>">
+                    <?= h($label) ?> <?= $chatOk ? '✓' : '✗' ?><?= !$chatOk && $chatErr !== '' ? ' (' . h(mb_substr($chatErr, 0, 40)) . ')' : '' ?>
+                  </span>
+                <?php endforeach; ?>
+              </div>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -668,6 +695,7 @@ function render_lead_card(array $lead): void
       border-left: 4px solid var(--border);
     }
     .lead-card.is-ok { border-left-color: var(--ok); }
+    .lead-card.is-partial { border-left-color: #C47F17; background: linear-gradient(90deg, #FFF8E8, #fff 40%); }
     .lead-card.is-fail { border-left-color: var(--fail); background: linear-gradient(90deg, #FFF8F8, #fff 40%); }
     .lead-card-top {
       display: flex;
@@ -688,6 +716,7 @@ function render_lead_card(array $lead): void
     }
     .pill-ok { background: var(--ok-bg); color: var(--ok); }
     .pill-fail { background: var(--fail-bg); color: var(--fail); }
+    .pill-warn { background: #FFF1D6; color: #8A5A00; }
     .pill-soft { background: #EEF2EF; color: var(--muted); }
     .lead-time { color: var(--muted); font-size: 12px; font-weight: 600; white-space: nowrap; }
     .lead-contact-row {
@@ -736,7 +765,20 @@ function render_lead_card(array $lead): void
       gap: 4px;
     }
     .lead-error { color: var(--fail); font-weight: 700; }
+    .lead-warn { color: #8A5A00; font-weight: 700; }
+    .tg-ok { color: var(--ok); margin-right: 10px; }
+    .tg-fail { color: var(--fail); margin-right: 10px; }
     .muted { color: var(--muted); }
+    .notice {
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #FFF7EA;
+      border: 1px solid #F0D7A8;
+      color: #6B4E16;
+      font-size: 13px;
+      line-height: 1.45;
+    }
 
     .house-list { display: grid; gap: 10px; }
     .house-row {
@@ -957,8 +999,13 @@ function render_lead_card(array $lead): void
     <div class="section-head">
       <div>
         <h2>Заявки с форм</h2>
-        <p>Успешные ушли в Telegram · ошибки тоже сохраняются</p>
+        <p>Успех = сервер принял и отправил в Telegram. Метрику «Отправка формы» не смотрите — там клики, не реальные заявки.</p>
       </div>
+    </div>
+    <div class="notice">
+      Правда по заявкам — только эта страница и Telegram.
+      В Яндекс.Метрике цель «Отправка формы» сейчас завышена (сотни), потому что считает не доставку в бот, а события на сайте.
+      Для Метрики заведите JavaScript-цель <b>lead_success</b> — она срабатывает только после реального ответа сервера.
     </div>
 
     <div class="kpis kpis-4" style="margin-bottom:16px">
