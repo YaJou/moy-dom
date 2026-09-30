@@ -50,7 +50,9 @@ if ($config === null) {
 
 $message = format_lead_message($data);
 $photoUrl = extract_house_photo_url($data);
-$delivery = telegram_deliver_all($config['token'], $config['chat_ids'], $message, $photoUrl);
+
+// Быстрая доставка текста (параллельно во все чаты). Фото — после ответа клиенту.
+$delivery = telegram_deliver_text_fast($config['token'], $config['chat_ids'], $message);
 $sent = !empty($delivery['ok']);
 $partial = !empty($delivery['partial']);
 $errorCode = '';
@@ -67,11 +69,39 @@ if (!$sent) {
     exit;
 }
 
-echo json_encode([
+$payload = json_encode([
     'ok' => true,
     'partial' => $partial,
     'telegram' => $delivery['chats'] ?? [],
-]);
+], JSON_UNESCAPED_UNICODE);
+
+header('Content-Length: ' . strlen((string)$payload));
+echo $payload;
+
+// Закрываем ответ пользователю, затем досылаем фото / ретраи без ожидания в браузере.
+if (function_exists('fastcgi_finish_request')) {
+    @fastcgi_finish_request();
+} else {
+    if (function_exists('ob_get_level')) {
+        while (ob_get_level() > 0) {
+            @ob_end_flush();
+        }
+    }
+    @flush();
+}
+
+ignore_user_abort(true);
+@set_time_limit(60);
+
+telegram_deliver_followup(
+    $config['token'],
+    $config['chat_ids'],
+    $message,
+    $photoUrl,
+    $delivery
+);
+
+exit;
 
 /**
  * Пишем все попытки заявок в ~/logs/leads.log —
@@ -307,7 +337,7 @@ function extract_house_photo_url(array $data): ?string
     return null;
 }
 
-function telegram_request(string $url, string $payload): array
+function telegram_request(string $url, string $payload, int $timeout = 8): array
 {
     if (function_exists('curl_init')) {
         $ch = curl_init($url);
@@ -316,8 +346,8 @@ function telegram_request(string $url, string $payload): array
             CURLOPT_POSTFIELDS => $payload,
             CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 10,
-            CURLOPT_TIMEOUT => 25,
+            CURLOPT_CONNECTTIMEOUT => 3,
+            CURLOPT_TIMEOUT => $timeout,
         ]);
         $response = curl_exec($ch);
         $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -338,7 +368,7 @@ function telegram_request(string $url, string $payload): array
             'method' => 'POST',
             'header' => "Content-Type: application/json\r\n",
             'content' => $payload,
-            'timeout' => 25,
+            'timeout' => $timeout,
             'ignore_errors' => true,
         ],
     ]);
@@ -353,18 +383,16 @@ function telegram_request(string $url, string $payload): array
     ];
 }
 
-/** До 3 попыток на сетевые сбои Telegram. */
-function telegram_request_retry(string $url, string $payload, int $attempts = 3): array
+/** Одна быстрая повторная попытка только при сетевом сбое. */
+function telegram_request_retry(string $url, string $payload, int $attempts = 2, int $timeout = 8): array
 {
-    $last = ['ok' => false, 'http' => 0, 'curl_error' => '', 'description' => ''];
+    $last = ['ok' => false, 'http' => 0, 'curl_error' => '', 'description' => '', 'attempt' => 0];
     for ($i = 1; $i <= $attempts; $i++) {
-        $last = telegram_request($url, $payload);
+        $last = telegram_request($url, $payload, $timeout);
         $last['attempt'] = $i;
         if (!empty($last['ok'])) {
             return $last;
         }
-        // Повторяем только таймауты/сеть, не «chat not found»
-        $desc = strtolower((string)($last['description'] ?? ''));
         $curlErr = strtolower((string)($last['curl_error'] ?? ''));
         $retryable =
             $last['http'] === 0
@@ -372,15 +400,15 @@ function telegram_request_retry(string $url, string $payload, int $attempts = 3)
             || str_contains($curlErr, 'timeout')
             || str_contains($curlErr, 'connection')
             || ($last['http'] >= 500);
-        if (!$retryable) {
+        if (!$retryable || $i >= $attempts) {
             return $last;
         }
-        usleep(350000 * $i);
+        usleep(200000);
     }
     return $last;
 }
 
-function telegram_send(string $token, string $chatId, string $text): array
+function telegram_send(string $token, string $chatId, string $text, int $timeout = 8): array
 {
     $url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
     $payload = json_encode([
@@ -390,12 +418,11 @@ function telegram_send(string $token, string $chatId, string $text): array
         'disable_web_page_preview' => true,
     ], JSON_UNESCAPED_UNICODE);
 
-    return telegram_request_retry($url, (string)$payload);
+    return telegram_request_retry($url, (string)$payload, 2, $timeout);
 }
 
 function telegram_send_photo(string $token, string $chatId, string $photoUrl, string $caption): array
 {
-    // Подпись к фото в Telegram — максимум 1024 символа.
     if (mb_strlen($caption) > 1000) {
         $caption = mb_substr($caption, 0, 1000) . '…';
     }
@@ -407,55 +434,189 @@ function telegram_send_photo(string $token, string $chatId, string $photoUrl, st
         'parse_mode' => 'HTML',
     ], JSON_UNESCAPED_UNICODE);
 
-    return telegram_request_retry($url, (string)$payload, 2);
+    // Фото не блокирует пользователя — одна короткая попытка.
+    return telegram_request($url, (string)$payload, 10);
 }
 
 /**
- * Сначала текст во ВСЕ чаты (с ретраями), фото — дополнительно.
- * ok = текст дошёл хотя бы в один чат.
- * partial = дошёл не во все чаты.
+ * Параллельная отправка текста во все чаты (curl_multi) — быстро для формы.
  *
  * @return array{ok:bool,partial:bool,chats:list<array<string,mixed>>}
  */
-function telegram_deliver_all(string $token, array $chatIds, string $text, ?string $photoUrl): array
+function telegram_deliver_text_fast(string $token, array $chatIds, string $text): array
 {
-    $results = [];
-    $okCount = 0;
-    $total = 0;
+    $chats = [];
+    foreach ($chatIds as $chatId) {
+        $cid = trim((string)$chatId);
+        if ($cid !== '') {
+            $chats[] = $cid;
+        }
+    }
+    $chats = array_values(array_unique($chats));
+    if ($chats === []) {
+        return ['ok' => false, 'partial' => false, 'chats' => []];
+    }
 
+    $url = 'https://api.telegram.org/bot' . $token . '/sendMessage';
+    $resultsByChat = [];
+
+    if (function_exists('curl_multi_init')) {
+        $mh = curl_multi_init();
+        $handles = [];
+        foreach ($chats as $cid) {
+            $payload = json_encode([
+                'chat_id' => $cid,
+                'text' => $text,
+                'parse_mode' => 'HTML',
+                'disable_web_page_preview' => true,
+            ], JSON_UNESCAPED_UNICODE);
+            $ch = curl_init($url);
+            curl_setopt_array($ch, [
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => (string)$payload,
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CONNECTTIMEOUT => 3,
+                CURLOPT_TIMEOUT => 8,
+            ]);
+            curl_multi_add_handle($mh, $ch);
+            $handles[$cid] = $ch;
+        }
+
+        $running = null;
+        do {
+            $status = curl_multi_exec($mh, $running);
+            if ($running) {
+                curl_multi_select($mh, 1.0);
+            }
+        } while ($running && $status === CURLM_OK);
+
+        foreach ($handles as $cid => $ch) {
+            $response = curl_multi_getcontent($ch);
+            $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr = curl_error($ch);
+            $json = is_string($response) ? json_decode($response, true) : null;
+            $ok = is_array($json) && !empty($json['ok']);
+            $resultsByChat[$cid] = [
+                'chat' => substr($cid, 0, 4) . '…' . substr($cid, -3),
+                'text_ok' => $ok,
+                'photo_ok' => null,
+                'http' => $code,
+                'error' => $ok ? '' : (string)($curlErr !== '' ? $curlErr : ($json['description'] ?? '')),
+                'attempts' => 1,
+            ];
+            curl_multi_remove_handle($mh, $ch);
+            curl_close($ch);
+        }
+        curl_multi_close($mh);
+
+        // Быстрый одиночный ретрай только упавшим чатам.
+        foreach ($chats as $cid) {
+            if (!empty($resultsByChat[$cid]['text_ok'])) {
+                continue;
+            }
+            $retry = telegram_send($token, $cid, $text, 6);
+            $resultsByChat[$cid] = [
+                'chat' => substr($cid, 0, 4) . '…' . substr($cid, -3),
+                'text_ok' => !empty($retry['ok']),
+                'photo_ok' => null,
+                'http' => (int)($retry['http'] ?? 0),
+                'error' => !empty($retry['ok'])
+                    ? ''
+                    : (string)(($retry['curl_error'] ?? '') ?: ($retry['description'] ?? '')),
+                'attempts' => 1 + (int)($retry['attempt'] ?? 1),
+            ];
+        }
+    } else {
+        foreach ($chats as $cid) {
+            $textResult = telegram_send($token, $cid, $text, 8);
+            $resultsByChat[$cid] = [
+                'chat' => substr($cid, 0, 4) . '…' . substr($cid, -3),
+                'text_ok' => !empty($textResult['ok']),
+                'photo_ok' => null,
+                'http' => (int)($textResult['http'] ?? 0),
+                'error' => !empty($textResult['ok'])
+                    ? ''
+                    : (string)(($textResult['curl_error'] ?? '') ?: ($textResult['description'] ?? '')),
+                'attempts' => (int)($textResult['attempt'] ?? 1),
+            ];
+        }
+    }
+
+    $okCount = 0;
+    $results = [];
+    foreach ($chats as $cid) {
+        $row = $resultsByChat[$cid];
+        if (!empty($row['text_ok'])) {
+            $okCount++;
+        }
+        $results[] = $row;
+    }
+
+    return [
+        'ok' => $okCount > 0,
+        'partial' => $okCount > 0 && $okCount < count($chats),
+        'chats' => $results,
+    ];
+}
+
+/**
+ * После ответа клиенту: досылаем текст упавшим чатам и фото.
+ *
+ * @param array{ok?:bool,partial?:bool,chats?:list<array<string,mixed>>} $firstDelivery
+ */
+function telegram_deliver_followup(
+    string $token,
+    array $chatIds,
+    string $text,
+    ?string $photoUrl,
+    array $firstDelivery
+): void {
+    $failed = [];
+    foreach (($firstDelivery['chats'] ?? []) as $row) {
+        if (empty($row['text_ok']) && !empty($row['chat'])) {
+            $failed[] = (string)$row['chat'];
+        }
+    }
+
+    // Сопоставляем маски chat «3491…227» с реальными id — проще пройтись по всем chatIds ещё раз.
     foreach ($chatIds as $chatId) {
         $cid = trim((string)$chatId);
         if ($cid === '') {
             continue;
         }
-        $total++;
-
-        // Текст — основной канал доставки.
-        $textResult = telegram_send($token, $cid, $text);
-        $chatOk = !empty($textResult['ok']);
-
-        $photoResult = null;
-        if ($chatOk && $photoUrl) {
-            $photoResult = telegram_send_photo($token, $cid, $photoUrl, $text);
+        $mask = substr($cid, 0, 4) . '…' . substr($cid, -3);
+        $alreadyOk = false;
+        foreach (($firstDelivery['chats'] ?? []) as $row) {
+            if (($row['chat'] ?? '') === $mask && !empty($row['text_ok'])) {
+                $alreadyOk = true;
+                break;
+            }
         }
-
-        if ($chatOk) {
-            $okCount++;
+        if (!$alreadyOk) {
+            telegram_send($token, $cid, $text, 10);
         }
-
-        $results[] = [
-            'chat' => substr($cid, 0, 4) . '…' . substr($cid, -3),
-            'text_ok' => $chatOk,
-            'photo_ok' => is_array($photoResult) ? !empty($photoResult['ok']) : null,
-            'http' => (int)($textResult['http'] ?? 0),
-            'error' => (string)(($textResult['curl_error'] ?? '') ?: ($textResult['description'] ?? '')),
-            'attempts' => (int)($textResult['attempt'] ?? 1),
-        ];
+        if ($photoUrl) {
+            telegram_send_photo($token, $cid, $photoUrl, $text);
+        }
     }
+}
 
-    return [
-        'ok' => $okCount > 0,
-        'partial' => $okCount > 0 && $okCount < $total,
-        'chats' => $results,
-    ];
+/**
+ * @deprecated оставлен для совместимости; используйте telegram_deliver_text_fast
+ * @return array{ok:bool,partial:bool,chats:list<array<string,mixed>>}
+ */
+function telegram_deliver_all(string $token, array $chatIds, string $text, ?string $photoUrl): array
+{
+    $delivery = telegram_deliver_text_fast($token, $chatIds, $text);
+    if (!empty($delivery['ok']) && $photoUrl) {
+        foreach ($chatIds as $chatId) {
+            $cid = trim((string)$chatId);
+            if ($cid === '') {
+                continue;
+            }
+            telegram_send_photo($token, $cid, $photoUrl, $text);
+        }
+    }
+    return $delivery;
 }
