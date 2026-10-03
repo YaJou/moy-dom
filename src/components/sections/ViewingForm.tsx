@@ -193,15 +193,13 @@ export function ViewingForm() {
                 )}
 
                 <ConsentCheckbox
+                  id="sections-viewing-consent"
                   checked={consentPd}
                   onChange={setConsentPd}
-                  label={
-                    <>
-                      Согласен на обработку персональных данных.{" "}
-                      <PrivacyPolicyLink />
-                    </>
-                  }
-                />
+                >
+                  Согласен на обработку персональных данных.{" "}
+                  <PrivacyPolicyLink />
+                </ConsentCheckbox>
 
                 {error ? (
                   <p className="text-sm font-semibold text-red-700">{error}</p>

@@ -56,6 +56,14 @@ export function Footer() {
               </li>
               <li>
                 <Link
+                  href="/stroitelstvo/"
+                  className="text-sm text-muted-on-forest transition-colors hover:text-white"
+                >
+                  Строительство домов
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/blog/"
                   className="text-sm text-muted-on-forest transition-colors hover:text-white"
                 >

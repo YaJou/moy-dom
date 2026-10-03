@@ -20,6 +20,7 @@ const sections = [
       { label: "Каталог домов", href: "/catalog/" },
       { label: "Сравнение домов", href: "/compare/" },
       { label: "Построенные дома", href: "/built/" },
+      { label: "Строительство домов", href: "/stroitelstvo/" },
       { label: "О компании", href: "/about/" },
       { label: "Контакты", href: "/contacts/" },
       { label: "Партнёры", href: "/partners/" },

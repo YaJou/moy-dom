@@ -45,6 +45,11 @@ export const navigation: NavItem[] = [
   },
   { label: "Построенные дома", shortLabel: "Построенные", href: "/built/" },
   {
+    label: "Строительство домов",
+    shortLabel: "Строительство",
+    href: "/stroitelstvo/",
+  },
+  {
     label: "Блог",
     href: "/blog/",
     children: [
@@ -354,12 +359,14 @@ export const footerLinks = {
   ],
   info: [
     { label: "Построенные дома", href: "/built/" },
+    { label: "Строительство домов", href: "/stroitelstvo/" },
     { label: "Блог", href: "/blog/" },
     { label: "Партнёры", href: "/partners/" },
     { label: "Сравнение", href: "/compare/" },
   ],
   company: [
     { label: "О компании", href: "/about/" },
+    { label: "Строительство домов", href: "/stroitelstvo/" },
     { label: "Документы", href: "/documents/" },
     { label: "Контакты", href: "/contacts/" },
   ],
