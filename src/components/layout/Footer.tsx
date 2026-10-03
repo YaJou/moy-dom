@@ -11,9 +11,19 @@ export function Footer() {
       <div className="container-main py-8 md:py-10">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1.2fr] lg:gap-8">
           <div>
-            <p className="text-lg font-extrabold">{siteConfig.name}</p>
-            <p className="mt-2 text-sm text-muted-on-forest">
-              Готовые дома в Саратовской области
+            <Link href="/" className="inline-flex items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/krovservice-logo-light.png"
+                alt={siteConfig.name}
+                width={240}
+                height={44}
+                className="h-10 w-auto max-w-[220px] object-contain object-left"
+              />
+            </Link>
+            <p className="mt-3 text-sm text-muted-on-forest">
+              Готовые дома и строительство под заказ
+              <br />в Саратовской области
             </p>
           </div>
 

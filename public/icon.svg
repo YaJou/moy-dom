@@ -1,4 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="14" fill="#E85D04"/>
-  <path d="M12 30L32 12L52 30V50C52 51.1 51.1 52 50 52H38V38H26V52H14C12.9 52 12 51.1 12 50V30Z" fill="white"/>
+  <rect width="64" height="64" rx="14" fill="#203C32"/>
+  <path
+    d="M14 30.5L32 14L50 30.5V48.5C50 49.9 48.9 51 47.5 51H38V40H26V51H16.5C15.1 51 14 49.9 14 48.5V30.5Z"
+    stroke="#F47B20"
+    stroke-width="3.2"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <path d="M20 51H44" stroke="#F47B20" stroke-width="3.2" stroke-linecap="round"/>
+  <text
+    x="32"
+    y="40"
+    text-anchor="middle"
+    font-family="Arial Black, Arial, sans-serif"
+    font-size="16"
+    font-weight="800"
+    fill="#FFFFFF"
+  >КС</text>
 </svg>
