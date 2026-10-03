@@ -33,7 +33,7 @@ export interface BuildCalcResult {
 }
 
 /** База: ГЧ + белые окна + грас + облицовка, высота 3 м. */
-export const BUILD_BASE_RATE = 45_000;
+export const BUILD_BASE_RATE = 44_000;
 export const BUILD_BASE_HEIGHT_M = 3;
 /** Каждые +10 см выше 3 м. */
 export const BUILD_HEIGHT_STEP_M = 0.1;
