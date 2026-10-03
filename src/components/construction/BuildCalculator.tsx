@@ -171,7 +171,7 @@ export function BuildCalculator() {
           onChange={setRoof}
           options={[
             { id: "gch", title: "Гибкая черепица", hint: "в базе" },
-            { id: "mch", title: "Металлочерепица", hint: "−1 500 ₽/м²" },
+            { id: "mch", title: "Металлочерепица" },
           ]}
         />
         <OptionGroup
@@ -180,11 +180,7 @@ export function BuildCalculator() {
           onChange={setWindows}
           options={[
             { id: "white", title: "Белые", hint: "в базе" },
-            {
-              id: "colored",
-              title: "Серые / коричневые",
-              hint: "+1 000 ₽/м²",
-            },
+            { id: "colored", title: "Серые / коричневые" },
           ]}
         />
         <OptionGroup
@@ -193,7 +189,7 @@ export function BuildCalculator() {
           onChange={setWallCore}
           options={[
             { id: "grass", title: "Грас + облицовка", hint: "в базе" },
-            { id: "kbb", title: "КББ", hint: "−500 ₽/м²" },
+            { id: "kbb", title: "КББ" },
           ]}
         />
         <OptionGroup
@@ -202,7 +198,7 @@ export function BuildCalculator() {
           onChange={setFacade}
           options={[
             { id: "brick", title: "Облицовочный кирпич", hint: "в базе" },
-            { id: "plaster", title: "Штукатурка", hint: "−1 000 ₽/м²" },
+            { id: "plaster", title: "Штукатурка" },
           ]}
         />
       </div>
@@ -210,46 +206,7 @@ export function BuildCalculator() {
       <aside className="bc-result">
         <p className="bc-result-kicker">Ориентировочная цена</p>
         <p className="bc-result-price">{formatPrice(result.total)}</p>
-        <p className="bc-result-rate">
-          {result.ratePerM2.toLocaleString("ru-RU")} ₽/м² × {result.area} м²
-          {result.heightSurcharge > 0
-            ? ` + высота ${formatPrice(result.heightSurcharge)}`
-            : ""}
-        </p>
         <p className="bc-result-summary">{summary}</p>
-
-        <ul className="bc-breakdown">
-          <li>
-            <span>
-              {result.area} м² × {result.ratePerM2.toLocaleString("ru-RU")} ₽/м²
-            </span>
-            <strong>{formatPrice(result.basePrice)}</strong>
-          </li>
-          {result.heightSurcharge > 0 ? (
-            <li>
-              <span>
-                Высота +{(result.heightSteps * 10).toFixed(0)} см к 3 м
-              </span>
-              <strong>+{formatPrice(result.heightSurcharge)}</strong>
-            </li>
-          ) : null}
-          <li className="bc-breakdown-total">
-            <span>Итого ориентир</span>
-            <strong>{formatPrice(result.total)}</strong>
-          </li>
-        </ul>
-
-        <div className="bc-rate-chips">
-          {result.breakdown
-            .filter((item) => item.value !== BUILD_BASE_RATE)
-            .map((item) => (
-              <span key={item.label} className="bc-rate-chip">
-                {item.label}: {item.value > 0 ? "+" : ""}
-                {item.value.toLocaleString("ru-RU")}
-                {item.note?.includes("₽/м²") ? " ₽/м²" : ""}
-              </span>
-            ))}
-        </div>
 
         <button
           type="button"
